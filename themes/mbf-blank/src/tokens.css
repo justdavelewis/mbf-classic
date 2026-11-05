@@ -1,0 +1,79 @@
+/* =========================================================================
+   SEED TOKENS — the complete global token set. Deliberately small.
+   Rules: docs/01-tokens.md. `static` is required (CLAUDE.md §1).
+
+   Colours are ROLE SLOTS, never colour names: a site's brand can change
+   without renaming anything. Slot names match WordPress theme.json
+   conventions, so in the blank theme each value is
+   var(--wp--preset--color--<slot>) (docs/12-blank-theme-spec.md).
+
+   Before adding a token, ask: can it be DERIVED (color-mix, calc) or SCOPED
+   (a component/section local)? Only add a global when neither works and the
+   value repeats.
+
+   Placeholder values below are neutral, not a brand. Replace them, then
+   re-measure contrast and update the comments. Ratios computed 2026-11-05
+   (oklch mix approximated in Python; confirm computed colours in a browser).
+   ========================================================================= */
+
+@theme static {
+  /* --- colour: 7 slots ------------------------------------------------------ */
+  --color-primary:   #2d5ba8;  /* main brand. #fff on it 6.62:1 · on base 6.62:1 */
+  --color-secondary: #0e1b3d;  /* second brand / dark ground. #fff on it 16.9:1 */
+  --color-tertiary:  #f3f4f6;  /* third brand / light alt ground. contrast on it 16.49:1 */
+  --color-accent:    #7cc4ff;  /* highlight on DARK grounds only. 9.01:1 vs secondary */
+  --color-base:      #ffffff;  /* page ground */
+  --color-contrast:  #0b1430;  /* text/ink on base. 18.15:1 vs base */
+  --color-error:     #b42318;  /* form errors only. 6.57:1 vs base, 5.97:1 vs tertiary */
+
+  /* --- colour: 5 roles (what components read on a light ground) ----------- */
+  --color-text:       color-mix(in oklch, var(--color-contrast) 75%, var(--color-base)); /* ≈#3e4760: 9.21:1 base, 8.37:1 tertiary */
+  --color-text-muted: color-mix(in oklch, var(--color-contrast) 62%, var(--color-base)); /* ≈#5c647a: 5.89:1 base, 5.35:1 tertiary */
+  --color-heading:    var(--color-contrast);
+  --color-surface:    var(--color-base);
+  --color-border:     color-mix(in oklch, var(--color-contrast) 45%, var(--color-base)); /* ≈#858c9d: 3.36:1 base, 3.05:1 tertiary (meaningful lines) */
+
+  /* Fluid cqi steps run from a 360px container to 1280px (= --wrap), so each
+     reaches its max at the cap. Formula: docs/01-tokens.md. */
+
+  /* --- type: 8 steps (headings fluid in cqi, small steps fixed) ----------- */
+  --font-sans: system-ui, sans-serif;                                     /* REPLACE */
+  --fs-display: clamp(2.5rem,   calc(1.7174rem + 3.4783cqi), 4.5rem);
+  --fs-h1:      clamp(2.25rem,  calc(1.712rem  + 2.3913cqi), 3.625rem);
+  --fs-h2:      clamp(1.875rem, calc(1.5326rem + 1.5217cqi), 2.75rem);
+  --fs-h3:      clamp(1.5rem,   calc(1.3043rem + 0.8696cqi), 2rem);
+  --fs-h4:      clamp(1.25rem,  calc(1.1522rem + 0.4348cqi), 1.5rem);
+  --fs-lead:    clamp(1.0625rem,calc(0.9891rem + 0.3261cqi), 1.25rem);
+  --fs-body:    1.0625rem;
+  --fs-sm:      .875rem;
+
+  /* --- space: 2 micro (fixed) + 4 fluid + 2 section ------------------------ */
+  --space-xs: .5rem;   --space-s: .75rem;                                  /* glyph↔label, caption offsets */
+  --space-fluid-s:  clamp(1rem,   calc(.8043rem + .8696cqi), 1.5rem);
+  --space-fluid-m:  clamp(1.5rem, calc(1.1087rem + 1.7391cqi), 2.5rem);      /* default content gap */
+  --space-fluid-l:  clamp(2rem,   calc(1.2174rem + 3.4783cqi), 4rem);
+  --space-fluid-xl: clamp(3rem,   calc(1.8261rem + 5.2174cqi), 6rem);
+  --section-y: clamp(3.75rem, calc(3.75rem + 2.2cqi), 5.5rem);
+  --section-x: clamp(1rem, calc(.642rem + 1.59vi), 2rem);                  /* gutter follows the device */
+
+  /* --- layout: 2 widths + 2 grids ------------------------------------------ */
+  --wrap: 80rem;
+  --measure: 68ch;
+  --grid-auto:  repeat(auto-fit,  minmax(min(20rem, 100%), 1fr));          /* content: fill the row */
+  --grid-cards: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));          /* cards: keep track width */
+
+  /* --- controls: 2 (vi, not cqi — targets follow the device) --------------- */
+  --button-h:     clamp(2.75rem, calc(2.6464rem + .442vi), 3rem);          /* 44px floor — never lower */
+  --button-pad-x: clamp(1.125rem, calc(.9696rem + .663vi), 1.5rem);
+
+  /* --- surface: 2 radii + 1 shadow ---------------------------------------- */
+  --radius:        12px;                                                   /* surfaces */
+  --radius-button: 6px;                                                    /* controls (pill = 999px literal) */
+  --shadow: 0 16px 38px color-mix(in oklch, var(--color-contrast) 13%, transparent);
+
+  /* --- motion: 2 ------------------------------------------------------------ */
+  --ease:  cubic-bezier(.4, 0, .2, 1);
+  --speed: .2s;                                                            /* controls use 150ms literal */
+  --default-transition-duration: var(--speed);                             /* Tailwind's own defaults → ours */
+  --default-transition-timing-function: var(--ease);
+}

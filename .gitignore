@@ -1,0 +1,42 @@
+# Whitelist .gitignore for a repo rooted at wp-content/ (as on Skyway; standard is
+# app/public/, see the theme CLAUDE.md divergences). Ignore everything, then admit only
+# what this repo owns.
+/*
+!/.gitignore
+!/.gitattributes
+# css.validate:false for Tailwind v4 at-rules — not personal prefs
+!/.vscode/
+!/CLAUDE.md
+!/README.md
+!/docs/
+!/scripts/
+
+!/themes/
+/themes/*
+!/themes/mbf-blank/
+
+!/plugins/
+/plugins/*
+# !/plugins/mbf-blank-core/     # whitelist our own plugins here
+
+!/mu-plugins/
+/mu-plugins/*
+
+# Design handoff: keep the README brief, never the heavy binaries
+/themes/mbf-blank/design_handoff/*
+!/themes/mbf-blank/design_handoff/README.md
+
+# Internal Made by Factory standards: never for clients. They load from each developer's
+# own checkout via the theme CLAUDE.md import, so a copy in the project is always a mistake.
+**/mbf-site-standards/
+
+**/node_modules/
+**/vendor/
+**/dist/
+**/.DS_Store
+**/*.log
+**/.env
+**/.env.*
+**/*.sql
+**/*.sql.gz
+CLAUDE.local.md

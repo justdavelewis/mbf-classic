@@ -32,6 +32,9 @@
 
 **/node_modules/
 **/vendor/
+# ...except our unlayered plugin overrides (docs/02 src/vendor/*.css): **/vendor/ is meant
+# for Composer and silently swallowed them (2026-11-05).
+!/themes/mbf-blank/src/vendor/
 **/dist/
 **/.DS_Store
 **/*.log

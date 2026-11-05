@@ -1,0 +1,23 @@
+<?php
+/**
+ * Theme supports and menus. Exactly the docs/12 set: nothing "just in case".
+ *
+ * @package mbf-blank
+ */
+
+declare( strict_types=1 );
+
+defined( 'ABSPATH' ) || exit;
+
+function mbf_setup(): void {
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'post-thumbnails' );
+	// No comment-form / comment-list: the starter has no comments template (STATUS D8).
+	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );
+	add_theme_support( 'responsive-embeds' );
+	add_theme_support( 'editor-styles' );
+	add_editor_style( 'dist/style.css' );
+
+	register_nav_menus( [ 'primary' => __( 'Primary', 'mbf-blank' ) ] );
+}
+add_action( 'after_setup_theme', 'mbf_setup' );

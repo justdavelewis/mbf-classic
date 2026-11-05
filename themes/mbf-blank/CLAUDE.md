@@ -25,20 +25,26 @@ belongs in STATUS and the rule belongs here.
 - PHP: target 8.4.x (docs/09). Local was created on 8.2.29 (2026-11-05). TODO: switch it to
   8.4 in Local before building.
 - WordPress: 7.1.4 (2026-11-05)
-- Plugins: ACF Pro · WS Form Pro (TODO: neither installed yet) · Woo: no (opt-in per fork,
-  docs/06)
+- Plugins: ACF Pro 6.8.10 · WS Form Pro 1.12.16 (both active; licences not entered) · Woo:
+  no (opt-in per fork, docs/06)
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
 
 ## Brand tokens and contrast
 
 None, deliberately. A starter holds **placeholder** slot values only (docs/12 §Deliberately
-not included). Each fork fills this table in for its own brand.
+not included). Values live in `theme.json`; measured ratios per ground in `theme.json.md`.
+Each fork replaces both and re-measures.
 
 ## Breakpoint
 
-Nav ↔ drawer at `NNrem` (TODO: set once in the header component; JS copy in
-`assets/js/nav.js`).
+Nav ↔ drawer at `64rem` (1024px), stated once in `src/components/site-header.css`; JS copy
+in `assets/js/drawer.js` (closes an open drawer when widening past it).
+
+## Token bridge
+
+`src/tokens.css` reads slots, type, fluid space, `--wrap` and `--measure` from `theme.json`.
+Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-size--h-2`.
 
 ## Site-specific rules
 

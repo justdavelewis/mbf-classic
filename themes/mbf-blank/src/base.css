@@ -1,0 +1,38 @@
+/* --- Base (docs/02 list, plus one link rule) --- */
+button:not(:disabled), summary, [role="button"], label[for] { cursor: pointer; }
+
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+	outline: 2px solid var(--focus-ring, var(--color-primary));
+	outline-offset: 3px;
+}
+
+html { scrollbar-gutter: stable; scroll-padding-top: var(--header-h, 0); }
+
+body {
+	font: var(--fs-body)/1.6 var(--font-sans);
+	color: var(--section-text, var(--color-text));
+	background: var(--color-surface);
+}
+
+:is(h1, h2, h3, h4, h5, h6) { color: var(--section-heading, var(--color-heading)); text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/*
+ * Plain links (no class) are underlined and on-ground coloured (04: never colour alone).
+ * Not in the docs/02 list: Preflight sets every <a> to inherit colour with no underline,
+ * so without this a link outside .prose is indistinguishable from text. :where() keeps it
+ * at zero specificity, so any component link overrides it.
+ */
+a:where(:not([class])) {
+	color: var(--section-link, var(--color-primary));
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: .01ms !important;
+		transition-duration: .01ms !important;
+		scroll-behavior: auto !important;
+	}
+}

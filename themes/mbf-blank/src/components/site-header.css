@@ -1,0 +1,61 @@
+/* --- Site header: brand | inline nav (wide) | drawer toggle (narrow) --- */
+.mbf-site-header {
+	padding-inline: var(--section-x);
+	background: var(--color-surface);
+	border-block-end: 1px solid color-mix(in oklch, var(--color-contrast) 12%, transparent);  /* decorative */
+}
+
+.mbf-site-header__inner {
+	max-inline-size: var(--wrap);
+	margin-inline: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-fluid-m);
+	padding-block: var(--space-s);
+}
+
+.mbf-site-header__brand { font-size: var(--fs-h4); font-weight: 700; line-height: 1.2; }
+.mbf-site-header__brand-link { color: var(--color-heading); text-decoration: none; }
+
+.mbf-site-header__toggle {
+	display: grid;
+	place-items: center;
+	inline-size: var(--button-h);
+	block-size: var(--button-h);
+	flex-shrink: 0;
+	border: 1px solid var(--color-border);  /* meaningful edge: 3.36:1 on base */
+	border-radius: var(--radius-button);
+	color: var(--color-heading);
+	transition: background-color 150ms var(--ease);
+}
+
+.mbf-site-header__toggle:is(:hover, :focus-visible) { background: var(--color-tertiary); }
+
+/* Three bars from borders (not backgrounds), so forced colours keeps them. */
+.mbf-site-header__toggle-bars,
+.mbf-site-header__toggle-bars::before,
+.mbf-site-header__toggle-bars::after {
+	display: block;
+	inline-size: 1.25rem;
+	border-block-start: 2px solid currentColor;
+}
+
+.mbf-site-header__toggle-bars { position: relative; }
+
+.mbf-site-header__toggle-bars::before,
+.mbf-site-header__toggle-bars::after { content: ""; position: absolute; inset-inline-start: 0; }
+
+.mbf-site-header__toggle-bars::before { inset-block-start: -8px; }    /* offsets from the middle bar's padding box: 4px gaps */
+.mbf-site-header__toggle-bars::after { inset-block-start: 4px; }
+
+/*
+ * THE nav ↔ drawer breakpoint: 64rem (1024px), stated once, as min-width (§2, STATUS D3).
+ * JS copy: assets/js/drawer.js (closes an open drawer when crossing it).
+ */
+.mbf-nav { display: none; }
+
+@media (min-width: 64rem) {
+	.mbf-nav { display: block; }
+	.mbf-site-header__toggle { display: none; }
+}

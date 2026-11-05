@@ -1,0 +1,32 @@
+/*
+ * Tailwind Typography (.prose): UNLAYERED on purpose (docs/02 §Plugin CSS).
+ *
+ * Typography sets its --tw-prose-* variables on .prose in the utilities layer, so a rule
+ * in @layer components loses whatever its specificity. These are the INPUTS it reads,
+ * pointed at the section family, so prose follows whatever ground it sits on with no
+ * prose-invert and no per-ground class.
+ */
+.prose {
+	--tw-prose-body: var(--section-text, var(--color-text));
+	--tw-prose-headings: var(--section-heading, var(--color-heading));
+	--tw-prose-lead: var(--section-text, var(--color-text));
+	--tw-prose-links: var(--section-link, var(--color-primary));
+	--tw-prose-bold: var(--section-heading, var(--color-heading));
+	--tw-prose-counters: var(--section-muted, var(--color-text-muted));
+	--tw-prose-bullets: var(--section-accent, var(--color-primary));
+	--tw-prose-quotes: var(--section-heading, var(--color-heading));
+	--tw-prose-quote-borders: var(--section-accent, var(--color-primary));
+	--tw-prose-captions: var(--section-muted, var(--color-text-muted));
+	--tw-prose-code: var(--section-heading, var(--color-heading));
+	--tw-prose-hr: color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);
+	--tw-prose-th-borders: var(--section-muted, var(--color-text-muted));
+	--tw-prose-td-borders: color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);
+
+	max-width: var(--measure);       /* Typography's own cap is 65ch; ours is the token */
+	font-size: var(--fs-body);
+}
+
+/* Headings in content use the same fluid scale as .h2–.h4, not Typography's em steps. */
+.prose :where(h2) { font-size: var(--fs-h2); }
+.prose :where(h3) { font-size: var(--fs-h3); }
+.prose :where(h4) { font-size: var(--fs-h4); }

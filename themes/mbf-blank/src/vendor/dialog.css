@@ -1,0 +1,7 @@
+/*
+ * ::backdrop: UNLAYERED on purpose (docs/10: "<dialog> off-centre, backdrop unstyled").
+ * Tinted from --color-contrast like --shadow, not a grey literal.
+ */
+.mbf-drawer::backdrop {
+	background: color-mix(in oklch, var(--color-contrast) 55%, transparent);
+}

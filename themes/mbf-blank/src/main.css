@@ -1,0 +1,26 @@
+/* Entry: layer order + imports only (docs/02). Built with Tailwind 4.3.4. */
+@layer theme, base, components, utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@source "../**/*.php";
+@source "../assets/js/**/*.js";          /* scan JS, or JS-only tokens/classes vanish */
+
+@import "./tokens.css";
+@import "./base.css" layer(base);
+
+@import "./components/type.css" layer(components);
+@import "./components/section.css" layer(components);
+@import "./components/stack.css" layer(components);
+@import "./components/grid.css" layer(components);
+@import "./components/button.css" layer(components);
+@import "./components/chevron.css" layer(components);
+@import "./components/skip.css" layer(components);
+@import "./components/site-header.css" layer(components);
+@import "./components/nav.css" layer(components);
+@import "./components/drawer.css" layer(components);
+@import "./components/pagination.css" layer(components);
+@import "./components/search.css" layer(components);
+@import "./wordpress.css" layer(components);
+
+@import "./vendor/typography.css";       /* unlayered on purpose: see each file */
+@import "./vendor/dialog.css";

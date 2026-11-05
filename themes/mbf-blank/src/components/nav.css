@@ -1,0 +1,57 @@
+/* --- Nav: the inline menu, <details> dropdowns. Visibility: site-header.css --- */
+.mbf-nav__list { display: flex; align-items: center; gap: var(--space-xs); }
+
+.mbf-nav__item { position: relative; }
+
+.mbf-nav__link {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	min-block-size: var(--button-h);
+	padding-inline: var(--space-s);
+	color: var(--color-heading);
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color 150ms var(--ease);
+}
+
+.mbf-nav__link:is(:hover, :focus-visible),
+.mbf-nav__group[open] > .mbf-nav__link { color: var(--color-primary); }
+
+/* Current page: underline, not colour alone (04). */
+.mbf-nav__link[aria-current="page"],
+.mbf-nav__sublink[aria-current="page"] {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: .3em;
+}
+
+.mbf-nav__sublist {
+	position: absolute;
+	inset-block-start: 100%;
+	/* End-aligned: the nav sits at the header's inline end, so the free space is behind
+	   it. Start-aligned, a dropdown on the last item ran 12px from the viewport edge
+	   at 1280 and would leave it with one longer label. */
+	inset-inline-end: 0;
+	z-index: 10;
+	display: grid;
+	min-inline-size: max(100%, 14rem);      /* 14rem: fits a two-word label without wrapping */
+	padding: var(--space-xs);
+	background: var(--color-surface);
+	border: 1px solid color-mix(in oklch, var(--color-contrast) 15%, transparent);  /* decorative; the shadow lifts it */
+	border-radius: var(--radius);
+	box-shadow: var(--shadow);
+}
+
+.mbf-nav__sublink {
+	display: flex;
+	align-items: center;
+	min-block-size: var(--button-h);
+	padding-inline: var(--space-s);
+	border-radius: var(--radius-button);
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.mbf-nav__sublink:is(:hover, :focus-visible) { background: var(--color-tertiary); color: var(--color-heading); }

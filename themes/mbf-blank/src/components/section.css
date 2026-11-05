@@ -1,0 +1,59 @@
+/* --- Section: a ground (its scoped colour family) + a capped container --- */
+
+/*
+ * The family every child reads (03). Base ground by default; each modifier below sets
+ * the whole family for its ground, measured once. --section-on-accent is the text
+ * colour on an --section-accent fill (buttons, the current page number).
+ */
+.mbf-section {
+	--section-bg: var(--color-surface);
+	--section-text: var(--color-text);
+	--section-heading: var(--color-heading);
+	--section-muted: var(--color-text-muted);
+	--section-accent: var(--color-primary);
+	--section-on-accent: var(--color-base);
+	--section-link: var(--color-primary);
+	--focus-ring: var(--color-primary);
+
+	background: var(--section-bg);
+	color: var(--section-text);
+	padding: var(--section-y) var(--section-x);
+}
+
+/* The container lives here, not on the full-bleed section (§2), so cqi resolves to the cap. */
+.mbf-section__inner {
+	container-type: inline-size;
+	inline-size: 100%;
+	max-inline-size: var(--wrap);
+	margin-inline: auto;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);   /* not auto: a form field's intrinsic width overflowed 320px */
+	gap: var(--space-fluid-l);
+}
+
+/* --- Grounds. Ratios: theme.json.md --- */
+.mbf-section--tertiary {
+	--section-bg: var(--color-tertiary);
+}
+
+.mbf-section--secondary {
+	--section-bg: var(--color-secondary);
+	--section-text: var(--color-base);
+	--section-heading: var(--color-base);
+	--section-muted: color-mix(in oklch, var(--color-base) 80%, var(--color-secondary));
+	--section-accent: var(--color-accent);
+	--section-on-accent: var(--color-secondary);
+	--section-link: var(--color-accent);
+	--focus-ring: var(--color-base);
+}
+
+.mbf-section--primary {
+	--section-bg: var(--color-primary);
+	--section-text: var(--color-base);
+	--section-heading: var(--color-base);
+	--section-muted: color-mix(in oklch, var(--color-base) 90%, var(--color-primary));
+	--section-accent: var(--color-base);
+	--section-on-accent: var(--color-primary);
+	--section-link: var(--color-base);
+	--focus-ring: var(--color-base);
+}

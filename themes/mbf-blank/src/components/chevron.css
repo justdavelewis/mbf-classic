@@ -1,0 +1,17 @@
+/* --- Chevron: disclosure marker for any <details> (nav, drawer, FAQ) --- */
+/* Drawn with borders, not a background, so forced colours keeps it visible. */
+.mbf-chevron {
+	inline-size: .5em;
+	block-size: .5em;
+	border-inline-end: 2px solid currentColor;
+	border-block-end: 2px solid currentColor;
+	rotate: 45deg;
+	translate: 0 -.15em;                     /* optical: centre the rotated box on the text */
+	transition: rotate 150ms var(--ease);
+}
+
+details[open] > summary .mbf-chevron { rotate: 225deg; translate: 0 .1em; }
+
+/* <summary> with our own marker: drop the UA triangle. */
+summary:has(.mbf-chevron) { list-style: none; }
+summary:has(.mbf-chevron)::-webkit-details-marker { display: none; }

@@ -1,0 +1,109 @@
+/* --- Drawer: <dialog> + showModal(), an inline-end panel on its own ground --- */
+/* The ground is a modifier in the markup (.mbf-section--secondary); this reads the family. */
+.mbf-drawer {
+	margin: 0;
+	margin-inline-start: auto;              /* the UA centres modals; pin to the inline end */
+	/* 24rem: a phone-width panel on tablets. On phones, a --button-h strip of backdrop
+	   stays visible as a tap-to-close target (was a 6px sliver at 390px). */
+	inline-size: min(24rem, 100% - var(--button-h));
+	max-inline-size: 100%;
+	block-size: 100dvh;
+	max-block-size: 100dvh;
+	padding: 0;
+	border: 0;
+	border-inline-start: 1px solid transparent;   /* invisible normally; forced colours paints it, so the panel keeps an edge (13) */
+	background: var(--section-bg);
+	color: var(--section-text);
+	overscroll-behavior: contain;
+}
+
+/* Fills the dialog, so a click that lands on the dialog itself is a backdrop click. */
+.mbf-drawer__panel {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-fluid-m);
+	min-block-size: 100%;
+	padding: var(--space-s) var(--section-x) var(--space-fluid-l);
+}
+
+.mbf-drawer__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-s); }
+
+.mbf-drawer__brand {
+	font-size: var(--fs-h4);
+	font-weight: 700;
+	line-height: 1.2;
+	color: var(--section-heading);
+	text-decoration: none;
+}
+
+.mbf-drawer__close {
+	display: grid;
+	place-items: center;
+	inline-size: var(--button-h);
+	block-size: var(--button-h);
+	flex-shrink: 0;
+	border: 1px solid var(--section-muted);
+	border-radius: var(--radius-button);
+	color: var(--section-heading);
+	font-size: 1.75rem;                     /* the × glyph, sized to the 44px target */
+	line-height: 1;
+	transition: background-color 150ms var(--ease);
+}
+
+.mbf-drawer__close:is(:hover, :focus-visible) { background: color-mix(in oklch, var(--section-text) 12%, transparent); }
+
+.mbf-drawer__item + .mbf-drawer__item {
+	border-block-start: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
+}
+
+.mbf-drawer__link {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-s);
+	min-block-size: var(--button-h);
+	padding-block: var(--space-xs);
+	color: var(--section-heading);
+	font-size: var(--fs-lead);
+	font-weight: 600;
+	text-decoration: none;
+}
+
+.mbf-drawer__sublist { display: grid; padding-inline-start: var(--space-s); padding-block-end: var(--space-s); }
+
+.mbf-drawer__sublink {
+	display: flex;
+	align-items: center;
+	min-block-size: var(--button-h);
+	color: var(--section-text);
+	text-decoration: none;
+}
+
+.mbf-drawer__link:is(:hover, :focus-visible),
+.mbf-drawer__sublink:is(:hover, :focus-visible) { color: var(--section-accent); }
+
+.mbf-drawer__link[aria-current="page"],
+.mbf-drawer__sublink[aria-current="page"] {
+	text-decoration: underline;
+	text-decoration-thickness: 2px;
+	text-underline-offset: .3em;
+}
+
+/* Scroll lock. Not layout-critical, so :has() alone is fine here (§2). */
+html:has(.mbf-drawer[open]) { overflow: hidden; }
+
+/* Slide in/out with no JS (13). Base's reduced-motion block also zeroes the duration. */
+@media (prefers-reduced-motion: no-preference) {
+	.mbf-drawer {
+		translate: 100% 0;
+		transition: translate var(--speed) var(--ease),
+			display var(--speed) allow-discrete,
+			overlay var(--speed) allow-discrete;
+	}
+
+	.mbf-drawer[open] { translate: 0; }
+
+	@starting-style {
+		.mbf-drawer[open] { translate: 100% 0; }
+	}
+}

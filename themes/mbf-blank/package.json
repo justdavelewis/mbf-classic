@@ -1,0 +1,14 @@
+{
+	"name": "mbf-blank",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "tailwindcss -i src/main.css -o dist/style.css --watch",
+		"build": "tailwindcss -i src/main.css -o dist/style.css --minify"
+	},
+	"devDependencies": {
+		"@tailwindcss/cli": "^4.3.4",
+		"@tailwindcss/typography": "^0.5.20",
+		"tailwindcss": "^4.3.4"
+	}
+}

@@ -1,0 +1,22 @@
+/* --- Search form (searchform.php) --- */
+.mbf-search {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);   /* not auto: the field's intrinsic width pushed 320px out by 11px */
+	gap: var(--space-xs);
+	max-inline-size: var(--measure);
+}
+
+.mbf-search__label { font-weight: 600; color: var(--section-heading, var(--color-heading)); }
+
+.mbf-search__row { display: flex; gap: var(--space-xs); }
+
+.mbf-search__field {
+	flex: 1;
+	min-inline-size: 0;
+	min-block-size: var(--button-h);
+	padding-inline: var(--space-s);
+	border: 1px solid var(--color-border);  /* field edge carries meaning: 3.36:1 on base */
+	border-radius: var(--radius-button);
+	background: var(--color-surface);
+	color: var(--color-text);
+}

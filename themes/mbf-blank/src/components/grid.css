@@ -1,0 +1,6 @@
+/* --- Grid: auto-fill card tracks. Count-aware rules arrive with the card (phase 3) --- */
+.mbf-grid {
+	display: grid;
+	grid-template-columns: var(--grid-cards);
+	gap: var(--space-fluid-l);
+}

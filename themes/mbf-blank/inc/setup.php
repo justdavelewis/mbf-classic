@@ -19,7 +19,12 @@ function mbf_setup(): void {
 	// Editor-only build: tokens + prose on the canvas, no Preflight (src/editor.css).
 	add_editor_style( 'dist/editor.css' );
 
-	register_nav_menus( [ 'primary' => __( 'Primary', 'mbf-blank' ) ] );
+	register_nav_menus(
+		[
+			'primary' => __( 'Primary', 'mbf-blank' ),
+			'footer'  => __( 'Footer (legal links)', 'mbf-blank' ),   // top level only: a flat row in the footer
+		]
+	);
 
 	// Card images: 16:10, cropped, so every card in a row has the same image box (03).
 	add_image_size( 'card', 800, 500, true );

@@ -15,6 +15,7 @@
 	--footer-legal-divider: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
 	--footer-legal-color: var(--section-muted);
 	--footer-legal-size: var(--fs-sm);
+	--footer-menu-gap: var(--space-s);
 }
 
 .mbf-footer__grid {
@@ -33,9 +34,14 @@
 .mbf-footer__link { color: var(--footer-link-color); text-decoration: underline; text-underline-offset: .2em; }
 .mbf-footer__link:is(:hover, :focus-visible) { color: var(--footer-link-hover); }
 
+/* Footer menu (legal links): a flat row in the legal line. */
+.mbf-footer__menu { display: flex; flex-wrap: wrap; gap: var(--footer-menu-gap); }
+.mbf-footer__menu-link { display: inline-block; padding-block: .25em; }   /* 24px+ target at --fs-sm (04) */
+
 .mbf-footer__legal {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: baseline;                  /* the menu links' target padding sat them 3px low */
 	gap: var(--footer-legal-gap);
 	padding-block-start: var(--footer-legal-pad);
 	border-block-start: var(--footer-legal-divider);

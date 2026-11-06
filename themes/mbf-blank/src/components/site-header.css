@@ -1,4 +1,4 @@
-/* --- Site header: brand | inline nav (wide) | drawer toggle (narrow) --- */
+/* --- Site header: brand | inline nav (wide) | header button | drawer toggle (narrow) --- */
 .mbf-site-header {
 	/* Dials (03). The toggle's edge carries meaning: keep it ≥3:1 on the header. */
 	--site-header-bg: var(--color-surface);
@@ -25,13 +25,18 @@
 	margin-inline: auto;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
 	gap: var(--site-header-gap);
 	padding-block: var(--site-header-pad-y);
 }
 
-.mbf-site-header__brand { font-family: var(--site-header-brand-font); font-size: var(--site-header-brand-size); font-weight: 700; line-height: 1.2; }
+/* The brand's auto end margin pushes nav, button and toggle to the end as one group
+   (space-between spread them out once the button made it four items). */
+.mbf-site-header__brand { margin-inline-end: auto; font-family: var(--site-header-brand-font); font-size: var(--site-header-brand-size); font-weight: 700; line-height: 1.2; }
 .mbf-site-header__brand-link { display: block; color: var(--site-header-brand-color); text-decoration: none; }
+/* Never squeezed: with no menu (no drawer) at 320px the label broke onto two lines
+   ("Get in / touch"); the brand wraps instead. */
+.mbf-site-header__cta { flex-shrink: 0; }
+
 .mbf-site-header__logo { inline-size: auto; max-block-size: var(--button-h); }   /* the logo sits in the control row, at control height */
 
 .mbf-site-header__toggle {
@@ -70,9 +75,11 @@
  * JS copy: assets/js/drawer.js (closes an open drawer when crossing it). Not a dial:
  * custom properties don't work in @media.
  */
-.mbf-nav { display: none; }
+.mbf-nav,
+.mbf-site-header__cta--drawer { display: none; }   /* below it, the drawer carries the button */
 
 @media (min-width: 64rem) {
-	.mbf-nav { display: block; }
+	.mbf-nav,
+	.mbf-site-header__cta--drawer { display: block; }
 	.mbf-site-header__toggle { display: none; }
 }

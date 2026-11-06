@@ -28,6 +28,8 @@ belongs in STATUS and the rule belongs here.
   no (opt-in per fork, docs/06)
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
+- Render fingerprint (standards docs/08): pages in `docs/fingerprint.json` (repo root); captures
+  go in `.fingerprints/` (ignored). Baseline: `.fingerprints/baseline-2026-11-06.json`.
 
 ## Brand tokens and contrast
 

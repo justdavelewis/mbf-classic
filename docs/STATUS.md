@@ -84,6 +84,25 @@
 
 ---
 
+## 2026-11-06 — Render fingerprint tool (before/after regression)
+
+**Decision (David, 2026-11-06):** *"start on the regression tool"*: make today's ad-hoc
+before/after check a tool anyone can run.
+
+**Changed:** the tool lives in the standards (`tools/render-fingerprint.mjs`, run from that
+checkout like `verify-tokens.sh`; Playwright pinned to 1.59.1 to reuse the cached Chromium
+1217). Here: `docs/fingerprint.json` (base + 9 pages); `.fingerprints/` ignored (~10MB per
+capture); theme CLAUDE.md points at both. Improvements over the scratch version: waits for
+animations to finish (not a fixed 100ms), keys elements by tree path (not document order),
+stores values (not hashes), reports health per view, fails on an empty capture, parallel (4).
+
+**Verified (every claim tested, not assumed):** 63 views, 14,142 values, ~40s (was ~5 min).
+Two captures with no change: IDENTICAL, exit 0. Deliberate change (`--layout-gap` fluid-l →
+fluid-m, button hover 15% → 30%): exit 1, the hover colour and the gaps (64→40px, 32→24px)
+listed first; card sizes summarised after. That ordering came from this test: the first
+report buried the gap under 1,100+ size knock-ons. Reverted: IDENTICAL. One inserted
+`<div>`: 63 additions, 0 changes. Baseline kept as `.fingerprints/baseline-2026-11-06.json`.
+
 ## 2026-11-06 — Header button + footer menu (Q2); global CLAUDE.md; branches
 
 **Decisions (David, 2026-11-06):** *"yes do both, and delete the merged branches"*, i.e. Q2 in

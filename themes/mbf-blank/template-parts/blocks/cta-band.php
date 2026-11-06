@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a = wp_parse_args( $args, [ 'heading' => '', 'text' => '', 'button_1' => null, 'button_2' => null ] );
+$mbf_a = wp_parse_args( $args, [ 'eyebrow' => '', 'heading' => '', 'text' => '', 'button_1' => null, 'button_2' => null ] );
 
 if ( '' === (string) $mbf_a['heading'] ) {
 	return;
@@ -22,6 +22,9 @@ $mbf_id = mbf_section_id( $mbf_a['heading'] );
 	<div class="mbf-section__inner">
 		<div class="mbf-cta-band__row">
 			<div class="mbf-cta-band__text">
+				<?php if ( '' !== (string) $mbf_a['eyebrow'] ) : ?>
+					<p class="mbf-eyebrow"><?php echo esc_html( $mbf_a['eyebrow'] ); ?></p>
+				<?php endif; ?>
 				<h2 class="h2" id="<?php echo esc_attr( $mbf_id ); ?>"><?php echo esc_html( $mbf_a['heading'] ); ?></h2>
 				<?php if ( '' !== (string) $mbf_a['text'] ) : ?>
 					<p class="lead"><?php echo esc_html( $mbf_a['text'] ); ?></p>

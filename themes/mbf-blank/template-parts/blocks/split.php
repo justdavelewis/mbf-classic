@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a = wp_parse_args( $args, [ 'heading' => '', 'body' => '', 'image' => 0, 'image_side' => 'end', 'button_1' => null ] );
+$mbf_a = wp_parse_args( $args, [ 'eyebrow' => '', 'heading' => '', 'body' => '', 'points' => [], 'image' => 0, 'image_side' => 'end', 'button_1' => null, 'button_2' => null ] );
 
 if ( ! $mbf_a['image'] ) {
 	return;
@@ -23,11 +23,12 @@ $mbf_side = 'start' === $mbf_a['image_side'] ? 'start' : 'end';
 	<div class="mbf-section__inner">
 		<div class="mbf-split__grid">
 			<div class="mbf-split__text">
-				<?php get_template_part( 'template-parts/section-heading', null, [ 'heading' => $mbf_a['heading'], 'id' => $mbf_id ] ); ?>
+				<?php get_template_part( 'template-parts/section-heading', null, [ 'eyebrow' => $mbf_a['eyebrow'], 'heading' => $mbf_a['heading'], 'id' => $mbf_id ] ); ?>
 				<?php if ( '' !== (string) $mbf_a['body'] ) : ?>
 					<div class="prose"><?php echo wp_kses_post( $mbf_a['body'] ); ?></div>
 				<?php endif; ?>
-				<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => [ $mbf_a['button_1'] ] ] ); ?>
+				<?php get_template_part( 'template-parts/ticks', null, [ 'items' => $mbf_a['points'] ] ); ?>
+				<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => [ $mbf_a['button_1'], $mbf_a['button_2'] ] ] ); ?>
 			</div>
 			<?php echo wp_get_attachment_image( (int) $mbf_a['image'], 'large', false, [ 'class' => 'mbf-split__image' ] ); ?>
 		</div>

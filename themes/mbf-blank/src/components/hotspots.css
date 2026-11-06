@@ -1,0 +1,89 @@
+/* --- Hotspots (template-parts/blocks/hotspots.php, assets/js/hotspots.js) --- */
+.mbf-hotspots {
+	/*
+	 * Dials (03). The 56rem split point can't be one: custom properties don't work in
+	 * @container. Keep --hotspots-marker ≥ 44px. The marker's edge is what keeps it readable
+	 * on any photo, so it stays a solid light ring whatever the ground.
+	 */
+	--hotspots-gap: var(--layout-gap);
+	--hotspots-columns: minmax(0, 3fr) minmax(0, 2fr);   /* image | list, once split */
+	--hotspots-image-radius: var(--radius);
+	--hotspots-marker: var(--button-h);
+	--hotspots-marker-bg: var(--color-primary);
+	--hotspots-marker-text: var(--color-base);
+	--hotspots-marker-edge: 0 0 0 2px var(--color-base);
+	--hotspots-marker-active-edge: 0 0 0 4px var(--color-contrast);
+	--hotspots-item-gap: var(--space-s);
+	--hotspots-item-active: color-mix(in oklch, var(--section-accent, var(--color-primary)) 12%, transparent);
+	--hotspots-tabs-gap: var(--content-gap);
+	--hotspots-tab-border: 2px solid transparent;
+	--hotspots-tab-active: var(--section-accent, var(--color-primary));
+}
+
+.mbf-hotspots__scenes { display: grid; gap: var(--hotspots-gap); }
+.mbf-hotspots__scenes:has(> .mbf-hotspots__tabs) { gap: var(--hotspots-tabs-gap); }
+
+.mbf-hotspots__scene { display: grid; gap: var(--hotspots-gap); align-items: start; }
+.mbf-hotspots__scene[hidden] { display: none; }
+.mbf-hotspots__label[hidden] { display: none; }
+
+.mbf-hotspots__media { position: relative; }
+.mbf-hotspots__image { inline-size: 100%; block-size: auto; border-radius: var(--hotspots-image-radius); }
+
+/* Clamped, so a spot at the very edge never pushes past the image and overflows the page. */
+.mbf-hotspots__marker {
+	position: absolute;
+	inset-inline-start: clamp(calc(var(--hotspots-marker) / 2), var(--x), calc(100% - var(--hotspots-marker) / 2));
+	inset-block-start: clamp(calc(var(--hotspots-marker) / 2), var(--y), calc(100% - var(--hotspots-marker) / 2));
+	translate: -50% -50%;
+	display: grid;
+	place-items: center;
+	inline-size: var(--hotspots-marker);
+	block-size: var(--hotspots-marker);
+	border-radius: 50%;
+	background: var(--hotspots-marker-bg);
+	color: var(--hotspots-marker-text);
+	font-weight: 700;
+	box-shadow: var(--hotspots-marker-edge);
+	cursor: pointer;
+}
+
+.mbf-hotspots__marker.is-active { box-shadow: var(--hotspots-marker-edge), var(--hotspots-marker-active-edge); }
+
+.mbf-hotspots__list { display: grid; gap: var(--hotspots-item-gap); padding-inline-start: 1.75em; list-style: decimal; }
+.mbf-hotspots__item { padding: var(--space-xs); border-radius: var(--radius-button); }
+.mbf-hotspots__item.is-active { background: var(--hotspots-item-active); }
+.mbf-hotspots__item::marker { font-weight: 700; color: var(--section-accent, var(--color-primary)); }
+.mbf-hotspots__title { font-weight: 600; color: var(--section-heading, var(--color-heading)); }
+a.mbf-hotspots__title { display: inline-block; color: var(--section-link, var(--color-primary)); }  /* standalone link: ≥24px (2.5.8) */
+.mbf-hotspots__text { margin-block-start: var(--space-xs); }
+
+.mbf-hotspots__tabs { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+
+.mbf-hotspots__tab {
+	min-block-size: var(--button-h);
+	padding-inline: var(--space-s);
+	border-block-end: var(--hotspots-tab-border);
+	color: var(--section-heading, var(--color-heading));
+	font-weight: 600;
+	cursor: pointer;
+}
+
+/* The selected tab is marked by its underline as well as its colour (1.4.1). */
+.mbf-hotspots__tab[aria-selected="true"] { border-block-end-color: var(--hotspots-tab-active); color: var(--hotspots-tab-active); }
+
+@container (min-width: 56rem) {
+	.mbf-hotspots__scene { grid-template-columns: var(--hotspots-columns); }
+	.mbf-hotspots__label { grid-column: 1 / -1; }
+}
+
+/* Forced colours drop backgrounds and shadows: a real border keeps the marker and its state. */
+@media (forced-colors: active) {
+	.mbf-hotspots__marker { border: 2px solid; background: Canvas; color: CanvasText; }
+	.mbf-hotspots__marker.is-active { border-width: 4px; }
+	.mbf-hotspots__item.is-active { outline: 2px solid; }
+
+	/* A transparent border is painted solid here, so every tab looked selected (measured). */
+	.mbf-hotspots__tab { border-block-end-color: Canvas; }
+	.mbf-hotspots__tab[aria-selected="true"] { border-block-end-color: Highlight; }
+}

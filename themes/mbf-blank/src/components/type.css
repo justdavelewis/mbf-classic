@@ -9,5 +9,19 @@
 .h4 { font-size: var(--fs-h4); line-height: 1.25; font-weight: 700; }
 .lead { font-size: var(--fs-lead); }
 
+/* The short label above a heading. The guarded accent passes ≥4.5:1 on every ground. */
+.mbf-eyebrow {
+	--eyebrow-size: var(--fs-sm);
+	--eyebrow-weight: 600;
+	--eyebrow-tracking: .06em;
+	--eyebrow-color: var(--section-accent, var(--color-primary));
+
+	font-size: var(--eyebrow-size);
+	font-weight: var(--eyebrow-weight);
+	letter-spacing: var(--eyebrow-tracking);
+	text-transform: uppercase;
+	color: var(--eyebrow-color);
+}
+
 /* Dates, bylines, captions: reads the ground's muted colour, never the global (03). */
 .mbf-meta { font-size: var(--fs-sm); color: var(--section-muted, var(--color-text-muted)); }

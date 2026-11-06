@@ -1,0 +1,21 @@
+/* --- Ticked list (template-parts/ticks.php). --- */
+.mbf-ticks {
+	/* Dials (03). The tick is decorative beside its text, in the guarded accent. */
+	--ticks-gap: var(--space-xs);
+	--ticks-indent: 1.5em;
+	--ticks-color: var(--section-accent, var(--color-primary));
+
+	display: grid;
+	gap: var(--ticks-gap);
+}
+
+.mbf-ticks__item { position: relative; padding-inline-start: var(--ticks-indent); }
+
+/* Empty alt text: the list is announced, the tick isn't read as a word. */
+.mbf-ticks__item::before {
+	content: "\2713" / "";
+	position: absolute;
+	inset-inline-start: 0;
+	font-weight: 700;
+	color: var(--ticks-color);
+}

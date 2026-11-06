@@ -18,10 +18,13 @@ section.mbf-section.mbf-{layout}[.mbf-section--{ground}][.mbf-section--accent-{s
 ## Shared partials (`template-parts/`)
 
 ```
-card.php                     ($args: title, text, url, image, level, cta)
+card.php                     ($args: title, text, url, image, level, cta, tag, icon)
 article.mbf-card
   img.mbf-card__image         optional; alt="" aria-hidden="true"; size 'card' (16:10)
   .mbf-card__body             required; carries the padding
+    .mbf-card__head           only with a tag or icon; one subgrid row, holds the title
+      i.mbf-card__icon[aria-hidden]  only with no image and icons on
+      span.mbf-card__tag      read before the title
     h{level}.mbf-card__title  h2 under an archive h1, h3 under a section h2
       a.mbf-card__hit         title text ONLY — the one link, stretched by ::before
     p.mbf-card__text          optional
@@ -31,10 +34,35 @@ article.mbf-card
   · surface is always light: re-scopes --section-text/heading/muted and --card-accent
     to the light-ground roles; keeps the section's --focus-ring (the ring is outside)
 
-section-heading.php          ($args: heading, lead, id, level=2, size='h2')
+section-heading.php          ($args: eyebrow, heading, lead, link, id, level=2, size='h2')
 header.mbf-section-heading
+  p.mbf-eyebrow               optional
   h{level}.{size}#{id}        optional
   p.lead.mbf-section-heading__lead   optional
+  a.mbf-section-heading__link optional; arrow is aria-hidden
+
+ticks.php                    ($args: items[text])
+ul.mbf-ticks[role=list] > li.mbf-ticks__item    tick = ::before with empty alt
+
+badges.php                   ($args: items[name, logo])
+ul.mbf-badges[role=list] > li.mbf-badge[.mbf-badge--logo]    text, or img (alt = name)
+
+file-list.php                ($args: files[title(req), file(req), note, cover])
+ul.mbf-files[role=list] > li.mbf-file
+  img.mbf-file__cover         optional; decorative
+  .mbf-file__body > a.mbf-file__link[download] (span.mbf-file__meta "(PDF, 1.2 MB)")  p.mbf-file__note
+
+finder.php                   ($args: context=panel|section, level, show_question) data: inc/finder.php
+.mbf-finder.mbf-finder--{context}[data-mbf-finder=JSON]
+  p.mbf-eyebrow               panel only
+  p.mbf-finder__step[aria-live=polite]    empty (hidden) until finder.js runs
+  .mbf-finder__stage
+    h{level}.h4.mbf-finder__question      when show_question
+    ul.mbf-finder__options[role=list] > li > a.mbf-finder__option   the no-JS finder
+  · finder.js swaps the stage: button.mbf-finder__option (a link if it has no page),
+    p.mbf-finder__intro, .mbf-ticks, .mbf-buttons, button.mbf-finder__back
+  · panel: light card, re-scopes the section family AND --focus-ring (its rings are inside it)
+  · the form button adds ?need={key}&site={key}: WS Form fields read #query_var("need")
 
 cta-buttons.php              ($args: buttons[ACF link], phone_fallback)
 .mbf-buttons
@@ -70,55 +98,92 @@ enquiry-form.php             ($args: form_id)
 ## Layouts (`template-parts/blocks/`)
 
 ```
-hero.php        heading(req), lead, button_1, button_2, image, position
+hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], panel(image|finder), image, position
   section.mbf-hero[.mbf-hero--media] > __inner > .mbf-hero__grid
-    .mbf-hero__text > h1|h2.display#id  p.lead  .mbf-buttons
+    .mbf-hero__text > p.mbf-eyebrow  h1|h2.display#id  p.lead  .mbf-buttons  .mbf-badges
     img.mbf-hero__image       library alt; eager + fetchpriority=high when first
+    | .mbf-finder--panel      panel=finder, when the finder has options
   · h1 only when position = 1 (page.php then skips page-hero)
 
-text.php        heading, body
+text.php        heading, lead, body
   section.mbf-text > __inner > header.mbf-section-heading  .prose
 
-split.php       heading, body, image(req), image_side(end|start), button_1
+split.php       eyebrow, heading, body, points[text], image(req), image_side(end|start), button_1, button_2
   section.mbf-split.mbf-split--image-{side} > __inner > .mbf-split__grid
-    .mbf-split__text > header.mbf-section-heading  .prose  .mbf-buttons
+    .mbf-split__text > header.mbf-section-heading  .prose  .mbf-ticks  .mbf-buttons
     img.mbf-split__image      library alt
   · DOM is always text → image; image-start moves it with grid-column
 
-cards.php       heading, lead, cards[title(req), text, url, image]
+cards.php       heading, lead, link, cards[tag, title(req), text, url, icon, image]
   section.mbf-cards > __inner > header.mbf-section-heading
     .mbf-grid[.mbf-grid--pairs] > article.mbf-card × n   (--pairs: exactly 2 or 4)
 
-cta-band.php    heading(req), text, button_1, button_2
+cta-band.php    eyebrow, heading(req), text, button_1, button_2
   section.mbf-cta-band > __inner > .mbf-cta-band__row
-    .mbf-cta-band__text > h2.h2#id  p.lead
+    .mbf-cta-band__text > p.mbf-eyebrow  h2.h2#id  p.lead
     .mbf-buttons              phone_fallback: no button_2 → "Call {phone}"
 
-faq.php         heading, items[question(req), answer]
+faq.php         heading, lead, items[question(req), answer], aside_heading, aside_text, aside_button
   section.mbf-faq > __inner > header.mbf-section-heading
+    [.mbf-faq__grid when aside_heading]
     .mbf-faq__list > details.mbf-faq__item
       summary.mbf-faq__question  text + span.mbf-chevron[aria-hidden]
       .mbf-faq__answer.prose
+    aside.mbf-faq__aside > h3.h4  p  .mbf-buttons
 
-stats.php       heading, items[value(req), label]
-  section.mbf-stats > __inner > header  ul.mbf-stats__list[role=list]
+stats.php       heading, items[value(req), label], badges[name, logo]
+  section.mbf-stats > __inner > header  ul.mbf-stats__list[role=list]  .mbf-badges
     li.mbf-stat > span.mbf-stat__value  span.mbf-stat__label   (DOM = visual order)
 
 quote.php       quote(req), name, role
   section.mbf-quote > __inner > figure.mbf-quote__figure
     blockquote.mbf-quote__text > p   figcaption.mbf-quote__cite (name, role)
 
-steps.php       heading, lead, items[title(req), text]
-  section.mbf-steps > __inner > header  ol.mbf-steps__list[role=list]
-    li.mbf-steps__item > h3|h2.h4.mbf-steps__title  p
+steps.php       heading, lead, items[title(req), text, tag], button_1
+  section.mbf-steps > __inner > header  ol.mbf-steps__list[role=list]  .mbf-buttons
+    li.mbf-steps__item > h3|h2.h4.mbf-steps__title  p  span.mbf-steps__tag
   · number = CSS counter in ::before with alt "" (the list position is announced)
 
 logos.php       heading, logos[attachment IDs]
   section.mbf-logos > __inner > header  ul.mbf-logos__list[role=list] > li > img (library alt)
 
-form.php        heading, text   (form ID: Site Settings form_enquiry)
+form.php        heading, text, points[text], show_contact   (form ID: Site Settings form_enquiry)
   section.mbf-enquiry > __inner > .mbf-enquiry__grid
-    header.mbf-section-heading  .mbf-form
+    .mbf-enquiry__intro > header.mbf-section-heading  .mbf-ticks  ul.mbf-enquiry__contact[role=list]
+    .mbf-form
+
+finder.php      heading, lead   (everything else: Site Settings › Solution finder)
+  section.mbf-finder-section > __inner > header.mbf-section-heading  .mbf-finder--section
+  · no heading: the first question is the section heading, and isn't asked twice
+
+case-study.php  eyebrow, heading(req), text, metrics[value(req), label], quote, name, role, image(req), image_side, button_1
+  section.mbf-case-study.mbf-case-study--image-{side} > __inner > .mbf-case-study__grid
+    .mbf-case-study__text > header.mbf-section-heading
+      ul.mbf-case-study__metrics[role=list] > li.mbf-case-study__metric > span.__value  span.__label
+      figure.mbf-case-study__quote > blockquote > p   figcaption.mbf-meta
+      .mbf-buttons
+    img.mbf-case-study__image library alt
+
+hotspots.php    heading, lead, scenes[label, image(req), spots[title(req), text, url, x, y]]
+  section.mbf-hotspots > __inner > header  .mbf-hotspots__scenes[data-mbf-hotspots]
+    div.mbf-hotspots__tabs[role=tablist] > button.mbf-hotspots__tab[role=tab]   built by hotspots.js
+    .mbf-hotspots__scene[data-mbf-hotspots-scene=label]
+      h3|h2.h4.mbf-hotspots__label  several scenes; hidden once tabs exist
+      .mbf-hotspots__media > img.mbf-hotspots__image (library alt)
+        span.mbf-hotspots__marker[aria-hidden][data-mbf-spot][style=--x;--y]    not focusable
+      ol.mbf-hotspots__list > li.mbf-hotspots__item[data-mbf-spot]
+        a|span.mbf-hotspots__title  p.mbf-hotspots__text
+  · the list is the content; markers repeat it. .is-active pairs marker and entry.
+
+specs.php       heading, lead, groups[heading, rows[label, value]], files[title, file]
+  section.mbf-specs > __inner > header  .mbf-specs__tables  .mbf-files
+    table.mbf-specs__table > caption.mbf-specs__caption  tbody > tr > th[scope=row]  td
+
+downloads.php   heading, lead, files[title(req), file(req), note, cover]
+  section.mbf-downloads > __inner > header  .mbf-files
+
+posts.php       heading, lead, source(latest|chosen), category, count, chosen[IDs], link
+  section.mbf-posts > __inner > header  .mbf-grid[.mbf-grid--pairs] > article.mbf-card × n
 ```
 
 Each layout returns nothing when its required content is missing, so an empty row never

@@ -22,6 +22,7 @@
 	--card-gap: var(--space-fluid-s);
 	--card-title-size: var(--fs-h4);
 	--card-image-ratio: 16 / 10;
+	--card-icon-size: var(--fs-h3);
 
 	position: relative;
 	container-type: inline-size;
@@ -42,6 +43,14 @@
 	flex-direction: column;
 	gap: var(--card-gap);
 }
+
+.mbf-card__head { display: grid; gap: var(--space-xs); justify-items: start; }
+.mbf-card__tag { font-size: var(--fs-sm); font-weight: 600; color: var(--card-accent); }
+.mbf-card__icon { font-size: var(--card-icon-size); color: var(--card-accent); }
+
+/* A tag or icon makes the title row taller: plain cards' titles drop to the same line. Only in
+   a grid that has one. Without :has() they sit a little high, which is cosmetic (§2). */
+.mbf-grid:has(.mbf-card__head) .mbf-card__body > .mbf-card__title { align-self: end; }
 
 .mbf-card__title { font-size: var(--card-title-size); line-height: 1.25; font-weight: 700; color: var(--section-heading); transition: color var(--speed) var(--ease); }
 .mbf-card__text { color: var(--card-text); }

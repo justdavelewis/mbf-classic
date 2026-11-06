@@ -1,0 +1,86 @@
+/* --- Solution finder (template-parts/finder.php, assets/js/finder.js) --- */
+.mbf-finder {
+	/* Dials (03) */
+	--finder-gap: var(--space-fluid-s);
+	--finder-tile: 16rem;
+	--finder-option-gap: var(--space-xs);
+	--finder-option-pad: var(--space-s);
+	--finder-option-radius: var(--radius-button);
+	--finder-option-text: var(--section-heading, var(--color-heading));
+	--finder-option-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 45%, transparent);  /* the label identifies it */
+	--finder-option-hover: color-mix(in oklch, var(--section-accent, var(--color-primary)) 12%, transparent);
+	--finder-icon-color: var(--section-accent, var(--color-primary));
+
+	display: grid;
+	gap: var(--finder-gap);
+}
+
+/*
+ * Panel: a light card beside a hero, whatever the ground, so it re-scopes the section family
+ * to the light-ground roles, as the card does. Its focus ring IS re-scoped, unlike the card's:
+ * these rings are drawn inside the panel, on its light surface.
+ */
+.mbf-finder--panel {
+	--section-bg: var(--color-surface);
+	--section-text: var(--color-text);
+	--section-heading: var(--color-heading);
+	--section-muted: var(--color-text-muted);
+	--section-accent: var(--color-primary);
+	--section-on-accent: var(--color-base);
+	--section-link: var(--color-primary);
+	--focus-ring: var(--color-primary);
+	--finder-panel-pad: var(--space-fluid-m);
+	--finder-panel-radius: var(--radius);
+	--finder-tile: 100%;
+
+	padding: var(--finder-panel-pad);
+	border-radius: var(--finder-panel-radius);
+	background: var(--section-bg);
+	color: var(--section-text);
+	box-shadow: var(--shadow);
+}
+
+.mbf-finder__step { font-size: var(--fs-sm); color: var(--section-muted, var(--color-text-muted)); }
+.mbf-finder__step:empty { display: none; }  /* no JS: no steps */
+
+.mbf-finder__stage { display: grid; gap: var(--finder-gap); }
+.mbf-finder__question { color: var(--section-heading, var(--color-heading)); scroll-margin-block-start: 6rem; }
+.mbf-finder__intro { color: var(--section-muted, var(--color-text-muted)); }
+
+.mbf-finder__options {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(var(--finder-tile), 100%), 1fr));
+	gap: var(--finder-option-gap);
+}
+
+.mbf-finder__option {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+	inline-size: 100%;
+	min-block-size: var(--button-h);
+	padding: var(--finder-option-pad);
+	border: var(--finder-option-border);
+	border-radius: var(--finder-option-radius);
+	color: var(--finder-option-text);
+	font-weight: 600;
+	text-align: start;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 150ms var(--ease);
+}
+
+.mbf-finder__option:is(:hover, :focus-visible) { background: var(--finder-option-hover); }
+.mbf-finder__icon { flex-shrink: 0; color: var(--finder-icon-color); }
+
+.mbf-finder__back {
+	justify-self: start;
+	min-block-size: 1.5rem;   /* WCAG 2.5.8 */
+	color: var(--section-link, var(--color-primary));
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mbf-finder__option { transition: none; }
+}

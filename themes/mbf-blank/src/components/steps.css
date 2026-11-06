@@ -19,6 +19,8 @@
 
 .mbf-steps__item { counter-increment: mbf-step; display: grid; gap: var(--steps-item-gap); align-content: start; }
 
+.mbf-steps__tag { justify-self: start; font-size: var(--fs-sm); font-weight: 600; color: var(--section-accent, var(--color-primary)); }
+
 /* Empty alt text: the list position is already announced, so the drawn number isn't read twice. */
 .mbf-steps__item::before {
 	content: counter(mbf-step) / "";

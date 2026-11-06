@@ -84,6 +84,62 @@
 
 ---
 
+## 2026-11-06 — Layout library: the sections all our height-safety clients use
+
+David: *"look at all the ACF fields we have across Mantech, S&A & FA and make some very basic
+scaffolding for them for each of the sections"*, and the Mantech hero's solution form *"as a
+core feature across the board for new builds"*. Hotspots added: *"if we can do it ourselves we
+should"*, replacing Image Map Pro.
+
+**Decision (replaces "keep the set small", docs/12):** 11 → 17 layouts. Every client section
+folded into one of them. Scaffolding only: fields, semantic markup, dials, contract, sample
+row. The look stays in each fork.
+
+- **Extended:** hero (eyebrow, badges, finder panel), text (lead), split (eyebrow, ticks, second
+  button), cards (tag, icon, section link), steps (tag, button), stats (accreditations), faq
+  (lead, side card), form (reassurance points, phone and email), cta_band (eyebrow).
+- **New:** `finder`, `case_study`, `hotspots`, `specs`, `downloads`, `posts`.
+- **Finder:** set once per site (my recommendation; not separately confirmed by David), shown
+  in a hero or as a section. Fixes from Mantech's wizard: no focus jump on load, one small live
+  region rather than the whole panel, and an option with no page goes straight to the form.
+- **Hotspots:** one layout for a scene or a product. Fisher Alvin's accessibility model (the
+  list is the content, markers aria-hidden, always visible), tabs built by JS, and a click-to-
+  place picker in the editor (`assets/js/hotspots-admin.js`), which is what Image Map Pro had.
+- **Left for later:** Mantech's checker and suitability (reuse the finder's engine), FA's sticky
+  section nav, hero background photos (contrast needs its own answer), mega menu (header job).
+  Hotspots on every product: David, *"eventually"*; needs the product pages first.
+- **Left out:** S&A's pricing, newsletter, team, bento (agency layouts, not height safety),
+  Mantech's Enzuzo legal layout.
+
+**Verified**
+- Fingerprint: the 8 pages other than `/_sample/` are IDENTICAL to the baseline (8,121 values).
+  All 63 views: 0 overflow, 0 console errors, 0 PHP notices. New baseline:
+  `.fingerprints/baseline-layout-library.json`.
+- Finder by keyboard: steps, focus on each question, nothing moved on load, link carries
+  `?need=roof-edge&site=industrial`. No JS: real links, "Not sure yet" → form.
+- `#query_var("need")` on a real WS Form field: `?need=roof-edge` filled it, none left it empty.
+  Temporary change to the placeholder form, removed and republished.
+- Hotspots: tabs, arrow keys, marker ↔ list both ways, a 100%/100% spot stays inside the image.
+  No JS: every scene shows under its heading, no tablist.
+- Picker: a real click set Across/Down to 38.5/75.4 in the editor (not saved).
+- Contrast: 186 text elements in the new components, all AA, on all 4 grounds.
+
+- 200% zoom (640px at double density, and root font-size 200% at 1280): no overflow.
+- Forced colours: markers, list highlight, options, ticks and selected tab all readable.
+- Reduced motion: transitions off. Markers are never tab stops. 54 controls: all have a ring.
+
+**Found by those checks and fixed**
+- Forced colours paints a transparent border solid, so every tab looked selected. The tabs now
+  use `Canvas` and `Highlight` there.
+- Linked spot titles and the phone and email links were 20px tall, not inline in a sentence, so
+  2.5.8 applied: `display: inline-block` makes them 27px.
+
+**Learned**
+- `get_field()` by key returns a field's DEFAULT, so "fill if empty" skipped never-saved fields,
+  while `mbf_setting()` by name returned nothing. The script now checks the stored option. A real
+  site is unaffected once Site Settings has been saved.
+- WS Form's `db_checksum()` needs a user with form capabilities: `wp_set_current_user( 1 )` first.
+
 ## 2026-11-06 — Render fingerprint tool (before/after regression)
 
 **Decision (David, 2026-11-06):** *"start on the regression tool"*: make today's ad-hoc

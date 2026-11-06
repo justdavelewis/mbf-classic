@@ -22,10 +22,9 @@ belongs in STATUS and the rule belongs here.
   all three.
 - Environments: local `https://mbf-classic.local` only. No staging or live: a starter
   never deploys, so no `deploy.yml` and no `@staging`/`@live` aliases.
-- PHP: target 8.4.x (docs/09). Local was created on 8.2.29 (2026-11-05). TODO: switch it to
-  8.4 in Local before building.
+- PHP: 8.4.x (docs/09). Local serves 8.4.27 (`X-Powered-By`, 2026-11-06).
 - WordPress: 7.1.4 (2026-11-05)
-- Plugins: ACF Pro 6.8.10 · WS Form Pro 1.12.16 (both active; licences not entered) · Woo:
+- Plugins: ACF Pro 6.8.10 · WS Form Pro 1.12.16 (both active, licensed) · Woo:
   no (opt-in per fork, docs/06)
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`

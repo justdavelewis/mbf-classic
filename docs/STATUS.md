@@ -2,16 +2,16 @@
 
 > Read this first, every session. Newest entry first. Dated headings. Quote decisions.
 
-**Owners:** theme — NAME · content/scripts — NAME · live writes announced in #channel
+**Owners:** David (theme, content, scripts) · Andonette collaborates and reviews standards changes · no live writes (a starter never deploys)
 **Environments:** local `https://mbf-classic.local` only (a starter never deploys)
-**Repo:** `wp-content/` → TODO: create `github.com/andonette-mbf/mbf-blank` (private) · no CI
+**Repo:** `wp-content/` → `github.com/justdavelewis/mbf-classic` (stays here; Andonette is a collaborator, David 2026-11-06) · no CI
 
 ## Outstanding
 
 ### DECISION FIRST (don't build on these)
 - [ ] Q2 Header CTA button and footer menu: every-site, or per-fork? Left out of the starter.
-- [ ] Q3 Tailwind's default theme (`--color-red-500`…) is still importable as utilities.
-      Reset the `--color-*` namespace in the starter, or leave it?
+- Q3 **Resolved 2026-11-06:** palette off (`--color-*: initial;` in `tokens.css`), David:
+  *"turn those tailwind colours off"*. See the dated entry.
 ### Resolved 2026-11-05 (David: *"Go with your recommendations on D1–D8"*)
 - D1 `inc/`: `setup enqueue builder helpers options forms` only. No `woocommerce`,
   `post-types`, `admin-help`, `schema`. (`schema` added 2026-11-06, Q9.)
@@ -26,19 +26,18 @@
 - Q5 Accent control **kept** as the seam forks plug their measured pairs into, although
   it has no visible effect with the placeholder palette (David, 2026-11-05: *"Keep the
   accent field"*).
-- Link fields: fixed in the standards (`mbf-site-standards` docs/05 + CHANGELOG, not
-  committed). Buttons use ACF `link`, card links `page_link`; `page_link` has no
+- Link fields: fixed in the standards (`mbf-site-standards` docs/05 + CHANGELOG, committed and pushed). Buttons use ACF `link`, card links `page_link`; `page_link` has no
   `allow_custom` (David, 2026-11-05: *"correct the bug here and do it in the source
   standards folder"*).
 
-- Q4 Standards fixed in `mbf-site-standards` (not committed), and mirrored here
+- Q4 Standards fixed in `mbf-site-standards` (committed and pushed), and mirrored here
   (David, 2026-11-05: *"fix those in the standards too"*): docs/12 bridge reads `--h-2` and
   bridges `--wrap`/`--measure`; docs/02 base drops `var(--header-h, 0)` (sticky headers set
   their own) and gains the plain-link rule; `templates/gitignore` gains `!**/src/vendor/`
   (tested in a scratch repo: keeps `src/vendor/`, still drops Composer `vendor/`). Each in
   the standards CHANGELOG.
 
-- Q6 docs/03 card fixes made in the standards too (docs/03 + CHANGELOG, not committed)
+- Q6 docs/03 card fixes made in the standards too (docs/03 + CHANGELOG, committed and pushed)
   (David, 2026-11-05: *"YES"*).
 - Q7 Icons: Font Awesome Pro, the CSS build, ported from Mantech (David, 2026-11-05: *"Use
   font awesome, the snippet should be available in mantech"*). Kit token in Site Settings ›
@@ -47,7 +46,7 @@
   setting).
 
 - Q8 Fixed in the standards (docs/02 + docs/14 `main.css` → `source(none)`, docs/02 rule,
-  CHANGELOG 2026-11-06; not committed) (David, 2026-11-06: *"fix Q8 in the standards"*).
+  CHANGELOG 2026-11-06; committed and pushed) (David, 2026-11-06: *"fix Q8 in the standards"*).
 - Q9 `inc/schema.php` added, **amending D1** (David, 2026-11-06: *"add schema.php"*).
 
 - Q1 Editor checks done 2026-11-06 in Chrome (David logged in).
@@ -63,16 +62,19 @@
   admins only; tabs). Amends D1 again (`inc/style-settings.php`).
 
 ### Tasks
-- [ ] Switch Local to PHP 8.4 (theme CLAUDE.md TODO; Local is on 8.2.29)
-- [ ] Enter ACF Pro + WS Form Pro licences (David)
-- [ ] **Before any fork goes live (down the line):** no agent/Claude files on the server
+- [x] Local on PHP 8.4 (David checked, 2026-11-06)
+- [x] ACF Pro + WS Form Pro licences entered (David, 2026-11-06)
+- [x] **Before any fork goes live (down the line):** no agent/Claude files on the server
       (David, 2026-11-06). The standards' `templates/deploy.yml` already rsyncs only the theme
       folder (so `docs/` never ships) and excludes `CLAUDE.md`, `.claude/` and `src/`
       (`contract.md`). **Gap:** `theme.json.md` sits in the theme root and isn't excluded, so it
-      would be publicly readable. Add an exclude (or move the file) when the deploy is set up,
-      and in the standards template too.
-- [ ] Enter a Font Awesome kit token in Site Settings › Icons (David), then verify the
-      social glyphs render (Brands family) and the stylesheet loads with 0 console errors
+      would be publicly readable. **Fixed at the source 2026-11-06:** the standards' template
+      now excludes `*.md` (docs/09: after a first deploy, request `…/theme.json.md` on staging
+      and expect a 404). A fork copies that template, so every site gets it.
+- [x] Font Awesome kit code in Site Settings › Icons (David, 2026-11-06). Verified: Pro 7.3.1
+      CSS loads (200, 454KB), Brands + Pro 400/900 fonts load, LinkedIn/Facebook/Instagram/
+      phone/envelope draw, 0 console errors. **The field takes the kit CODE** (the letters in
+      `kit.fontawesome.com/<code>.js`), not the script: we load the CSS build with it.
 
 ## Live write log
 
@@ -80,6 +82,24 @@
 |---|---|---|---|---|
 
 ---
+
+## 2026-11-06 — Palette off, deploy gap fixed at the source, housekeeping
+
+**Decisions (David, 2026-11-06):** *"turn those tailwind colours off"*; deploy gap *"noted as
+other sites will use this as a framework"*; repo stays at `justdavelewis/mbf-classic`
+(Andonette is a collaborator); Andonette approved the component-dials rule.
+
+**Changed:** `tokens.css` opens `@theme static` with `--color-*: initial;`. Standards: the
+same line in the seed + docs/01; `templates/deploy.yml` excludes `*.md` instead of naming
+files, docs/09 says why and to check `…/theme.json.md` 404s on staging; CHANGELOG (dials
+marked approved). Theme CLAUDE.md: PHP 8.4.27, plugins licensed. STATUS header + stale
+"not committed" notes fixed; Q3 closed.
+
+**Verified:** a probe template with `text-red-500 bg-slate-900 text-primary bg-tertiary`
+built to scratch before/after: before, both palette classes compiled; after, neither does
+and both role classes still do. `dist/` has 0 palette variables, `--color-primary` intact.
+Full fingerprint (8 page types × 5 widths, dropdown/drawer open, hovers): 15,915 values,
+**0 diffs** against a fresh baseline. verify-tokens: none undefined. Font Awesome: see Tasks.
 
 ## 2026-11-06 — Component dials: the other 19 components + `--layout-gap`
 

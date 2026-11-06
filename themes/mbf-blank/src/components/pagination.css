@@ -1,25 +1,36 @@
 /* --- Pagination: core's the_posts_pagination() markup, hooked by its 'class' arg --- */
-.mbf-pagination .nav-links { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.mbf-pagination {
+	/* Dials (03). The current page is filled + bold, and aria-current="page" from core
+	   (not colour alone). */
+	--pagination-gap: var(--space-xs);
+	--pagination-pad-x: var(--space-s);
+	--pagination-radius: var(--radius-button);
+	--pagination-border: 1px solid color-mix(in oklch, var(--section-accent, var(--color-primary)) 35%, transparent);  /* decorative */
+	--pagination-text: var(--section-link, var(--color-primary));
+	--pagination-current-bg: var(--section-accent, var(--color-primary));
+	--pagination-current-text: var(--section-on-accent, var(--color-base));
+}
+
+.mbf-pagination .nav-links { display: flex; flex-wrap: wrap; gap: var(--pagination-gap); }
 
 .mbf-pagination .page-numbers {
 	display: inline-grid;
 	place-items: center;
 	min-inline-size: var(--button-h);
 	min-block-size: var(--button-h);
-	padding-inline: var(--space-s);
-	border: 1px solid color-mix(in oklch, var(--section-accent, var(--color-primary)) 35%, transparent);  /* decorative */
-	border-radius: var(--radius-button);
-	color: var(--section-link, var(--color-primary));
+	padding-inline: var(--pagination-pad-x);
+	border: var(--pagination-border);
+	border-radius: var(--pagination-radius);
+	color: var(--pagination-text);
 	font-weight: 600;
 	text-decoration: none;
 	transition: background-color 150ms var(--ease), color 150ms var(--ease);
 }
 
-/* Current page: filled + bold, and aria-current="page" from core (not colour alone). */
 .mbf-pagination .current,
 .mbf-pagination a.page-numbers:is(:hover, :focus-visible) {
-	background: var(--section-accent, var(--color-primary));
-	color: var(--section-on-accent, var(--color-base));
+	background: var(--pagination-current-bg);
+	color: var(--pagination-current-text);
 }
 
 .mbf-pagination .dots { border-color: transparent; }

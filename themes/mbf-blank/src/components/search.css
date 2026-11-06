@@ -1,22 +1,33 @@
 /* --- Search form (searchform.php) --- */
 .mbf-search {
+	/* Dials (03). The field edge carries meaning: keep --search-field-border ≥3:1 on its ground. */
+	--search-gap: var(--space-xs);           /* label ↔ row */
+	--search-row-gap: var(--space-xs);       /* field ↔ button */
+	--search-measure: var(--measure);
+	--search-label-color: var(--section-heading, var(--color-heading));
+	--search-field-pad-x: var(--space-s);
+	--search-field-radius: var(--radius-button);
+	--search-field-border: var(--color-border);   /* 3.36:1 on base */
+	--search-field-bg: var(--color-surface);
+	--search-field-text: var(--color-text);
+
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);   /* not auto: the field's intrinsic width pushed 320px out by 11px */
-	gap: var(--space-xs);
-	max-inline-size: var(--measure);
+	gap: var(--search-gap);
+	max-inline-size: var(--search-measure);
 }
 
-.mbf-search__label { font-weight: 600; color: var(--section-heading, var(--color-heading)); }
+.mbf-search__label { font-weight: 600; color: var(--search-label-color); }
 
-.mbf-search__row { display: flex; gap: var(--space-xs); }
+.mbf-search__row { display: flex; gap: var(--search-row-gap); }
 
 .mbf-search__field {
 	flex: 1;
 	min-inline-size: 0;
 	min-block-size: var(--button-h);
-	padding-inline: var(--space-s);
-	border: 1px solid var(--color-border);  /* field edge carries meaning: 3.36:1 on base */
-	border-radius: var(--radius-button);
-	background: var(--color-surface);
-	color: var(--color-text);
+	padding-inline: var(--search-field-pad-x);
+	border: 1px solid var(--search-field-border);
+	border-radius: var(--search-field-radius);
+	background: var(--search-field-bg);
+	color: var(--search-field-text);
 }

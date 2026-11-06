@@ -1,21 +1,30 @@
 /* --- Breadcrumbs (template-parts/crumbs.php). aria-current marks the current page. --- */
+.mbf-crumbs {
+	/* Dials (03) */
+	--crumbs-gap: var(--space-xs);
+	--crumbs-size: var(--fs-sm);
+	--crumbs-text: var(--section-muted, var(--color-text-muted));
+	--crumbs-link: var(--section-link, var(--color-primary));
+	--crumbs-separator: "/";
+}
+
 .mbf-crumbs__list {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-xs);
-	font-size: var(--fs-sm);
-	color: var(--section-muted, var(--color-text-muted));
+	gap: var(--crumbs-gap);
+	font-size: var(--crumbs-size);
+	color: var(--crumbs-text);
 }
 
-.mbf-crumbs__item { display: flex; align-items: center; gap: var(--space-xs); }
+.mbf-crumbs__item { display: flex; align-items: center; gap: var(--crumbs-gap); }
 
 /* Separator with empty alt text, so it isn't read out between crumbs. */
-.mbf-crumbs__item + .mbf-crumbs__item::before { content: "/" / ""; }
+.mbf-crumbs__item + .mbf-crumbs__item::before { content: var(--crumbs-separator) / ""; }
 
 .mbf-crumbs__link {
 	display: inline-block;
 	padding-block: .25em;                  /* 24px+ target at --fs-sm (04) */
-	color: var(--section-link, var(--color-primary));
+	color: var(--crumbs-link);
 	text-decoration: underline;
 	text-underline-offset: .2em;
 }

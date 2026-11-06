@@ -1,10 +1,17 @@
 /* --- Logos (template-parts/blocks/logos.php). Logos are the editor's images: check them
    on the chosen ground (04: measure every ground). --- */
+.mbf-logos {
+	/* Dials (03) */
+	--logos-gap: var(--content-gap);
+	--logos-tile: 9rem;                      /* a logo tile's minimum width */
+	--logos-height: 4rem;                    /* one logo height */
+}
+
 .mbf-logos__list {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));   /* 9rem: a logo tile */
-	gap: var(--content-gap);
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--logos-tile), 100%), 1fr));
+	gap: var(--logos-gap);
 	align-items: center;
 }
 
-.mbf-logos__image { inline-size: 100%; block-size: auto; max-block-size: 4rem; object-fit: contain; }   /* 4rem: one logo height */
+.mbf-logos__image { inline-size: 100%; block-size: auto; max-block-size: var(--logos-height); object-fit: contain; }

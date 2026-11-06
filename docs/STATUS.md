@@ -81,6 +81,35 @@
 
 ---
 
+## 2026-11-06 — Component dials: the other 19 components + `--layout-gap`
+
+**Decision (David, 2026-11-06):** *"commit it, then do the rest of the components"*.
+
+**Changed:** dials blocks on page-hero, section-heading, enquiry, cta-band, logos,
+grid, stats, quote, split, social, crumbs, search, steps, faq, pagination, footer, skip,
+chevron, nav, site-header, drawer, each declared on the component's root (for section
+layouts, the `<section>` carrying the block class). The column layouts gained a
+`--{block}-columns` dial (the breakpoint itself can't be one).
+New global **`--layout-gap`** (`fluid-l`, 43 globals), the gap between layout columns and
+tracks, which seven components repeated: grid, split, hero, stats, steps, footer, enquiry.
+`type.css` left alone: `.display`/`.h*` *are* the global type scale (its dials are theme.json
+font sizes), and `.mbf-meta` is one two-value rule. Standards: docs/01 + seed + CLAUDE.md +
+README (43 globals, `--layout-gap`), CHANGELOG.
+
+**Verified:** full fingerprint of every element (+ `::before/::after`, 54 properties) on 8
+page types (`/_sample/`, `/`, `/page/2/`, a post, `/contact/`, a child page, search, 404) at
+1440/1024/1023/390/320, plus the nav dropdown open, the drawer open and 9 hover kinds:
+15,915 values, 27 diffs, all the open dropdown's summary colour + chevron rotation read at
+100ms, mid-transition (three identical runs gave 204–210°; settled = `#2d5ba8`, 225° exactly
+as the rules say). Script wait raised to 500ms. One dial per component then turned, and
+each block followed (e.g. `--layout-gap` 64→16px moved stats and hero together; crumbs
+separator "/"→"›"; drawer 346→256px). 0 console errors (the 404 page's own status aside),
+0 PHP notices, verify-tokens: none undefined. Screenshots 1440/390 unchanged.
+
+**Removed `.mbf-stack`** (David, 2026-11-06: *"remove the stack"*): no template used it, so
+it was just-in-case CSS every fork would inherit. docs/03's catalogue keeps the recipe for a
+site that needs one. Rebuilt: no `mbf-stack` in either dist file; none in any served page.
+
 ## 2026-11-06 — Component dials: card, button, hero, section
 
 **Decision (David, 2026-11-06):** blocks get "dials" so one value re-skins every instance,

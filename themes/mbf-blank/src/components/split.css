@@ -1,17 +1,26 @@
 /* --- Split layout: text + image (template-parts/blocks/split.php) --- */
-.mbf-split__grid { display: grid; gap: var(--space-fluid-l); align-items: center; }
-.mbf-split__text { display: grid; gap: var(--content-gap); }
+.mbf-split {
+	/* Dials (03). The 48rem split point can't be one: custom properties don't work in @container. */
+	--split-gap: var(--layout-gap);
+	--split-text-gap: var(--content-gap);
+	--split-columns: repeat(2, minmax(0, 1fr));
+	--split-image-ratio: 4 / 3;
+	--split-image-radius: var(--radius);
+}
+
+.mbf-split__grid { display: grid; gap: var(--split-gap); align-items: center; }
+.mbf-split__text { display: grid; gap: var(--split-text-gap); }
 
 .mbf-split__image {
 	inline-size: 100%;
 	block-size: auto;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: var(--split-image-ratio);
 	object-fit: cover;
-	border-radius: var(--radius);
+	border-radius: var(--split-image-radius);
 }
 
 @container (min-width: 48rem) {
-	.mbf-split__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.mbf-split__grid { grid-template-columns: var(--split-columns); }
 
 	/* Image first visually; the DOM stays text → image (03: grid-column, never order). */
 	.mbf-split--image-start .mbf-split__image { grid-column: 1; grid-row: 1; }

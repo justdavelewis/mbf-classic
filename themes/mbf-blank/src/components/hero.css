@@ -5,9 +5,10 @@
 	 * size is its class (.display) in the partial: level is structure, class is size (§2).
 	 * The 48rem split point can't be a dial: custom properties don't work in @container.
 	 */
-	--hero-gap: var(--space-fluid-l);
+	--hero-gap: var(--layout-gap);
 	--hero-text-gap: var(--content-gap);
 	--hero-text-measure: var(--measure);
+	--hero-columns: repeat(2, minmax(0, 1fr));   /* text | image, once split */
 	--hero-image-ratio: 4 / 3;
 	--hero-image-radius: var(--radius);
 }
@@ -24,5 +25,5 @@
 }
 
 @container (min-width: 48rem) {
-	.mbf-hero--media .mbf-hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.mbf-hero--media .mbf-hero__grid { grid-template-columns: var(--hero-columns); }
 }

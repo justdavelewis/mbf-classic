@@ -58,13 +58,14 @@
   --fs-body:    var(--wp--preset--font-size--body);
   --fs-sm:      var(--wp--preset--font-size--sm);
 
-  /* --- space: 2 micro (fixed) + 4 fluid + 2 section ------------------------ */
+  /* --- space: 2 micro (fixed) + 4 fluid + 2 gaps + 2 section ---------------- */
   --space-xs: .5rem;   --space-s: .75rem;                                  /* glyph↔label, caption offsets */
   --space-fluid-s:  var(--wp--preset--spacing--fluid-s);
   --space-fluid-m:  var(--wp--preset--spacing--fluid-m);
   --space-fluid-l:  var(--wp--preset--spacing--fluid-l);
   --space-fluid-xl: var(--wp--preset--spacing--fluid-xl);
   --content-gap: var(--wp--custom--content-gap);     /* gap between content items: one fluid step, default m */
+  --layout-gap: var(--space-fluid-l);                 /* gap between layout columns/tracks: card grid, split, hero, stats, steps, footer, enquiry */
   --section-y: calc(clamp(3.75rem, calc(3.75rem + 2.2cqi), 5.5rem) * var(--wp--custom--section-scale));
   --section-x: clamp(1rem, calc(.642rem + 1.59vi), 2rem);                  /* gutter follows the device */
 

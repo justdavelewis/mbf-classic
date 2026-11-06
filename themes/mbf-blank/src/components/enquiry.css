@@ -1,6 +1,12 @@
 /* --- Enquiry form section (template-parts/blocks/form.php + enquiry-form.php) --- */
-.mbf-enquiry__grid { display: grid; gap: var(--space-fluid-l); }
+.mbf-enquiry {
+	/* Dials (03). The 56rem split point can't be one: custom properties don't work in @container. */
+	--enquiry-gap: var(--layout-gap);
+	--enquiry-columns: minmax(0, 2fr) minmax(0, 3fr);   /* intro | form, once split */
+}
+
+.mbf-enquiry__grid { display: grid; gap: var(--enquiry-gap); }
 
 @container (min-width: 56rem) {
-	.mbf-enquiry__grid { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; }
+	.mbf-enquiry__grid { grid-template-columns: var(--enquiry-columns); align-items: start; }
 }

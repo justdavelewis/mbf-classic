@@ -1,22 +1,37 @@
 /* --- Site header: brand | inline nav (wide) | drawer toggle (narrow) --- */
 .mbf-site-header {
-	padding-inline: var(--section-x);
-	background: var(--color-surface);
-	border-block-end: 1px solid color-mix(in oklch, var(--color-contrast) 12%, transparent);  /* decorative */
+	/* Dials (03). The toggle's edge carries meaning: keep it ≥3:1 on the header. */
+	--site-header-bg: var(--color-surface);
+	--site-header-border: 1px solid color-mix(in oklch, var(--color-contrast) 12%, transparent);  /* decorative */
+	--site-header-pad-x: var(--section-x);
+	--site-header-pad-y: var(--space-s);
+	--site-header-wrap: var(--wrap);
+	--site-header-gap: var(--space-fluid-m);
+	--site-header-brand-font: var(--font-display);
+	--site-header-brand-size: var(--fs-h4);
+	--site-header-brand-color: var(--color-heading);
+	--site-header-toggle-border: 1px solid var(--color-border);   /* 3.36:1 on base */
+	--site-header-toggle-radius: var(--radius-button);
+	--site-header-toggle-color: var(--color-heading);
+	--site-header-toggle-hover-bg: var(--color-tertiary);
+
+	padding-inline: var(--site-header-pad-x);
+	background: var(--site-header-bg);
+	border-block-end: var(--site-header-border);
 }
 
 .mbf-site-header__inner {
-	max-inline-size: var(--wrap);
+	max-inline-size: var(--site-header-wrap);
 	margin-inline: auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--space-fluid-m);
-	padding-block: var(--space-s);
+	gap: var(--site-header-gap);
+	padding-block: var(--site-header-pad-y);
 }
 
-.mbf-site-header__brand { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 700; line-height: 1.2; }
-.mbf-site-header__brand-link { display: block; color: var(--color-heading); text-decoration: none; }
+.mbf-site-header__brand { font-family: var(--site-header-brand-font); font-size: var(--site-header-brand-size); font-weight: 700; line-height: 1.2; }
+.mbf-site-header__brand-link { display: block; color: var(--site-header-brand-color); text-decoration: none; }
 .mbf-site-header__logo { inline-size: auto; max-block-size: var(--button-h); }   /* the logo sits in the control row, at control height */
 
 .mbf-site-header__toggle {
@@ -25,13 +40,13 @@
 	inline-size: var(--button-h);
 	block-size: var(--button-h);
 	flex-shrink: 0;
-	border: 1px solid var(--color-border);  /* meaningful edge: 3.36:1 on base */
-	border-radius: var(--radius-button);
-	color: var(--color-heading);
+	border: var(--site-header-toggle-border);
+	border-radius: var(--site-header-toggle-radius);
+	color: var(--site-header-toggle-color);
 	transition: background-color 150ms var(--ease);
 }
 
-.mbf-site-header__toggle:is(:hover, :focus-visible) { background: var(--color-tertiary); }
+.mbf-site-header__toggle:is(:hover, :focus-visible) { background: var(--site-header-toggle-hover-bg); }
 
 /* Three bars from borders (not backgrounds), so forced colours keeps them. */
 .mbf-site-header__toggle-bars,
@@ -52,7 +67,8 @@
 
 /*
  * THE nav ↔ drawer breakpoint: 64rem (1024px), stated once, as min-width (§2, STATUS D3).
- * JS copy: assets/js/drawer.js (closes an open drawer when crossing it).
+ * JS copy: assets/js/drawer.js (closes an open drawer when crossing it). Not a dial:
+ * custom properties don't work in @media.
  */
 .mbf-nav { display: none; }
 

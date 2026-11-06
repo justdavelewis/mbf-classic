@@ -19,5 +19,8 @@ function mbf_setup(): void {
 	add_editor_style( 'dist/style.css' );
 
 	register_nav_menus( [ 'primary' => __( 'Primary', 'mbf-blank' ) ] );
+
+	// Card images: 16:10, cropped, so every card in a row has the same image box (03).
+	add_image_size( 'card', 800, 500, true );
 }
 add_action( 'after_setup_theme', 'mbf_setup' );

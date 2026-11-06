@@ -1,0 +1,38 @@
+/*
+ * WS Form, through its own variables (02 §Plugin CSS, seam #1). UNLAYERED on purpose:
+ * WS Form's stylesheets are unlayered and beat every @layer.
+ *
+ * WS Form defines these on :where([data-wsf-style-id="N"]), zero specificity, on the
+ * form element itself, so this 0-2-0 selector wins without !important (read 2026-11-05,
+ * WS Form Pro 1.12.16). Labels, the required mark and errors sit on the SECTION's ground,
+ * so they read the section family; the fields are their own light surface, so they read
+ * the light-ground roles. Measured on all 4 grounds: theme.json.md.
+ */
+.mbf-form .wsf-form {
+	--wsf-form-font-family: var(--font-sans);
+	--wsf-form-font-size: var(--fs-body);
+	--wsf-field-label-color: var(--section-heading, var(--color-heading));
+	--wsf-form-color-danger: var(--section-error, var(--color-error));     /* required mark + invalid feedback */
+	--wsf-field-color: var(--color-text);
+	--wsf-field-color-background: var(--color-surface);
+	--wsf-field-border-color: var(--color-border);                         /* 3.37:1 on base; on dark grounds the white fill is the edge */
+	--wsf-field-border-radius: var(--radius-button);
+	--wsf-field-button-primary-color-background: var(--section-accent, var(--color-primary));
+	--wsf-field-button-primary-color: var(--section-on-accent, var(--color-base));
+}
+
+/*
+ * Focus: WS Form sets `outline: 0` on :focus and draws focus with a box-shadow, which
+ * forced colours removes (04, 13). Seam #3, a targeted unlayered rule: its selector,
+ * `.wsf-form input[type=…].wsf-field:focus`, is 0-4-1; the doubled class makes this 0-5-0
+ * so it wins whatever order the stylesheets load in. :focus-visible only, like base.
+ */
+.mbf-form .wsf-form :is(.wsf-field.wsf-field, .wsf-button.wsf-button):focus-visible {
+	outline: 2px solid var(--focus-ring, var(--color-primary));
+	outline-offset: 3px;
+}
+
+/* 44px targets (04): WS Form's 8.5px padding gives 43px. Not checkboxes or radios. */
+.mbf-form .wsf-form :is(input.wsf-field:not([type="checkbox"], [type="radio"]), select.wsf-field, button.wsf-button) {
+	min-block-size: var(--button-h);
+}

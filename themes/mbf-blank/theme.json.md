@@ -28,6 +28,12 @@ Measured 2026-11-05 in Chromium from computed colours (canvas-resolved sRGB, WCA
 | secondary | 16.9 | 16.9 | 10.59 (`#c8cdd6`) | 9.01 | 9.01 | 9.01 | 16.9 |
 | primary | 6.62 | 6.62 | 5.68 (`#e9eef7`) | 6.62 | 6.62 | 6.62 | 6.62 |
 
+Form errors (`--section-error`: WS Form's required mark + messages, always with text):
+base 6.57, tertiary 5.97, secondary 12.4, primary 4.86 (`error` 20% into `base` on the dark
+grounds; primary is the tight one). WS Form on every ground: labels = heading ratio; field
+text 9.23 on its white fill; fill vs ground 16.9 (secondary) / 6.62 (primary) is the field's
+edge there; border 3.37 / 3.06 on the light grounds; submit = the button row above.
+
 Roles on light grounds: `--color-border` 3.37:1 on base, 3.06:1 on tertiary (meaningful edges:
 field, toggle). Button hover (primary + 15% contrast, `#294f95`): white label 7.93:1.
 

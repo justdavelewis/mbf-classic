@@ -1,6 +1,6 @@
 <?php
 /**
- * Search results. Phase 3 swaps each result for the card partial.
+ * Search results: each result is the one card, at h2 under the results h1.
  *
  * @package mbf-blank
  */
@@ -8,29 +8,39 @@
 defined( 'ABSPATH' ) || exit;
 
 get_header();
+
+get_template_part(
+	'template-parts/page-hero',
+	null,
+	[
+		/* translators: %s: the search query. */
+		'title'  => sprintf( __( 'Search results for “%s”', 'mbf-blank' ), get_search_query() ),
+		'crumbs' => mbf_crumbs(),
+	]
+);
 ?>
 <div class="mbf-section">
 	<div class="mbf-section__inner">
-		<h1 class="h1">
-			<?php
-			/* translators: %s: the search query. */
-			printf( esc_html__( 'Search results for “%s”', 'mbf-blank' ), esc_html( get_search_query() ) );
-			?>
-		</h1>
-
 		<?php get_search_form(); ?>
 
 		<?php if ( have_posts() ) : ?>
-			<div class="mbf-grid">
+			<div class="<?php echo esc_attr( mbf_grid_class( (int) $GLOBALS['wp_query']->post_count ) ); ?>">
 				<?php
 				while ( have_posts() ) :
 					the_post();
-					?>
-					<article class="mbf-stack mbf-stack--tight">
-						<h2 class="h4"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-						<?php the_excerpt(); ?>
-					</article>
-				<?php endwhile; ?>
+					get_template_part(
+						'template-parts/card',
+						null,
+						[
+							'title' => get_the_title(),
+							'text'  => get_the_excerpt(),
+							'url'   => get_permalink(),
+							'level' => 2,
+							'cta'   => __( 'Read more', 'mbf-blank' ),
+						]
+					);
+				endwhile;
+				?>
 			</div>
 
 			<?php the_posts_pagination( [ 'class' => 'mbf-pagination' ] ); ?>

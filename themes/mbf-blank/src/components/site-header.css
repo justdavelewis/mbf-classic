@@ -16,7 +16,8 @@
 }
 
 .mbf-site-header__brand { font-size: var(--fs-h4); font-weight: 700; line-height: 1.2; }
-.mbf-site-header__brand-link { color: var(--color-heading); text-decoration: none; }
+.mbf-site-header__brand-link { display: block; color: var(--color-heading); text-decoration: none; }
+.mbf-site-header__logo { inline-size: auto; max-block-size: var(--button-h); }   /* the logo sits in the control row, at control height */
 
 .mbf-site-header__toggle {
 	display: grid;

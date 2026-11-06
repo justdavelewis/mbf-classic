@@ -1,0 +1,90 @@
+/* --- Card: the one card (03, standards §4). Markup: template-parts/card.php --- */
+.mbf-card {
+	/*
+	 * The card's surface is always light (--color-surface), whatever ground its section is
+	 * on, so it re-scopes the section family to the light-ground roles. 03's chain reads
+	 * --section-text/--section-accent here, which on a dark ground put white text (1:1) and
+	 * the dark-ground accent (#7cc4ff, 1.88:1) on the white card. --card-accent is base's
+	 * accent, primary: 6.62:1 on the card. --focus-ring is NOT re-scoped: the ring is
+	 * drawn outside the card, on the section's ground, so it keeps the ground's ring.
+	 */
+	--section-text: var(--color-text);
+	--section-heading: var(--color-heading);
+	--section-muted: var(--color-text-muted);
+	--card-bg: var(--color-surface);
+	--card-text: var(--color-text);
+	--card-accent: var(--color-primary);
+	--card-border: 1px solid color-mix(in oklch, var(--card-accent) 25%, transparent);  /* decorative edge */
+
+	position: relative;
+	container-type: inline-size;
+	display: grid;
+	overflow: hidden;
+	background: var(--card-bg);
+	color: var(--card-text);
+	border: var(--card-border);
+	border-radius: var(--radius);
+	transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+.mbf-card__image { inline-size: 100%; block-size: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+
+.mbf-card__body {
+	padding: var(--space-fluid-m);
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-fluid-s);
+}
+
+.mbf-card__title { font-size: var(--fs-h4); line-height: 1.25; font-weight: 700; color: var(--section-heading); transition: color var(--speed) var(--ease); }
+.mbf-card__text { color: var(--card-text); }
+.mbf-card__cta { font-weight: 600; color: var(--card-accent); }
+
+.mbf-card__hit {
+	color: inherit;
+	text-decoration: none;
+	background: linear-gradient(currentColor, currentColor) no-repeat 0 calc(100% - .1em) / 0% 2px;   /* animatable underline */
+	transition: background-size var(--speed) var(--ease);
+}
+
+.mbf-card__hit::before { content: ""; position: absolute; inset: 0; z-index: 1; }
+
+/*
+ * Lift only a LINKED card (03 rule 6: no URL, no lift). 03's CSS lifts every card; the
+ * :has() gate is the fix. Not layout-critical, so :has() alone is fine (§2).
+ */
+.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+/* The ring moves from the link to the card for keyboard focus only (:focus-within also
+   rings on click). Both halves sit inside @supports: without :has(), the link keeps its
+   base ring rather than losing it. */
+@supports selector(:has(*)) {
+	.mbf-card__hit:focus-visible { outline: none; }
+
+	.mbf-card:has(.mbf-card__hit:focus-visible) {
+		outline: 2px solid var(--focus-ring, var(--card-accent));
+		outline-offset: 3px;
+	}
+}
+
+.mbf-card:is(:hover, :focus-within) .mbf-card__title { color: var(--card-accent); }
+.mbf-card:is(:hover, :focus-within) .mbf-card__hit { background-size: 100% 2px; }
+.mbf-card :is(button, .mbf-card__action) { position: relative; z-index: 2; }
+
+/*
+ * Rows align across cards: image | title | text | cta. __body is placed from row 2, so
+ * imageless cards still align.
+ *
+ * container-type: normal here, because container-type applies layout containment, and a
+ * contained element can't be a subgrid: its grid-template-rows silently computes to
+ * `none` (measured 2026-11-05: titles in one row 6–9px apart). A card in a grid gives up
+ * its own container; its fluid padding resolves against the section's __inner instead.
+ */
+.mbf-grid > .mbf-card { container-type: normal; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; }
+.mbf-grid > .mbf-card > .mbf-card__body { grid-row: 2 / span 3; display: grid; grid-template-rows: subgrid; }
+
+@media (prefers-reduced-motion: reduce) {
+	.mbf-card, .mbf-card__hit { transition: none; }
+	/* Same selector as the lift: a plainer one loses on specificity and the card still moved. */
+	.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) { transform: none; }
+}

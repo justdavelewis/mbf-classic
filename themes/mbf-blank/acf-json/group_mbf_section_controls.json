@@ -1,0 +1,105 @@
+{
+    "key": "group_mbf_section_controls",
+    "title": "Section controls",
+    "fields": [
+        {
+            "key": "field_mbf_section_ground",
+            "label": "Ground",
+            "name": "ground",
+            "type": "select",
+            "instructions": "The section's background. Text, links and buttons follow it.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "34",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "base": "Base (page colour)",
+                "tertiary": "Tertiary (light)",
+                "secondary": "Secondary (dark)",
+                "primary": "Primary (brand)"
+            },
+            "default_value": "base",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_mbf_section_accent",
+            "label": "Accent",
+            "name": "accent",
+            "type": "select",
+            "instructions": "Switched automatically if it would fail contrast on this ground.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "default": "Ground default",
+                "primary": "Primary",
+                "accent": "Accent"
+            },
+            "default_value": "default",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_mbf_section_spacing",
+            "label": "Spacing",
+            "name": "spacing",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "33",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "default": "Default",
+                "flush-top": "No space above",
+                "flush-btm": "No space below",
+                "flush": "No space above or below"
+            },
+            "default_value": "default",
+            "return_format": "value",
+            "multiple": 0,
+            "allow_null": 0,
+            "ui": 0,
+            "ajax": 0,
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "mbf_clone_only"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": false,
+    "description": "Cloned into every layout and every ACF section block. Never shown on its own (inactive).",
+    "show_in_rest": 0,
+    "modified": 1793893355
+}

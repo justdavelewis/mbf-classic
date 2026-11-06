@@ -1,0 +1,2 @@
+/* --- Page hero: crumbs + h1 + meta/lead (template-parts/page-hero.php) --- */
+.mbf-page-hero__text { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }

@@ -1,0 +1,21 @@
+{
+    "key": "ui_options_page_mbf_site_settings",
+    "title": "Site Settings",
+    "page_title": "Site Settings",
+    "menu_slug": "mbf-site-settings",
+    "menu_title": "Site Settings",
+    "advanced_configuration": 1,
+    "redirect": "0",
+    "parent_slug": "",
+    "position": "58",
+    "icon_url": "dashicons-admin-generic",
+    "menu_order": 0,
+    "capability": "edit_posts",
+    "data_storage": "options",
+    "description": "",
+    "updated_message": "Site Settings updated",
+    "update_button": "Update",
+    "autoload": 1,
+    "active": true,
+    "modified": 1793893355
+}

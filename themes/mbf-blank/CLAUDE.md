@@ -46,6 +46,18 @@ in `assets/js/drawer.js` (closes an open drawer when widening past it).
 `src/tokens.css` reads slots, type, fluid space, `--wrap` and `--measure` from `theme.json`.
 Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-size--h-2`.
 
+## ACF
+
+- Site Settings options page slug: `mbf-site-settings`. Read it only through `mbf_setting()`.
+- Dark grounds: `mbf_is_dark_ground()` is the one list. The accent guard
+  (`mbf_accent_colour()`) holds the measured pairs; re-measure and edit it on any palette
+  change.
+- Schema: `inc/schema.php` prints the ONE business node from Site Settings, and goes
+  silent when an SEO plugin is active (`mbf_print_business_schema` filter to override).
+- Scripts take field keys from `acf-json/`. The section-controls clone's reference key is
+  composite (`field_mbf_{layout}_controls_field_mbf_section_ground`); write by field name
+  with `update_field()`, or read that composite from the JSON.
+
 ## Site-specific rules
 
 - **Everything here propagates to every fork.** Add only what every classic site needs.

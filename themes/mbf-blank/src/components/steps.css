@@ -1,0 +1,22 @@
+/* --- Steps (template-parts/blocks/steps.php): the <ol>'s numbers, drawn by a counter --- */
+.mbf-steps__list {
+	counter-reset: mbf-step;
+	display: grid;
+	grid-template-columns: var(--grid-auto);
+	gap: var(--space-fluid-l);
+}
+
+.mbf-steps__item { counter-increment: mbf-step; display: grid; gap: var(--space-s); align-content: start; }
+
+/* Empty alt text: the list position is already announced, so the drawn number isn't read twice. */
+.mbf-steps__item::before {
+	content: counter(mbf-step) / "";
+	display: grid;
+	place-items: center;
+	inline-size: var(--button-h);
+	block-size: var(--button-h);
+	border-radius: 999px;
+	background: var(--section-accent, var(--color-primary));
+	color: var(--section-on-accent, var(--color-base));
+	font-weight: 700;
+}

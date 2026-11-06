@@ -1,0 +1,12 @@
+/* --- Stats (template-parts/blocks/stats.php) --- */
+.mbf-stats__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));   /* 10rem: a stat is narrower than a card */
+	gap: var(--space-fluid-l);
+}
+
+.mbf-stat { display: grid; gap: var(--space-xs); align-content: start; }
+
+/* Large text in the guarded accent: ≥3:1 needed, every ground's accent clears 4.5:1. */
+.mbf-stat__value { font-size: var(--fs-h1); font-weight: 700; line-height: 1; color: var(--section-accent, var(--color-primary)); }
+.mbf-stat__label { color: var(--section-muted, var(--color-text-muted)); }

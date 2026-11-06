@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $mbf_menu = mbf_menu_tree( 'primary' );
-$mbf_name = get_bloginfo( 'name' );
+$mbf_name = mbf_company_name();
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -35,7 +35,9 @@ $mbf_name = get_bloginfo( 'name' );
 
 		<?php // A <p>, never an <h1>: each page's own heading is its h1. ?>
 		<p class="mbf-site-header__brand">
-			<a class="mbf-site-header__brand-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo esc_html( $mbf_name ); ?></a>
+			<a class="mbf-site-header__brand-link" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+				<?php echo mbf_logo( 'base', 'mbf-site-header__logo' ) ?: esc_html( $mbf_name ); // phpcs:ignore WordPress.Security.EscapeOutput -- wp_get_attachment_image() ?>
+			</a>
 		</p>
 
 		<?php if ( $mbf_menu ) : ?>
@@ -59,11 +61,13 @@ $mbf_name = get_bloginfo( 'name' );
 	</div>
 
 	<?php if ( $mbf_menu ) : ?>
-		<?php // Dark ground (secondary): the white logo goes here once Site Settings exists (phase 2). ?>
+		<?php // Dark ground (secondary), so mbf_logo() picks the white logo. ?>
 		<dialog id="mbf-drawer" class="mbf-drawer mbf-section--secondary" closedby="any" aria-label="<?php esc_attr_e( 'Menu', 'mbf-blank' ); ?>">
 			<div class="mbf-drawer__panel">
 				<div class="mbf-drawer__head">
-					<a class="mbf-drawer__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php echo esc_html( $mbf_name ); ?></a>
+					<a class="mbf-drawer__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+						<?php echo mbf_logo( 'secondary', 'mbf-drawer__logo' ) ?: esc_html( $mbf_name ); // phpcs:ignore WordPress.Security.EscapeOutput -- wp_get_attachment_image() ?>
+					</a>
 					<button type="button" class="mbf-drawer__close" commandfor="mbf-drawer" command="close">
 						<span aria-hidden="true">&times;</span>
 						<span class="sr-only"><?php esc_html_e( 'Close menu', 'mbf-blank' ); ?></span>

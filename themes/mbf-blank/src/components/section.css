@@ -3,7 +3,8 @@
 /*
  * The family every child reads (03). Base ground by default; each modifier below sets
  * the whole family for its ground, measured once. --section-on-accent is the text
- * colour on an --section-accent fill (buttons, the current page number).
+ * colour on an --section-accent fill (buttons, the current page number); --section-error
+ * is form-error text on the ground (never colour alone: WS Form adds the message text).
  */
 .mbf-section {
 	--section-bg: var(--color-surface);
@@ -13,6 +14,7 @@
 	--section-accent: var(--color-primary);
 	--section-on-accent: var(--color-base);
 	--section-link: var(--color-primary);
+	--section-error: var(--color-error);
 	--focus-ring: var(--color-primary);
 
 	background: var(--section-bg);
@@ -44,6 +46,7 @@
 	--section-accent: var(--color-accent);
 	--section-on-accent: var(--color-secondary);
 	--section-link: var(--color-accent);
+	--section-error: color-mix(in oklch, var(--color-error) 20%, var(--color-base));   /* form errors on dark: measure */
 	--focus-ring: var(--color-base);
 }
 
@@ -55,5 +58,26 @@
 	--section-accent: var(--color-base);
 	--section-on-accent: var(--color-primary);
 	--section-link: var(--color-base);
+	--section-error: color-mix(in oklch, var(--color-error) 20%, var(--color-base));
 	--focus-ring: var(--color-base);
 }
+
+/* --- Accent override: emitted only when mbf_accent_colour() lets an editor's choice
+   through (inc/helpers.php). With the placeholder palette it never does; these are the
+   seam a fork's measured pairs use. --- */
+.mbf-section--accent-primary {
+	--section-accent: var(--color-primary);
+	--section-on-accent: var(--color-base);
+	--section-link: var(--color-primary);
+}
+
+.mbf-section--accent-accent {
+	--section-accent: var(--color-accent);
+	--section-on-accent: var(--color-contrast);    /* 9.68:1 on the placeholder accent */
+	--section-link: var(--color-accent);
+}
+
+/* --- Spacing (ACF `spacing`): drop a side's padding so two sections can butt up --- */
+.mbf-section--flush-top { padding-block-start: 0; }
+.mbf-section--flush-btm { padding-block-end: 0; }
+.mbf-section--flush { padding-block: 0; }

@@ -1,4 +1,4 @@
-/* --- Base (docs/02 list, plus one link rule) --- */
+/* --- Base (docs/02 list) --- */
 button:not(:disabled), summary, [role="button"], label[for] { cursor: pointer; }
 
 :where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
@@ -6,7 +6,7 @@ button:not(:disabled), summary, [role="button"], label[for] { cursor: pointer; }
 	outline-offset: 3px;
 }
 
-html { scrollbar-gutter: stable; scroll-padding-top: var(--header-h, 0); }
+html { scrollbar-gutter: stable; }   /* the header isn't sticky, so no scroll-padding-top (02) */
 
 body {
 	font: var(--fs-body)/1.6 var(--font-sans);
@@ -17,12 +17,8 @@ body {
 :is(h1, h2, h3, h4, h5, h6) { color: var(--section-heading, var(--color-heading)); text-wrap: balance; }
 p { text-wrap: pretty; }
 
-/*
- * Plain links (no class) are underlined and on-ground coloured (04: never colour alone).
- * Not in the docs/02 list: Preflight sets every <a> to inherit colour with no underline,
- * so without this a link outside .prose is indistinguishable from text. :where() keeps it
- * at zero specificity, so any component link overrides it.
- */
+/* Preflight strips colour and underline from every <a>. Links with no class get both back
+   (04: never colour alone); :where() keeps it at 0 specificity so components override it. */
 a:where(:not([class])) {
 	color: var(--section-link, var(--color-primary));
 	text-decoration: underline;

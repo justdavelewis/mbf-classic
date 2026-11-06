@@ -4,3 +4,8 @@
 	grid-template-columns: var(--grid-cards);
 	gap: var(--space-fluid-l);
 }
+
+/* Exactly 2 or 4 cards: two columns (server class from mbf_grid_class(), not :has()). */
+@container (min-width: 40rem) {
+	.mbf-grid--pairs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

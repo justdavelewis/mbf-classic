@@ -21,3 +21,22 @@
 .mbf-button:is(:hover, :focus-visible) {
 	--button-bg: color-mix(in oklch, var(--section-accent, var(--color-primary)), var(--color-contrast) 15%);
 }
+
+/* Second button: an outline in the ground's heading colour (≥6.62:1 on every ground),
+   filled on hover/focus. */
+.mbf-button--secondary {
+	--button-bg: transparent;
+	--button-text: var(--section-heading, var(--color-heading));
+
+	border-color: var(--button-text);
+}
+
+.mbf-button--secondary:is(:hover, :focus-visible) {
+	--button-bg: var(--section-heading, var(--color-heading));
+	--button-text: var(--section-bg, var(--color-surface));
+
+	border-color: var(--button-bg);
+}
+
+/* --- Button group (template-parts/cta-buttons.php) --- */
+.mbf-buttons { display: flex; flex-wrap: wrap; gap: var(--space-s); }

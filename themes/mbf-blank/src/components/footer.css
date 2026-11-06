@@ -1,0 +1,28 @@
+/* --- Footer: brand + contact, then the legal row. Ground: .mbf-section--secondary --- */
+.mbf-footer__grid {
+	display: grid;
+	grid-template-columns: var(--grid-auto);
+	gap: var(--space-fluid-l);
+}
+
+.mbf-footer__brand { display: grid; gap: var(--space-fluid-s); align-content: start; }
+.mbf-footer__brand-name { font-size: var(--fs-h4); font-weight: 700; color: var(--section-heading); }
+.mbf-footer__logo { inline-size: auto; max-block-size: var(--button-h); }
+
+.mbf-footer__contact { display: grid; gap: var(--space-xs); align-content: start; font-style: normal; }
+.mbf-footer__address { white-space: pre-line; }
+
+/* Phone and email are links in a list of links: underlined like any plain link, but in
+   the ground's text colour, not the accent, so the block reads as one unit. */
+.mbf-footer__link { color: var(--section-text); text-decoration: underline; text-underline-offset: .2em; }
+.mbf-footer__link:is(:hover, :focus-visible) { color: var(--section-accent); }
+
+.mbf-footer__legal {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs) var(--space-fluid-m);
+	padding-block-start: var(--space-fluid-m);
+	border-block-start: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
+	color: var(--section-muted);
+	font-size: var(--fs-sm);
+}

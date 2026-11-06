@@ -1,0 +1,6 @@
+/* --- Enquiry form section (template-parts/blocks/form.php + enquiry-form.php) --- */
+.mbf-enquiry__grid { display: grid; gap: var(--space-fluid-l); }
+
+@container (min-width: 56rem) {
+	.mbf-enquiry__grid { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; }
+}

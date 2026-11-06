@@ -36,6 +36,8 @@
 	text-decoration: none;
 }
 
+.mbf-drawer__logo { inline-size: auto; max-block-size: var(--button-h); }
+
 .mbf-drawer__close {
 	display: grid;
 	place-items: center;

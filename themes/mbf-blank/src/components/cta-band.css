@@ -1,0 +1,10 @@
+/* --- CTA band (template-parts/blocks/cta-band.php) --- */
+.mbf-cta-band__row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-fluid-m);
+}
+
+.mbf-cta-band__text { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }

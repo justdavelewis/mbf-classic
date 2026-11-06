@@ -1,0 +1,2 @@
+/* --- Section heading (template-parts/section-heading.php) --- */
+.mbf-section-heading { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }

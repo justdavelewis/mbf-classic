@@ -16,6 +16,18 @@ function mbf_enqueue(): void {
 		wp_enqueue_style( 'mbf', get_theme_file_uri( 'dist/style.css' ), [], (string) filemtime( $css ) );
 	}
 
+	/*
+	 * Font Awesome Pro: the CSS build, NOT the JS kit, which rewrites <i> into inline SVG
+	 * at runtime, so the markup you author isn't the markup that ships (05; a wrong family
+	 * silently rendered nothing on SafetyAccess). Token in Site Settings so it rotates
+	 * without a deploy; blank = no icons, and icon spots fall back to text.
+	 * Version pinned as on Mantech (2026-11-05).
+	 */
+	if ( mbf_has_icons() ) {
+		$fa = 'https://ka-p.fontawesome.com/releases/v7.3.1/css/pro.min.css?token=' . rawurlencode( (string) mbf_setting( 'fontawesome_token' ) );
+		wp_enqueue_style( 'mbf-fontawesome', $fa, [], null );
+	}
+
 	// The header only renders the nav and drawer when a Primary menu is assigned.
 	if ( has_nav_menu( 'primary' ) ) {
 		mbf_enqueue_script( 'mbf-nav', 'assets/js/nav.js' );

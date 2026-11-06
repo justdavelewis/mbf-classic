@@ -1,0 +1,19 @@
+/* --- Split layout: text + image (template-parts/blocks/split.php) --- */
+.mbf-split__grid { display: grid; gap: var(--space-fluid-l); align-items: center; }
+.mbf-split__text { display: grid; gap: var(--space-fluid-m); }
+
+.mbf-split__image {
+	inline-size: 100%;
+	block-size: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--radius);
+}
+
+@container (min-width: 48rem) {
+	.mbf-split__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+	/* Image first visually; the DOM stays text → image (03: grid-column, never order). */
+	.mbf-split--image-start .mbf-split__image { grid-column: 1; grid-row: 1; }
+	.mbf-split--image-start .mbf-split__text { grid-column: 2; }
+}

@@ -1,0 +1,21 @@
+/* --- Breadcrumbs (template-parts/crumbs.php). aria-current marks the current page. --- */
+.mbf-crumbs__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs);
+	font-size: var(--fs-sm);
+	color: var(--section-muted, var(--color-text-muted));
+}
+
+.mbf-crumbs__item { display: flex; align-items: center; gap: var(--space-xs); }
+
+/* Separator with empty alt text, so it isn't read out between crumbs. */
+.mbf-crumbs__item + .mbf-crumbs__item::before { content: "/" / ""; }
+
+.mbf-crumbs__link {
+	display: inline-block;
+	padding-block: .25em;                  /* 24px+ target at --fs-sm (04) */
+	color: var(--section-link, var(--color-primary));
+	text-decoration: underline;
+	text-underline-offset: .2em;
+}

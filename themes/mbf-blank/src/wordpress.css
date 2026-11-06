@@ -20,3 +20,6 @@
 	.alignleft { float: inline-start; margin-inline-end: var(--space-fluid-s); }
 	.alignright { float: inline-end; margin-inline-start: var(--space-fluid-s); }
 }
+
+/* Featured image on a single post. */
+.wp-post-image { inline-size: 100%; block-size: auto; border-radius: var(--radius); }

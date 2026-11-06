@@ -1,8 +1,9 @@
 <?php
 /**
- * Placeholder pages, posts and the Primary menu for the mbf-blank starter, so the
- * header, drawer, dropdowns, prose, blog index and pagination have something real to
- * render. A fork deletes or replaces this content; it isn't a client site's content.
+ * Placeholder pages, posts, the Primary menu and Site Settings NAP for the mbf-blank
+ * starter, so the header, drawer, dropdowns, footer, prose, blog index and pagination have
+ * something real to render. A fork deletes or replaces this content; it isn't a client
+ * site's content. Site Settings fills empty fields only, so it never overwrites real ones.
  *
  * Idempotent: pages and posts match by slug, the menu by name and its items by target.
  * A second run is a no-op.
@@ -144,6 +145,39 @@ if ( $mbf_menu_id && ( $mbf_locations['primary'] ?? 0 ) !== $mbf_menu_id ) {
 	}
 } elseif ( ! $mbf_menu_id ) {
 	$mbf_log( 'assign "Primary" to the primary location' );
+}
+
+// --- Site Settings: placeholder NAP (never a real business). Fills empty fields only. ---
+if ( ! function_exists( 'update_field' ) ) {
+	WP_CLI::error( 'ACF Pro is not active: Site Settings need it.' );
+}
+
+// Keys come from acf-json, never typed by hand: a wrong key writes an orphan row and "succeeds" (05).
+$mbf_group = json_decode( (string) file_get_contents( get_theme_file_path( 'acf-json/group_mbf_site_settings.json' ) ), true );
+$mbf_keys  = array_column( $mbf_group['fields'] ?? [], 'key', 'name' );
+
+$mbf_settings = [
+	'company_name' => 'Placeholder Company Ltd',
+	'phone'        => '01234 567890',
+	'email'        => 'hello@example.com',
+	'address'      => "1 Placeholder Street\nPlaceholder Town\nAB1 2CD",
+	'legal'        => 'Registered in England and Wales. Company no. 00000000.',
+];
+
+foreach ( $mbf_settings as $mbf_name => $mbf_value ) {
+	if ( empty( $mbf_keys[ $mbf_name ] ) ) {
+		WP_CLI::error( "No field named \"{$mbf_name}\" in acf-json/group_mbf_site_settings.json." );
+	}
+
+	if ( '' !== (string) get_field( $mbf_keys[ $mbf_name ], 'option' ) ) {
+		continue;
+	}
+
+	$mbf_log( "set Site Settings {$mbf_name}" );
+
+	if ( $mbf_force ) {
+		update_field( $mbf_keys[ $mbf_name ], $mbf_value, 'option' );
+	}
 }
 
 WP_CLI::success( $mbf_force ? 'Placeholder content in place.' : 'Dry run complete. Re-run with "force" to write.' );

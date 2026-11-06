@@ -1,0 +1,24 @@
+/* --- FAQ (template-parts/blocks/faq.php): native <details>, not cards (03) --- */
+.mbf-faq__list { display: grid; max-inline-size: var(--measure); }
+
+.mbf-faq__item {
+	border-block-end: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);  /* decorative */
+}
+
+.mbf-faq__question {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-s);
+	min-block-size: var(--button-h);
+	padding-block: var(--space-s);
+	color: var(--section-heading, var(--color-heading));
+	font-size: var(--fs-lead);
+	font-weight: 600;
+	transition: color 150ms var(--ease);
+}
+
+.mbf-faq__question:is(:hover, :focus-visible) { color: var(--section-accent, var(--color-primary)); }
+.mbf-faq__question .mbf-chevron { flex-shrink: 0; }
+
+.mbf-faq__answer { padding-block-end: var(--space-fluid-s); }

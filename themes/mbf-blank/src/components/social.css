@@ -1,0 +1,20 @@
+/* --- Social links (template-parts/social-links.php) --- */
+.mbf-social { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+
+.mbf-social__link {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: var(--button-h);
+	padding-inline: var(--space-s);
+	border: 1px solid var(--section-muted, var(--color-border));
+	border-radius: 999px;                  /* pill */
+	color: var(--section-text, var(--color-text));
+	text-decoration: none;
+	transition: background-color 150ms var(--ease);
+}
+
+.mbf-social__link:is(:hover, :focus-visible) { background: color-mix(in oklch, var(--section-text, var(--color-text)) 12%, transparent); }
+
+/* Icon variant: a round 44px target holding the Brands mark (name is sr-only). */
+.mbf-social__link--icon { justify-content: center; inline-size: var(--button-h); padding-inline: 0; }
+.mbf-social__icon { font-size: 1.25rem; }   /* 20px glyph in the 44px target */

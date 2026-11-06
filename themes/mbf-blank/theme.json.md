@@ -39,6 +39,12 @@ field, toggle). Button hover (primary + 15% contrast, `#294f95`): white label 7.
 
 ## Token bridge facts (verified 2026-11-05, WP 7.1.4)
 
+- `layout.contentSize` is **45.5rem**, not `68ch` (2026-11-06). WordPress applies it as a
+  max-width to blocks in the editor, and `ch` is relative to each element's own font: the 34px
+  post title resolved `68ch` to 1516px (wider than the canvas, so pinned left) while
+  paragraphs got 728px. 45.5rem = 728px = 68 characters of 17px body text, independent of the
+  element's font, and still scales with zoom. `--measure` reads it, so prose width is unchanged.
+
 - Presets **and** `--wp--style--global--content-size/wide-size` print on `:root` (front end), so
   `--wrap` and `--measure` bridge too.
 - WordPress kebab-cases font-size slugs: `h2` → `--wp--preset--font-size--h-2`. docs/12's

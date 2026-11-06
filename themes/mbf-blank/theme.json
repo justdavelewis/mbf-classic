@@ -2,7 +2,10 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"version": 3,
 	"settings": {
-		"layout": { "contentSize": "68ch", "wideSize": "80rem" },
+		"layout": {
+			"contentSize": "45.5rem",
+			"wideSize": "80rem"
+		},
 		"color": {
 			"defaultPalette": false,
 			"defaultGradients": false,
@@ -11,12 +14,36 @@
 			"customGradient": false,
 			"customDuotone": false,
 			"palette": [
-				{ "slug": "base", "name": "Base", "color": "#ffffff" },
-				{ "slug": "contrast", "name": "Contrast", "color": "#0b1430" },
-				{ "slug": "primary", "name": "Primary", "color": "#2d5ba8" },
-				{ "slug": "secondary", "name": "Secondary", "color": "#0e1b3d" },
-				{ "slug": "tertiary", "name": "Tertiary", "color": "#f3f4f6" },
-				{ "slug": "accent", "name": "Accent", "color": "#7cc4ff" }
+				{
+					"slug": "base",
+					"name": "Base",
+					"color": "#ffffff"
+				},
+				{
+					"slug": "contrast",
+					"name": "Contrast",
+					"color": "#0b1430"
+				},
+				{
+					"slug": "primary",
+					"name": "Primary",
+					"color": "#2d5ba8"
+				},
+				{
+					"slug": "secondary",
+					"name": "Secondary",
+					"color": "#0e1b3d"
+				},
+				{
+					"slug": "tertiary",
+					"name": "Tertiary",
+					"color": "#f3f4f6"
+				},
+				{
+					"slug": "accent",
+					"name": "Accent",
+					"color": "#7cc4ff"
+				}
 			]
 		},
 		"typography": {
@@ -24,26 +51,74 @@
 			"defaultFontSizes": false,
 			"customFontSize": false,
 			"fontFamilies": [
-				{ "slug": "sans", "name": "Sans", "fontFamily": "system-ui, sans-serif" }
+				{
+					"slug": "sans",
+					"name": "Sans",
+					"fontFamily": "system-ui, sans-serif"
+				}
 			],
 			"fontSizes": [
-				{ "slug": "sm", "name": "Small", "size": ".875rem" },
-				{ "slug": "body", "name": "Body", "size": "1.0625rem" },
-				{ "slug": "lead", "name": "Lead", "size": "clamp(1.0625rem, calc(0.9891rem + 0.3261cqi), 1.25rem)" },
-				{ "slug": "h4", "name": "H4", "size": "clamp(1.25rem, calc(1.1522rem + 0.4348cqi), 1.5rem)" },
-				{ "slug": "h3", "name": "H3", "size": "clamp(1.5rem, calc(1.3043rem + 0.8696cqi), 2rem)" },
-				{ "slug": "h2", "name": "H2", "size": "clamp(1.875rem, calc(1.5326rem + 1.5217cqi), 2.75rem)" },
-				{ "slug": "h1", "name": "H1", "size": "clamp(2.25rem, calc(1.712rem + 2.3913cqi), 3.625rem)" }
+				{
+					"slug": "sm",
+					"name": "Small",
+					"size": ".875rem"
+				},
+				{
+					"slug": "body",
+					"name": "Body",
+					"size": "1.0625rem"
+				},
+				{
+					"slug": "lead",
+					"name": "Lead",
+					"size": "clamp(1.0625rem, calc(0.9891rem + 0.3261cqi), 1.25rem)"
+				},
+				{
+					"slug": "h4",
+					"name": "H4",
+					"size": "clamp(1.25rem, calc(1.1522rem + 0.4348cqi), 1.5rem)"
+				},
+				{
+					"slug": "h3",
+					"name": "H3",
+					"size": "clamp(1.5rem, calc(1.3043rem + 0.8696cqi), 2rem)"
+				},
+				{
+					"slug": "h2",
+					"name": "H2",
+					"size": "clamp(1.875rem, calc(1.5326rem + 1.5217cqi), 2.75rem)"
+				},
+				{
+					"slug": "h1",
+					"name": "H1",
+					"size": "clamp(2.25rem, calc(1.712rem + 2.3913cqi), 3.625rem)"
+				}
 			]
 		},
 		"spacing": {
 			"defaultSpacingSizes": false,
 			"customSpacingSize": false,
 			"spacingSizes": [
-				{ "slug": "fluid-s", "name": "S", "size": "clamp(1rem, calc(.8043rem + .8696cqi), 1.5rem)" },
-				{ "slug": "fluid-m", "name": "M", "size": "clamp(1.5rem, calc(1.1087rem + 1.7391cqi), 2.5rem)" },
-				{ "slug": "fluid-l", "name": "L", "size": "clamp(2rem, calc(1.2174rem + 3.4783cqi), 4rem)" },
-				{ "slug": "fluid-xl", "name": "XL", "size": "clamp(3rem, calc(1.8261rem + 5.2174cqi), 6rem)" }
+				{
+					"slug": "fluid-s",
+					"name": "S",
+					"size": "clamp(1rem, calc(.8043rem + .8696cqi), 1.5rem)"
+				},
+				{
+					"slug": "fluid-m",
+					"name": "M",
+					"size": "clamp(1.5rem, calc(1.1087rem + 1.7391cqi), 2.5rem)"
+				},
+				{
+					"slug": "fluid-l",
+					"name": "L",
+					"size": "clamp(2rem, calc(1.2174rem + 3.4783cqi), 4rem)"
+				},
+				{
+					"slug": "fluid-xl",
+					"name": "XL",
+					"size": "clamp(3rem, calc(1.8261rem + 5.2174cqi), 6rem)"
+				}
 			]
 		}
 	}

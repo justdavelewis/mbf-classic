@@ -9,10 +9,6 @@
 ## Outstanding
 
 ### DECISION FIRST (don't build on these)
-- [ ] Q1 Token-bridge check in the **editor** not yet run, and the ACF admin screens
-      (Page layouts, Site Settings) not seen rendered: no logged-in browser. Tried Claude in
-      Chrome 2026-11-05: Chrome isn't logged in to mbf-classic.local either. Needs David to log
-      in once in that Chrome tab.
 - [ ] Q2 Header CTA button and footer menu: every-site, or per-fork? Left out of the starter.
 - [ ] Q3 Tailwind's default theme (`--color-red-500`…) is still importable as utilities.
       Reset the `--color-*` namespace in the starter, or leave it?
@@ -54,9 +50,21 @@
   CHANGELOG 2026-11-06; not committed) (David, 2026-11-06: *"fix Q8 in the standards"*).
 - Q9 `inc/schema.php` added, **amending D1** (David, 2026-11-06: *"add schema.php"*).
 
+- Q1 Editor checks done 2026-11-06 in Chrome (David logged in).
+
+- Q10 Fixed 2026-11-06 with an editor-only build (`src/editor.css` → `dist/editor.css`) and
+  `contentSize` in rem; both also fixed in the standards (David: *"yes do the editor
+  stylesheet then tag v1.0"*).
+
 ### Tasks
 - [ ] Switch Local to PHP 8.4 (theme CLAUDE.md TODO; Local is on 8.2.29)
 - [ ] Enter ACF Pro + WS Form Pro licences (David)
+- [ ] **Before any fork goes live (down the line):** no agent/Claude files on the server
+      (David, 2026-11-06). The standards' `templates/deploy.yml` already rsyncs only the theme
+      folder (so `docs/` never ships) and excludes `CLAUDE.md`, `.claude/` and `src/`
+      (`contract.md`). **Gap:** `theme.json.md` sits in the theme root and isn't excluded, so it
+      would be publicly readable. Add an exclude (or move the file) when the deploy is set up,
+      and in the standards template too.
 - [ ] Enter a Font Awesome kit token in Site Settings › Icons (David), then verify the
       social glyphs render (Brands family) and the stylesheet loads with 0 console errors
 
@@ -64,6 +72,48 @@
 
 | Date | Who | Command (`wp @live …`) | Backup file | Result / verified |
 |---|---|---|---|---|
+
+---
+
+## 2026-11-06 — Editor stylesheet (Q10) + v1.0
+
+**Changed:** `src/editor.css` → `dist/editor.css`, loaded by `add_editor_style()` instead of
+`dist/style.css`: Tailwind theme + utilities but **no Preflight**, Typography applied to the
+editor root (`className: is-root-container`), Preflight's `border: 0 solid` kept for prose
+(a quote's rule had width but `border-style: none`), root `max-width: none` so WordPress's
+layout sets the width. `vendor/typography.css` maps `:is(.prose, .is-root-container)`: one
+recipe for both. `package.json` builds both files. `theme.json` `contentSize` `68ch` →
+**`45.5rem`** (`ch` resolved per element: the 34px post title went 1516px wide and pinned
+left; 45.5rem = the same 728px for every element). Version 1.0.0 (`style.css`,
+`package.json`). Standards: docs/01, 02, 05, 09, 10, 12, 16, `templates/deploy.yml`, CHANGELOG.
+**Verified:** editor (Chrome): title, p, h2, ul all at left 348 / width 728; h2 44px/700 in the
+heading colour; bullets; links underlined in primary; quote 4px solid; tokens resolve
+(`--measure` 45.5rem); 0 console errors; `dist/style.css` no longer in the iframe. Front end
+(Playwright), 6 URLs × 6 widths: prose still 728px (and narrower on small screens), quote 4px,
+0 overflow, 0 contrast failures, 1 h1, 0 notices, 0 console errors. `verify-tokens.sh`: none
+undefined. A brace slip while moving a block broke the editor build once; caught because only
+one of the two builds reported "Done", rewritten and re-verified.
+**Tagged:** `v1.0` (see the release notes in the tag).
+
+---
+
+## 2026-11-06 — Editor + ACF admin checks (Q1)
+
+**Changed:** nothing in code.
+**Verified (Claude in Chrome, logged in as the local admin):**
+- Token bridge **in the editor iframe**: presets and layout sizes print on the iframe's
+  `:root`; our tokens resolve there (`--color-primary` #2d5ba8, `--fs-h2` and
+  `--space-fluid-m` keep their `cqi` clamps, `--wrap` 80rem, `--font-sans`); paragraph text
+  gets `--color-text`. docs/12's three checks now pass in both places.
+- Editor presets: colours = our 6 slots only, custom colour off; font sizes = sm/body/lead/
+  h4–h1 (D4), custom off; spacing = fluid s/m/l/xl. WordPress keeps its default palette
+  (12), gradients (12) and duotones (8) registered under the `default` origin, but
+  `defaultPalette/Gradients/Duotone: false`, so the editor doesn't offer them.
+- ACF admin: the Page layouts box on About (empty) and on /_sample/ (44 rows, in order,
+  Content + Section tabs, controls holding `ground/accent/spacing`); Site Settings with
+  Identity/Contact/Social/Icons/Forms tabs and the placeholder values. 0 console errors on
+  both after a reload.
+**Found:** editor content unstyled (Q10).
 
 ---
 
@@ -156,13 +206,13 @@ to end; VoiceOver itself (the accessibility tree and names were checked, not a s
 reader); browsers other than Chromium.
 
 ### v1.0 done when (docs/12)
-- [x] The build passes and `dist/style.css` isn't empty (43.5KB minified).
+- [x] The build passes and `dist/style.css` (43.7KB) and `dist/editor.css` (21.7KB) aren't empty.
 - [x] `/_sample/` renders every layout on every ground, with 0 console errors and 0 notices.
 - [x] The full `08` sweep passes at all widths, plus keyboard, forced colours, reduced
       motion and 200% zoom. (Business node: 0 at first; `schema.php` added 2026-11-06 → 1
       on every URL.)
-- [ ] The token bridge is verified in the editor and on the front end. **Front end only;
-      editor blocked on a login (Q1).**
+- [x] The token bridge is verified in the editor and on the front end (editor 2026-11-06,
+      after David logged Chrome in). See Q10: the bridge works, but editor content is unstyled.
 - [x] Fork test: change only `theme.json` and `tokens.css`, and the site fully re-skins.
 - [x] `CLAUDE.md` (rules) and `docs/STATUS.md` (history) exist.
 

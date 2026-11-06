@@ -1,0 +1,33 @@
+/*
+ * Editor canvas stylesheet (add_editor_style → dist/editor.css). Same tokens, base and prose
+ * recipe as the front end, but NO Preflight: Preflight sets h1–h6 to `font-size: inherit`
+ * and lists to `list-style: none`, and in the editor the content isn't inside .prose to
+ * restore them (measured 2026-11-06: h2 17px/400, no bullets). So the editor root
+ * (.is-root-container) gets the prose styles directly, via Typography's className option.
+ * Width comes from WordPress's own layout (theme.json contentSize), not from prose.
+ */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@plugin "@tailwindcss/typography" { className: is-root-container; }
+@source inline("is-root-container");
+
+@import "./tokens.css";
+@import "./base.css" layer(base);
+@import "./components/type.css" layer(components);
+@import "./wordpress.css" layer(components);
+@import "./vendor/typography.css";       /* unlayered: maps --tw-prose-* to our tokens */
+
+/* Rules below, after every @import (CSS requires imports first). */
+
+/* The one part of Preflight that prose relies on: `border: 0 solid`. Prose sets border
+   widths/colours (blockquote, hr, tables) but never a style, so without this they don't draw
+   (measured: the quote's 4px rule was 0px/none). Zero specificity, base layer: any real block
+   style still wins. */
+@layer base {
+	:where(.is-root-container) :where(*, ::before, ::after) { border-width: 0; border-style: solid; }
+}
+
+/* WordPress constrains the editor's content to theme.json contentSize; prose's own cap would
+   pin it to the left edge. Unlayered, after vendor/typography.css, so it wins. */
+.is-root-container { max-width: none; }

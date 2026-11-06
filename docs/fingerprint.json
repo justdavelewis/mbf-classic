@@ -1,0 +1,16 @@
+{
+	"//": "Pages for the render fingerprint (mbf-site-standards docs/08). Run from the standards checkout: node tools/render-fingerprint.mjs capture <this file> <project>/.fingerprints/before.json. One page per template and state worth protecting; widths, hovers and open states default to the MBF set.",
+	"// first time": "Making your own changes? Run `npm install` ONCE in your mbf-site-standards checkout before the first capture (it installs the pinned Playwright). Not in this project.",
+	"base": "https://mbf-classic.local",
+	"pages": [
+		"/_sample/",
+		"/",
+		"/page/2/",
+		"/placeholder-post-1/",
+		"/contact/",
+		"/services/inspection/",
+		"/privacy-policy/",
+		"/?s=placeholder",
+		"/nope-404-fingerprint/"
+	]
+}

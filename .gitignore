@@ -32,6 +32,8 @@
 # own checkout via the theme CLAUDE.md import, so a copy in the project is always a mistake.
 **/mbf-site-standards/
 
+# Render fingerprints (docs/08): ~15MB of JSON per capture, never in git
+**/.fingerprints/
 **/node_modules/
 **/vendor/
 # ...except a theme's unlayered plugin overrides (02: src/vendor/*.css). Without this,

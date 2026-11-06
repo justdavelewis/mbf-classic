@@ -1,2 +1,8 @@
 /* --- Page hero: crumbs + h1 + meta/lead (template-parts/page-hero.php) --- */
-.mbf-page-hero__text { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }
+.mbf-page-hero {
+	/* Dials (03) */
+	--page-hero-gap: var(--space-fluid-s);
+	--page-hero-measure: var(--measure);
+}
+
+.mbf-page-hero__text { display: grid; gap: var(--page-hero-gap); max-inline-size: var(--page-hero-measure); }

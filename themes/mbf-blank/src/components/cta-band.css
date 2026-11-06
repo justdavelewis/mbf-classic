@@ -1,10 +1,17 @@
 /* --- CTA band (template-parts/blocks/cta-band.php) --- */
+.mbf-cta-band {
+	/* Dials (03) */
+	--cta-band-gap: var(--content-gap);       /* text ↔ buttons */
+	--cta-band-text-gap: var(--space-fluid-s);
+	--cta-band-measure: var(--measure);
+}
+
 .mbf-cta-band__row {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--space-fluid-m);
+	gap: var(--cta-band-gap);
 }
 
-.mbf-cta-band__text { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }
+.mbf-cta-band__text { display: grid; gap: var(--cta-band-text-gap); max-inline-size: var(--cta-band-measure); }

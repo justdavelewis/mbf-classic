@@ -1,28 +1,44 @@
 /* --- Footer: brand + contact, then the legal row. Ground: .mbf-section--secondary --- */
-.mbf-footer__grid {
-	display: grid;
-	grid-template-columns: var(--grid-auto);
-	gap: var(--space-fluid-l);
+.mbf-footer {
+	/* Dials (03). The links use the ground's text colour, not the accent, so the contact
+	   block reads as one unit; they're underlined like any plain link. */
+	--footer-columns: var(--grid-auto);
+	--footer-gap: var(--layout-gap);
+	--footer-brand-gap: var(--space-fluid-s);
+	--footer-brand-font: var(--font-display);
+	--footer-brand-size: var(--fs-h4);
+	--footer-contact-gap: var(--space-xs);
+	--footer-link-color: var(--section-text);
+	--footer-link-hover: var(--section-accent);
+	--footer-legal-gap: var(--space-xs) var(--space-fluid-m);
+	--footer-legal-pad: var(--space-fluid-m);
+	--footer-legal-divider: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
+	--footer-legal-color: var(--section-muted);
+	--footer-legal-size: var(--fs-sm);
 }
 
-.mbf-footer__brand { display: grid; gap: var(--space-fluid-s); align-content: start; }
-.mbf-footer__brand-name { font-size: var(--fs-h4); font-weight: 700; color: var(--section-heading); }
+.mbf-footer__grid {
+	display: grid;
+	grid-template-columns: var(--footer-columns);
+	gap: var(--footer-gap);
+}
+
+.mbf-footer__brand { display: grid; gap: var(--footer-brand-gap); align-content: start; }
+.mbf-footer__brand-name { font-family: var(--footer-brand-font); font-size: var(--footer-brand-size); font-weight: 700; color: var(--section-heading); }
 .mbf-footer__logo { inline-size: auto; max-block-size: var(--button-h); }
 
-.mbf-footer__contact { display: grid; gap: var(--space-xs); align-content: start; font-style: normal; }
+.mbf-footer__contact { display: grid; gap: var(--footer-contact-gap); align-content: start; font-style: normal; }
 .mbf-footer__address { white-space: pre-line; }
 
-/* Phone and email are links in a list of links: underlined like any plain link, but in
-   the ground's text colour, not the accent, so the block reads as one unit. */
-.mbf-footer__link { color: var(--section-text); text-decoration: underline; text-underline-offset: .2em; }
-.mbf-footer__link:is(:hover, :focus-visible) { color: var(--section-accent); }
+.mbf-footer__link { color: var(--footer-link-color); text-decoration: underline; text-underline-offset: .2em; }
+.mbf-footer__link:is(:hover, :focus-visible) { color: var(--footer-link-hover); }
 
 .mbf-footer__legal {
 	display: flex;
 	flex-wrap: wrap;
-	gap: var(--space-xs) var(--space-fluid-m);
-	padding-block-start: var(--space-fluid-m);
-	border-block-start: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
-	color: var(--section-muted);
-	font-size: var(--fs-sm);
+	gap: var(--footer-legal-gap);
+	padding-block-start: var(--footer-legal-pad);
+	border-block-start: var(--footer-legal-divider);
+	color: var(--footer-legal-color);
+	font-size: var(--footer-legal-size);
 }

@@ -1,12 +1,13 @@
 /*
- * Tailwind Typography (.prose): UNLAYERED on purpose (docs/02 §Plugin CSS).
+ * Tailwind Typography (.prose, and the editor's .is-root-container via src/editor.css):
+ * UNLAYERED on purpose (docs/02 §Plugin CSS).
  *
  * Typography sets its --tw-prose-* variables on .prose in the utilities layer, so a rule
  * in @layer components loses whatever its specificity. These are the INPUTS it reads,
  * pointed at the section family, so prose follows whatever ground it sits on with no
  * prose-invert and no per-ground class.
  */
-.prose {
+:is(.prose, .is-root-container) {
 	--tw-prose-body: var(--section-text, var(--color-text));
 	--tw-prose-headings: var(--section-heading, var(--color-heading));
 	--tw-prose-lead: var(--section-text, var(--color-text));
@@ -27,6 +28,6 @@
 }
 
 /* Headings in content use the same fluid scale as .h2–.h4, not Typography's em steps. */
-.prose :where(h2) { font-size: var(--fs-h2); }
-.prose :where(h3) { font-size: var(--fs-h3); }
-.prose :where(h4) { font-size: var(--fs-h4); }
+:is(.prose, .is-root-container) :where(h2) { font-size: var(--fs-h2); }
+:is(.prose, .is-root-container) :where(h3) { font-size: var(--fs-h3); }
+:is(.prose, .is-root-container) :where(h4) { font-size: var(--fs-h4); }

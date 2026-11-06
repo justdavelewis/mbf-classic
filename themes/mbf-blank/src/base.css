@@ -14,7 +14,11 @@ body {
 	background: var(--color-surface);
 }
 
-:is(h1, h2, h3, h4, h5, h6) { color: var(--section-heading, var(--color-heading)); text-wrap: balance; }
+:is(h1, h2, h3, h4, h5, h6) {
+	color: var(--section-heading, var(--color-heading));
+	font-family: var(--font-display);
+	text-wrap: balance;
+}
 p { text-wrap: pretty; }
 
 /* Preflight strips colour and underline from every <a>. Links with no class get both back

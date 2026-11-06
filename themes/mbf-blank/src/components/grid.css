@@ -1,8 +1,12 @@
 /* --- Grid: auto-fill card tracks. Count-aware rules arrive with the card (phase 3) --- */
 .mbf-grid {
+	/* Dials (03) */
+	--grid-columns: var(--grid-cards);
+	--grid-gap: var(--layout-gap);
+
 	display: grid;
-	grid-template-columns: var(--grid-cards);
-	gap: var(--space-fluid-l);
+	grid-template-columns: var(--grid-columns);
+	gap: var(--grid-gap);
 }
 
 /* Exactly 2 or 4 cards: two columns (server class from mbf_grid_class(), not :has()). */

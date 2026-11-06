@@ -1,2 +1,10 @@
 /* --- Section heading (template-parts/section-heading.php) --- */
-.mbf-section-heading { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }
+/* Dials (03). Not to be confused with --section-heading, the ground's heading colour. */
+.mbf-section-heading {
+	--section-heading-gap: var(--space-fluid-s);
+	--section-heading-measure: var(--measure);
+
+	display: grid;
+	gap: var(--section-heading-gap);
+	max-inline-size: var(--section-heading-measure);
+}

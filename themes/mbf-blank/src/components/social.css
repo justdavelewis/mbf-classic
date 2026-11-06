@@ -1,20 +1,33 @@
 /* --- Social links (template-parts/social-links.php) --- */
-.mbf-social { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.mbf-social {
+	/* Dials (03) */
+	--social-gap: var(--space-xs);
+	--social-pad-x: var(--space-s);
+	--social-radius: 999px;                  /* pill */
+	--social-border-color: var(--section-muted, var(--color-border));
+	--social-text: var(--section-text, var(--color-text));
+	--social-hover-bg: color-mix(in oklch, var(--social-text) 12%, transparent);
+	--social-icon-size: 1.25rem;             /* 20px glyph in the 44px target */
+
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--social-gap);
+}
 
 .mbf-social__link {
 	display: inline-flex;
 	align-items: center;
 	min-block-size: var(--button-h);
-	padding-inline: var(--space-s);
-	border: 1px solid var(--section-muted, var(--color-border));
-	border-radius: 999px;                  /* pill */
-	color: var(--section-text, var(--color-text));
+	padding-inline: var(--social-pad-x);
+	border: 1px solid var(--social-border-color);
+	border-radius: var(--social-radius);
+	color: var(--social-text);
 	text-decoration: none;
 	transition: background-color 150ms var(--ease);
 }
 
-.mbf-social__link:is(:hover, :focus-visible) { background: color-mix(in oklch, var(--section-text, var(--color-text)) 12%, transparent); }
+.mbf-social__link:is(:hover, :focus-visible) { background: var(--social-hover-bg); }
 
 /* Icon variant: a round 44px target holding the Brands mark (name is sr-only). */
 .mbf-social__link--icon { justify-content: center; inline-size: var(--button-h); padding-inline: 0; }
-.mbf-social__icon { font-size: 1.25rem; }   /* 20px glyph in the 44px target */
+.mbf-social__icon { font-size: var(--social-icon-size); }

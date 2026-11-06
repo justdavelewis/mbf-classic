@@ -1,7 +1,24 @@
 /* --- Button: the fill is the ground's accent, so it re-themes with the section --- */
 .mbf-button {
-	--button-bg: var(--section-accent, var(--color-primary));
-	--button-text: var(--section-on-accent, var(--color-base));
+	/*
+	 * Dials: the button's whole look. Change these, not the rules below (03). Height and
+	 * side padding are the shared control globals --button-h / --button-pad-x (nav, search
+	 * and pagination use them too). A changed fill must pass the save check:
+	 * mbf_contrast_pairs() models the hover as fill 85% + contrast.
+	 */
+	--button-fill: var(--section-accent, var(--color-primary));
+	--button-label: var(--section-on-accent, var(--color-base));
+	--button-fill-hover: color-mix(in oklch, var(--button-fill), var(--color-contrast) 15%);
+	--button-label-hover: var(--button-label);
+	--button-border: var(--button-bg);       /* follows the fill, hover included */
+	--button-radius: var(--radius-button);
+	--button-font: var(--font-sans);
+	--button-font-size: var(--fs-body);
+	--button-weight: 600;
+
+	/* State: what the rules read. :hover/:focus-visible swaps it; never set these directly. */
+	--button-bg: var(--button-fill);
+	--button-text: var(--button-label);
 
 	display: inline-flex;
 	align-items: center;
@@ -9,33 +26,30 @@
 	gap: var(--space-xs);
 	min-block-size: var(--button-h);
 	padding-inline: var(--button-pad-x);
-	border: 1px solid var(--button-bg);      /* 1px: keeps the shape in forced colours */
-	border-radius: var(--radius-button);
+	border: 1px solid var(--button-border);  /* 1px: keeps the shape in forced colours */
+	border-radius: var(--button-radius);
 	background: var(--button-bg);
 	color: var(--button-text);
-	font: 600 var(--fs-body)/1.2 var(--font-sans);
+	font: var(--button-weight) var(--button-font-size)/1.2 var(--button-font);
 	text-decoration: none;
 	transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
 }
 
 .mbf-button:is(:hover, :focus-visible) {
-	--button-bg: color-mix(in oklch, var(--section-accent, var(--color-primary)), var(--color-contrast) 15%);
+	--button-bg: var(--button-fill-hover);
+	--button-text: var(--button-label-hover);
 }
 
 /* Second button: an outline in the ground's heading colour (≥6.62:1 on every ground),
-   filled on hover/focus. */
-.mbf-button--secondary {
-	--button-bg: transparent;
-	--button-text: var(--section-heading, var(--color-heading));
-
-	border-color: var(--button-text);
-}
-
-.mbf-button--secondary:is(:hover, :focus-visible) {
-	--button-bg: var(--section-heading, var(--color-heading));
-	--button-text: var(--section-bg, var(--color-surface));
-
-	border-color: var(--button-bg);
+   filled on hover/focus. A variant only re-sets dials, at 0-2-0 so it beats a base-dial
+   override in any later file (measured 2026-11-06: `.mbf-button { --button-fill }` added
+   after this file turned the outline button solid). */
+.mbf-button.mbf-button--secondary {
+	--button-fill: transparent;
+	--button-label: var(--section-heading, var(--color-heading));
+	--button-fill-hover: var(--section-heading, var(--color-heading));
+	--button-label-hover: var(--section-bg, var(--color-surface));
+	--button-border: var(--button-label);
 }
 
 /* --- Button group (template-parts/cta-buttons.php) --- */

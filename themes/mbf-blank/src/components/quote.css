@@ -1,13 +1,26 @@
 /* --- Quote (template-parts/blocks/quote.php) --- */
-.mbf-quote__figure { display: grid; gap: var(--space-fluid-m); max-inline-size: var(--measure); }
+.mbf-quote {
+	/* Dials (03) */
+	--quote-gap: var(--content-gap);
+	--quote-measure: var(--measure);
+	--quote-inset: var(--space-fluid-m);
+	--quote-rule-width: 4px;                 /* reads as a rule, not a hairline */
+	--quote-rule-color: var(--section-accent, var(--color-primary));
+	--quote-text-color: var(--section-heading, var(--color-heading));
+	--quote-size: var(--fs-h3);
+	--quote-weight: 600;
+	--quote-cite-color: var(--section-muted, var(--color-text-muted));
+}
+
+.mbf-quote__figure { display: grid; gap: var(--quote-gap); max-inline-size: var(--quote-measure); }
 
 .mbf-quote__text {
-	padding-inline-start: var(--space-fluid-m);
-	border-inline-start: 4px solid var(--section-accent, var(--color-primary));   /* 4px: reads as a rule, not a hairline */
-	color: var(--section-heading, var(--color-heading));
-	font-size: var(--fs-h3);
-	font-weight: 600;
+	padding-inline-start: var(--quote-inset);
+	border-inline-start: var(--quote-rule-width) solid var(--quote-rule-color);
+	color: var(--quote-text-color);
+	font-size: var(--quote-size);
+	font-weight: var(--quote-weight);
 	line-height: 1.3;
 }
 
-.mbf-quote__cite { color: var(--section-muted, var(--color-text-muted)); }
+.mbf-quote__cite { color: var(--quote-cite-color); }

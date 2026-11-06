@@ -1,15 +1,29 @@
 /* --- Hero layout (template-parts/blocks/hero.php) --- */
-.mbf-hero__grid { display: grid; gap: var(--space-fluid-l); align-items: center; }
-.mbf-hero__text { display: grid; gap: var(--space-fluid-m); max-inline-size: var(--measure); }
+.mbf-hero {
+	/*
+	 * Dials: the hero's whole look. Change these, not the rules below (03). The heading
+	 * size is its class (.display) in the partial: level is structure, class is size (§2).
+	 * The 48rem split point can't be a dial: custom properties don't work in @container.
+	 */
+	--hero-gap: var(--layout-gap);
+	--hero-text-gap: var(--content-gap);
+	--hero-text-measure: var(--measure);
+	--hero-columns: repeat(2, minmax(0, 1fr));   /* text | image, once split */
+	--hero-image-ratio: 4 / 3;
+	--hero-image-radius: var(--radius);
+}
+
+.mbf-hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }
+.mbf-hero__text { display: grid; gap: var(--hero-text-gap); max-inline-size: var(--hero-text-measure); }
 
 .mbf-hero__image {
 	inline-size: 100%;
 	block-size: auto;
-	aspect-ratio: 4 / 3;
+	aspect-ratio: var(--hero-image-ratio);
 	object-fit: cover;
-	border-radius: var(--radius);
+	border-radius: var(--hero-image-radius);
 }
 
 @container (min-width: 48rem) {
-	.mbf-hero--media .mbf-hero__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+	.mbf-hero--media .mbf-hero__grid { grid-template-columns: var(--hero-columns); }
 }

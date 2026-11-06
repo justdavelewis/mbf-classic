@@ -1,19 +1,38 @@
 /* --- Drawer: <dialog> + showModal(), an inline-end panel on its own ground --- */
 /* The ground is a modifier in the markup (.mbf-section--secondary); this reads the family. */
 .mbf-drawer {
+	/*
+	 * Dials (03). 24rem: a phone-width panel on tablets. On phones a --button-h strip of
+	 * backdrop stays visible as a tap-to-close target (was a 6px sliver at 390px), so the
+	 * width is always capped at 100% - --button-h.
+	 */
+	--drawer-width: 24rem;
+	--drawer-bg: var(--section-bg);
+	--drawer-text: var(--section-text);
+	--drawer-gap: var(--space-fluid-m);
+	--drawer-pad: var(--space-s) var(--section-x) var(--space-fluid-l);
+	--drawer-brand-font: var(--font-display);
+	--drawer-brand-size: var(--fs-h4);
+	--drawer-brand-color: var(--section-heading);
+	--drawer-close-border: 1px solid var(--section-muted);
+	--drawer-close-hover-bg: color-mix(in oklch, var(--section-text) 12%, transparent);
+	--drawer-divider: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
+	--drawer-link-size: var(--fs-lead);
+	--drawer-link-color: var(--section-heading);
+	--drawer-sublink-color: var(--section-text);
+	--drawer-link-hover: var(--section-accent);
+
 	margin: 0;
 	margin-inline-start: auto;              /* the UA centres modals; pin to the inline end */
-	/* 24rem: a phone-width panel on tablets. On phones, a --button-h strip of backdrop
-	   stays visible as a tap-to-close target (was a 6px sliver at 390px). */
-	inline-size: min(24rem, 100% - var(--button-h));
+	inline-size: min(var(--drawer-width), 100% - var(--button-h));
 	max-inline-size: 100%;
 	block-size: 100dvh;
 	max-block-size: 100dvh;
 	padding: 0;
 	border: 0;
 	border-inline-start: 1px solid transparent;   /* invisible normally; forced colours paints it, so the panel keeps an edge (13) */
-	background: var(--section-bg);
-	color: var(--section-text);
+	background: var(--drawer-bg);
+	color: var(--drawer-text);
 	overscroll-behavior: contain;
 }
 
@@ -21,18 +40,19 @@
 .mbf-drawer__panel {
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-fluid-m);
+	gap: var(--drawer-gap);
 	min-block-size: 100%;
-	padding: var(--space-s) var(--section-x) var(--space-fluid-l);
+	padding: var(--drawer-pad);
 }
 
 .mbf-drawer__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-s); }
 
 .mbf-drawer__brand {
-	font-size: var(--fs-h4);
+	font-family: var(--drawer-brand-font);
+	font-size: var(--drawer-brand-size);
 	font-weight: 700;
 	line-height: 1.2;
-	color: var(--section-heading);
+	color: var(--drawer-brand-color);
 	text-decoration: none;
 }
 
@@ -44,19 +64,17 @@
 	inline-size: var(--button-h);
 	block-size: var(--button-h);
 	flex-shrink: 0;
-	border: 1px solid var(--section-muted);
+	border: var(--drawer-close-border);
 	border-radius: var(--radius-button);
-	color: var(--section-heading);
+	color: var(--drawer-brand-color);
 	font-size: 1.75rem;                     /* the × glyph, sized to the 44px target */
 	line-height: 1;
 	transition: background-color 150ms var(--ease);
 }
 
-.mbf-drawer__close:is(:hover, :focus-visible) { background: color-mix(in oklch, var(--section-text) 12%, transparent); }
+.mbf-drawer__close:is(:hover, :focus-visible) { background: var(--drawer-close-hover-bg); }
 
-.mbf-drawer__item + .mbf-drawer__item {
-	border-block-start: 1px solid color-mix(in oklch, var(--section-text) 20%, transparent);  /* decorative */
-}
+.mbf-drawer__item + .mbf-drawer__item { border-block-start: var(--drawer-divider); }
 
 .mbf-drawer__link {
 	display: flex;
@@ -65,8 +83,8 @@
 	gap: var(--space-s);
 	min-block-size: var(--button-h);
 	padding-block: var(--space-xs);
-	color: var(--section-heading);
-	font-size: var(--fs-lead);
+	color: var(--drawer-link-color);
+	font-size: var(--drawer-link-size);
 	font-weight: 600;
 	text-decoration: none;
 }
@@ -77,12 +95,12 @@
 	display: flex;
 	align-items: center;
 	min-block-size: var(--button-h);
-	color: var(--section-text);
+	color: var(--drawer-sublink-color);
 	text-decoration: none;
 }
 
 .mbf-drawer__link:is(:hover, :focus-visible),
-.mbf-drawer__sublink:is(:hover, :focus-visible) { color: var(--section-accent); }
+.mbf-drawer__sublink:is(:hover, :focus-visible) { color: var(--drawer-link-hover); }
 
 .mbf-drawer__link[aria-current="page"],
 .mbf-drawer__sublink[aria-current="page"] {

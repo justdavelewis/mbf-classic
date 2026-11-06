@@ -1,5 +1,7 @@
 /* --- Type: size by class, level by structure (.h2 on an <h3> is fine) --- */
-/* line-height literals: tighter as the step grows, so large headings don't float apart. */
+/* line-height literals: tighter as the step grows, so large headings don't float apart.
+   The display font follows the class too, so a non-heading styled as .h2 matches. */
+:is(.display, .h1, .h2, .h3, .h4) { font-family: var(--font-display); }
 .display { font-size: var(--fs-display); line-height: 1.05; font-weight: 700; }
 .h1 { font-size: var(--fs-h1); line-height: 1.1; font-weight: 700; }
 .h2 { font-size: var(--fs-h2); line-height: 1.15; font-weight: 700; }

@@ -13,7 +13,6 @@
 
 @import "./components/type.css" layer(components);
 @import "./components/section.css" layer(components);
-@import "./components/stack.css" layer(components);
 @import "./components/grid.css" layer(components);
 @import "./components/button.css" layer(components);
 @import "./components/chevron.css" layer(components);

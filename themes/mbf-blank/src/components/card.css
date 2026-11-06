@@ -11,10 +11,17 @@
 	--section-text: var(--color-text);
 	--section-heading: var(--color-heading);
 	--section-muted: var(--color-text-muted);
+
+	/* Dials: the card's whole look. Change these, not the rules below (03). */
 	--card-bg: var(--color-surface);
 	--card-text: var(--color-text);
 	--card-accent: var(--color-primary);
 	--card-border: 1px solid color-mix(in oklch, var(--card-accent) 25%, transparent);  /* decorative edge */
+	--card-radius: var(--radius);
+	--card-pad: var(--space-fluid-m);
+	--card-gap: var(--space-fluid-s);
+	--card-title-size: var(--fs-h4);
+	--card-image-ratio: 16 / 10;
 
 	position: relative;
 	container-type: inline-size;
@@ -23,20 +30,20 @@
 	background: var(--card-bg);
 	color: var(--card-text);
 	border: var(--card-border);
-	border-radius: var(--radius);
+	border-radius: var(--card-radius);
 	transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
 }
 
-.mbf-card__image { inline-size: 100%; block-size: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.mbf-card__image { inline-size: 100%; block-size: auto; aspect-ratio: var(--card-image-ratio); object-fit: cover; }
 
 .mbf-card__body {
-	padding: var(--space-fluid-m);
+	padding: var(--card-pad);
 	display: flex;
 	flex-direction: column;
-	gap: var(--space-fluid-s);
+	gap: var(--card-gap);
 }
 
-.mbf-card__title { font-size: var(--fs-h4); line-height: 1.25; font-weight: 700; color: var(--section-heading); transition: color var(--speed) var(--ease); }
+.mbf-card__title { font-size: var(--card-title-size); line-height: 1.25; font-weight: 700; color: var(--section-heading); transition: color var(--speed) var(--ease); }
 .mbf-card__text { color: var(--card-text); }
 .mbf-card__cta { font-weight: 600; color: var(--card-accent); }
 

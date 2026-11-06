@@ -1,12 +1,21 @@
 /* --- Stats (template-parts/blocks/stats.php) --- */
-.mbf-stats__list {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));   /* 10rem: a stat is narrower than a card */
-	gap: var(--space-fluid-l);
+.mbf-stats {
+	/* Dials (03). The value is large text in the guarded accent: ≥3:1 needed, every
+	   ground's accent clears 4.5:1. */
+	--stats-gap: var(--layout-gap);
+	--stats-tile: 10rem;                     /* a stat is narrower than a card */
+	--stats-item-gap: var(--space-xs);
+	--stats-value-size: var(--fs-h1);
+	--stats-value-color: var(--section-accent, var(--color-primary));
+	--stats-label-color: var(--section-muted, var(--color-text-muted));
 }
 
-.mbf-stat { display: grid; gap: var(--space-xs); align-content: start; }
+.mbf-stats__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--stats-tile), 100%), 1fr));
+	gap: var(--stats-gap);
+}
 
-/* Large text in the guarded accent: ≥3:1 needed, every ground's accent clears 4.5:1. */
-.mbf-stat__value { font-size: var(--fs-h1); font-weight: 700; line-height: 1; color: var(--section-accent, var(--color-primary)); }
-.mbf-stat__label { color: var(--section-muted, var(--color-text-muted)); }
+.mbf-stat { display: grid; gap: var(--stats-item-gap); align-content: start; }
+.mbf-stat__value { font-size: var(--stats-value-size); font-weight: 700; line-height: 1; color: var(--stats-value-color); }
+.mbf-stat__label { color: var(--stats-label-color); }

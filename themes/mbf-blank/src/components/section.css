@@ -17,20 +17,26 @@
 	--section-error: var(--color-error);
 	--focus-ring: var(--color-primary);
 
+	/* Dials: spacing and width. The colour family above is the colour dials (03). */
+	--section-pad-y: var(--section-y);
+	--section-pad-x: var(--section-x);
+	--section-gap: var(--space-fluid-l);     /* between the heading and the content */
+	--section-wrap: var(--wrap);
+
 	background: var(--section-bg);
 	color: var(--section-text);
-	padding: var(--section-y) var(--section-x);
+	padding: var(--section-pad-y) var(--section-pad-x);
 }
 
 /* The container lives here, not on the full-bleed section (§2), so cqi resolves to the cap. */
 .mbf-section__inner {
 	container-type: inline-size;
 	inline-size: 100%;
-	max-inline-size: var(--wrap);
+	max-inline-size: var(--section-wrap);
 	margin-inline: auto;
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);   /* not auto: a form field's intrinsic width overflowed 320px */
-	gap: var(--space-fluid-l);
+	gap: var(--section-gap);
 }
 
 /* --- Grounds. Ratios: theme.json.md --- */

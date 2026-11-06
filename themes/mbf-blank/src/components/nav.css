@@ -1,5 +1,25 @@
 /* --- Nav: the inline menu, <details> dropdowns. Visibility: site-header.css --- */
-.mbf-nav__list { display: flex; align-items: center; gap: var(--space-xs); }
+.mbf-nav {
+	/* Dials (03). The header is always on base, so these read the global roles, not a
+	   section family. The current page is underlined, not colour alone (04). */
+	--nav-gap: var(--space-xs);
+	--nav-link-pad-x: var(--space-s);
+	--nav-link-color: var(--color-heading);
+	--nav-link-hover: var(--color-primary);
+	--nav-link-weight: 600;
+	--nav-sub-width: 14rem;                  /* fits a two-word label without wrapping */
+	--nav-sub-pad: var(--space-xs);
+	--nav-sub-bg: var(--color-surface);
+	--nav-sub-border: 1px solid color-mix(in oklch, var(--color-contrast) 15%, transparent);  /* decorative; the shadow lifts it */
+	--nav-sub-radius: var(--radius);
+	--nav-sub-shadow: var(--shadow);
+	--nav-sublink-color: var(--color-text);
+	--nav-sublink-radius: var(--radius-button);
+	--nav-sublink-hover-bg: var(--color-tertiary);
+	--nav-sublink-hover-color: var(--color-heading);
+}
+
+.mbf-nav__list { display: flex; align-items: center; gap: var(--nav-gap); }
 
 .mbf-nav__item { position: relative; }
 
@@ -8,18 +28,17 @@
 	align-items: center;
 	gap: var(--space-xs);
 	min-block-size: var(--button-h);
-	padding-inline: var(--space-s);
-	color: var(--color-heading);
-	font-weight: 600;
+	padding-inline: var(--nav-link-pad-x);
+	color: var(--nav-link-color);
+	font-weight: var(--nav-link-weight);
 	text-decoration: none;
 	white-space: nowrap;
 	transition: color 150ms var(--ease);
 }
 
 .mbf-nav__link:is(:hover, :focus-visible),
-.mbf-nav__group[open] > .mbf-nav__link { color: var(--color-primary); }
+.mbf-nav__group[open] > .mbf-nav__link { color: var(--nav-link-hover); }
 
-/* Current page: underline, not colour alone (04). */
 .mbf-nav__link[aria-current="page"],
 .mbf-nav__sublink[aria-current="page"] {
 	text-decoration: underline;
@@ -36,22 +55,22 @@
 	inset-inline-end: 0;
 	z-index: 10;
 	display: grid;
-	min-inline-size: max(100%, 14rem);      /* 14rem: fits a two-word label without wrapping */
-	padding: var(--space-xs);
-	background: var(--color-surface);
-	border: 1px solid color-mix(in oklch, var(--color-contrast) 15%, transparent);  /* decorative; the shadow lifts it */
-	border-radius: var(--radius);
-	box-shadow: var(--shadow);
+	min-inline-size: max(100%, var(--nav-sub-width));
+	padding: var(--nav-sub-pad);
+	background: var(--nav-sub-bg);
+	border: var(--nav-sub-border);
+	border-radius: var(--nav-sub-radius);
+	box-shadow: var(--nav-sub-shadow);
 }
 
 .mbf-nav__sublink {
 	display: flex;
 	align-items: center;
 	min-block-size: var(--button-h);
-	padding-inline: var(--space-s);
-	border-radius: var(--radius-button);
-	color: var(--color-text);
+	padding-inline: var(--nav-link-pad-x);
+	border-radius: var(--nav-sublink-radius);
+	color: var(--nav-sublink-color);
 	text-decoration: none;
 }
 
-.mbf-nav__sublink:is(:hover, :focus-visible) { background: var(--color-tertiary); color: var(--color-heading); }
+.mbf-nav__sublink:is(:hover, :focus-visible) { background: var(--nav-sublink-hover-bg); color: var(--nav-sublink-hover-color); }

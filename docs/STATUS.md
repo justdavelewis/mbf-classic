@@ -2,20 +2,16 @@
 
 > Read this first, every session. Newest entry first. Dated headings. Quote decisions.
 
-**Owners:** theme — NAME · content/scripts — NAME · live writes announced in #channel
+**Owners:** David (theme, content, scripts) · Andonette collaborates and reviews standards changes · no live writes (a starter never deploys)
 **Environments:** local `https://mbf-classic.local` only (a starter never deploys)
-**Repo:** `wp-content/` → TODO: create `github.com/andonette-mbf/mbf-blank` (private) · no CI
+**Repo:** `wp-content/` → `github.com/justdavelewis/mbf-classic` (stays here; Andonette is a collaborator, David 2026-11-06) · no CI
 
 ## Outstanding
 
 ### DECISION FIRST (don't build on these)
-- [ ] Q1 Token-bridge check in the **editor** not yet run, and the ACF admin screens
-      (Page layouts, Site Settings) not seen rendered: no logged-in browser. Tried Claude in
-      Chrome 2026-11-05: Chrome isn't logged in to mbf-classic.local either. Needs David to log
-      in once in that Chrome tab.
 - [ ] Q2 Header CTA button and footer menu: every-site, or per-fork? Left out of the starter.
-- [ ] Q3 Tailwind's default theme (`--color-red-500`…) is still importable as utilities.
-      Reset the `--color-*` namespace in the starter, or leave it?
+- Q3 **Resolved 2026-11-06:** palette off (`--color-*: initial;` in `tokens.css`), David:
+  *"turn those tailwind colours off"*. See the dated entry.
 ### Resolved 2026-11-05 (David: *"Go with your recommendations on D1–D8"*)
 - D1 `inc/`: `setup enqueue builder helpers options forms` only. No `woocommerce`,
   `post-types`, `admin-help`, `schema`. (`schema` added 2026-11-06, Q9.)
@@ -30,19 +26,18 @@
 - Q5 Accent control **kept** as the seam forks plug their measured pairs into, although
   it has no visible effect with the placeholder palette (David, 2026-11-05: *"Keep the
   accent field"*).
-- Link fields: fixed in the standards (`mbf-site-standards` docs/05 + CHANGELOG, not
-  committed). Buttons use ACF `link`, card links `page_link`; `page_link` has no
+- Link fields: fixed in the standards (`mbf-site-standards` docs/05 + CHANGELOG, committed and pushed). Buttons use ACF `link`, card links `page_link`; `page_link` has no
   `allow_custom` (David, 2026-11-05: *"correct the bug here and do it in the source
   standards folder"*).
 
-- Q4 Standards fixed in `mbf-site-standards` (not committed), and mirrored here
+- Q4 Standards fixed in `mbf-site-standards` (committed and pushed), and mirrored here
   (David, 2026-11-05: *"fix those in the standards too"*): docs/12 bridge reads `--h-2` and
   bridges `--wrap`/`--measure`; docs/02 base drops `var(--header-h, 0)` (sticky headers set
   their own) and gains the plain-link rule; `templates/gitignore` gains `!**/src/vendor/`
   (tested in a scratch repo: keeps `src/vendor/`, still drops Composer `vendor/`). Each in
   the standards CHANGELOG.
 
-- Q6 docs/03 card fixes made in the standards too (docs/03 + CHANGELOG, not committed)
+- Q6 docs/03 card fixes made in the standards too (docs/03 + CHANGELOG, committed and pushed)
   (David, 2026-11-05: *"YES"*).
 - Q7 Icons: Font Awesome Pro, the CSS build, ported from Mantech (David, 2026-11-05: *"Use
   font awesome, the snippet should be available in mantech"*). Kit token in Site Settings ›
@@ -51,19 +46,190 @@
   setting).
 
 - Q8 Fixed in the standards (docs/02 + docs/14 `main.css` → `source(none)`, docs/02 rule,
-  CHANGELOG 2026-11-06; not committed) (David, 2026-11-06: *"fix Q8 in the standards"*).
+  CHANGELOG 2026-11-06; committed and pushed) (David, 2026-11-06: *"fix Q8 in the standards"*).
 - Q9 `inc/schema.php` added, **amending D1** (David, 2026-11-06: *"add schema.php"*).
 
+- Q1 Editor checks done 2026-11-06 in Chrome (David logged in).
+
+- Q10 Fixed 2026-11-06 with an editor-only build (`src/editor.css` → `dist/editor.css`) and
+  `contentSize` in rem; both also fixed in the standards (David: *"yes do the editor
+  stylesheet then tag v1.0"*).
+
+- Site owner styling: **Style Settings** built 2026-11-06 (David: *"an area which enables
+  users to have customisation options without having to fiddle with code… fonts (display +
+  body), content spacing (fluid-m by default), global colours as a minimum"*; chose colour
+  pickers + contrast check, section spacing + corners as extras, fonts bundled in the theme,
+  admins only; tabs). Amends D1 again (`inc/style-settings.php`).
+
 ### Tasks
-- [ ] Switch Local to PHP 8.4 (theme CLAUDE.md TODO; Local is on 8.2.29)
-- [ ] Enter ACF Pro + WS Form Pro licences (David)
-- [ ] Enter a Font Awesome kit token in Site Settings › Icons (David), then verify the
-      social glyphs render (Brands family) and the stylesheet loads with 0 console errors
+- [x] Local on PHP 8.4 (David checked, 2026-11-06)
+- [x] ACF Pro + WS Form Pro licences entered (David, 2026-11-06)
+- [x] **Before any fork goes live (down the line):** no agent/Claude files on the server
+      (David, 2026-11-06). The standards' `templates/deploy.yml` already rsyncs only the theme
+      folder (so `docs/` never ships) and excludes `CLAUDE.md`, `.claude/` and `src/`
+      (`contract.md`). **Gap:** `theme.json.md` sits in the theme root and isn't excluded, so it
+      would be publicly readable. **Fixed at the source 2026-11-06:** the standards' template
+      now excludes `*.md` (docs/09: after a first deploy, request `…/theme.json.md` on staging
+      and expect a 404). A fork copies that template, so every site gets it.
+- [x] Font Awesome kit code in Site Settings › Icons (David, 2026-11-06). Verified: Pro 7.3.1
+      CSS loads (200, 454KB), Brands + Pro 400/900 fonts load, LinkedIn/Facebook/Instagram/
+      phone/envelope draw, 0 console errors. **The field takes the kit CODE** (the letters in
+      `kit.fontawesome.com/<code>.js`), not the script: we load the CSS build with it.
 
 ## Live write log
 
 | Date | Who | Command (`wp @live …`) | Backup file | Result / verified |
 |---|---|---|---|---|
+
+---
+
+## 2026-11-06 — Palette off, deploy gap fixed at the source, housekeeping
+
+**Decisions (David, 2026-11-06):** *"turn those tailwind colours off"*; deploy gap *"noted as
+other sites will use this as a framework"*; repo stays at `justdavelewis/mbf-classic`
+(Andonette is a collaborator); Andonette approved the component-dials rule.
+
+**Changed:** `tokens.css` opens `@theme static` with `--color-*: initial;`. Standards: the
+same line in the seed + docs/01; `templates/deploy.yml` excludes `*.md` instead of naming
+files, docs/09 says why and to check `…/theme.json.md` 404s on staging; CHANGELOG (dials
+marked approved). Theme CLAUDE.md: PHP 8.4.27, plugins licensed. STATUS header + stale
+"not committed" notes fixed; Q3 closed.
+
+**Verified:** a probe template with `text-red-500 bg-slate-900 text-primary bg-tertiary`
+built to scratch before/after: before, both palette classes compiled; after, neither does
+and both role classes still do. `dist/` has 0 palette variables, `--color-primary` intact.
+Full fingerprint (8 page types × 5 widths, dropdown/drawer open, hovers): 15,915 values,
+**0 diffs** against a fresh baseline. verify-tokens: none undefined. Font Awesome: see Tasks.
+
+## 2026-11-06 — Component dials: the other 19 components + `--layout-gap`
+
+**Decision (David, 2026-11-06):** *"commit it, then do the rest of the components"*.
+
+**Changed:** dials blocks on page-hero, section-heading, enquiry, cta-band, logos,
+grid, stats, quote, split, social, crumbs, search, steps, faq, pagination, footer, skip,
+chevron, nav, site-header, drawer, each declared on the component's root (for section
+layouts, the `<section>` carrying the block class). The column layouts gained a
+`--{block}-columns` dial (the breakpoint itself can't be one).
+New global **`--layout-gap`** (`fluid-l`, 43 globals), the gap between layout columns and
+tracks, which seven components repeated: grid, split, hero, stats, steps, footer, enquiry.
+`type.css` left alone: `.display`/`.h*` *are* the global type scale (its dials are theme.json
+font sizes), and `.mbf-meta` is one two-value rule. Standards: docs/01 + seed + CLAUDE.md +
+README (43 globals, `--layout-gap`), CHANGELOG.
+
+**Verified:** full fingerprint of every element (+ `::before/::after`, 54 properties) on 8
+page types (`/_sample/`, `/`, `/page/2/`, a post, `/contact/`, a child page, search, 404) at
+1440/1024/1023/390/320, plus the nav dropdown open, the drawer open and 9 hover kinds:
+15,915 values, 27 diffs, all the open dropdown's summary colour + chevron rotation read at
+100ms, mid-transition (three identical runs gave 204–210°; settled = `#2d5ba8`, 225° exactly
+as the rules say). Script wait raised to 500ms. One dial per component then turned, and
+each block followed (e.g. `--layout-gap` 64→16px moved stats and hero together; crumbs
+separator "/"→"›"; drawer 346→256px). 0 console errors (the 404 page's own status aside),
+0 PHP notices, verify-tokens: none undefined. Screenshots 1440/390 unchanged.
+
+**Removed `.mbf-stack`** (David, 2026-11-06: *"remove the stack"*): no template used it, so
+it was just-in-case CSS every fork would inherit. docs/03's catalogue keeps the recipe for a
+site that needs one. Rebuilt: no `mbf-stack` in either dist file; none in any served page.
+
+## 2026-11-06 — Component dials: card, button, hero, section
+
+**Decision (David, 2026-11-06):** blocks get "dials" so one value re-skins every instance,
+*"sure it takes more set up but makes it infinitely easier to change things"*. Developer-only
+(CSS, no wp-admin fields). Start with four components, then review. No utility-class layer
+(*"thats more aimed at people doing my job"*). Andonette to review the docs/03 rule.
+
+**Changed:** `card.css` (+ radius, pad, gap, title size, image ratio), `button.css` (dials
+fill/label/fill-hover/label-hover/border/radius/font/size/weight; state `--button-bg/-text`
+swapped on hover; secondary re-sets dials only, at `.mbf-button.mbf-button--secondary`),
+`hero.css` (dials on `.mbf-hero`: gap, text gap, measure, image ratio and radius),
+`section.css` (pad-y/-x, gap, wrap). Standards: docs/03 "Component dials", CLAUDE.md §3,
+CHANGELOG.
+
+**Verified:** computed styles for every section, card, button and hero on `/_sample/` and
+`/` at 1440 and 390, plus 48 hover states: 504 values, **0 differences** before/after. Each
+dial turned and the block followed (pad 40→5px, radius 12→0, title 24→40px, button radius
+6→0 and weight 600→800, fill → test colour, hero gap 64→7px and ratio 4/3→1/1, section gap
+64→9px and padding 88→11px). Two things measured: an ancestor's `--card-pad` is ignored (the
+card's own declaration wins over inheritance), so overrides target the component; and a
+later `.mbf-button { --button-fill }` turned the secondary solid until the variant went to
+0-2-0. 0 console errors, 0 PHP notices, verify-tokens: none undefined.
+
+**Next:** review the pattern, then the other ~21 components. Then `--grid-gap` (cards, logos,
+stats and steps all repeat a grid gap).
+
+## 2026-11-06 — Style Settings (site owners change the look without code)
+
+**Changed (branch `feature/style-settings`, committed `0ce821b`):** Site Settings › **Style**
+(admins only), tabs Colours / Typography / Spacing / Shape (`acf-json/group_mbf_style_settings`,
+`ui_options_page_mbf_style_settings`). `inc/style-settings.php`: saved choices → theme.json via
+`wp_theme_json_data_theme` (full palette + `custom.*`), cache cleared on save, font choices from
+theme.json `fontFamilies`, and a **contrast check on save** (PHP OKLab/OKLCH port of the CSS
+`color-mix` derivations + WCAG ratio over the theme.json.md matrix; three worst failures per
+field, then "and N more"). `theme.json`: `serif` system stack; `settings.custom` defaults.
+`tokens.css`: `--font-sans`/`--font-display`/`--content-gap`/`--section-y` scale/radii read
+`--wp--custom--*` (42 globals). CSS: content-item gaps → `--content-gap`; headings, `.h*`,
+brand text → `--font-display`. Standards: docs/01, 05, 12, 16, seed, CLAUDE.md, README, CHANGELOG.
+**Verified:**
+- PHP maths vs the 13 browser-measured ratios in theme.json.md: worst diff 0.005; default
+  palette passes.
+- Chrome (admin): failing primary `#7cc4ff` refused, field lists the pairs + ratios, nothing
+  saved (CLI + front end still `#2d5ba8`). `#1b6b4a` (the fork-test green) **also refused**:
+  a hovered light button on the primary ground at 4.49:1, which no earlier sweep measured.
+  `#196645` saved with serif display, Large gap, Roomy, Round: front end primary/button
+  `#196645`, serif headings with sans body, gaps 61.9px, section padding 110px, radius
+  24px/999px; editor iframe the same (preset, tokens, fonts, picker palette). With those
+  settings: 4 URLs × 5 widths, 0 contrast failures on all grounds, 0 overflow, 0 notices,
+  0 console errors.
+- **Found and fixed:** the first Update stored `font_body = sans` (a select's default) and
+  froze it against later theme.json changes. Every select now defaults to "Theme default (…)",
+  which overrides nothing; an untouched save → `mbf_style_overrides()` = `[]`.
+- Fork test (theme.json only: purple primary, serif display, square corners, small gap):
+  all applied. Restored. Access: Editor role lacks `manage_options`, Administrator has it.
+- Back at defaults: identical to before (primary `#2d5ba8`, 88px section padding, 12/6px
+  radius, Medium gap); 6 URLs × 7 widths clean; `verify-tokens.sh` none undefined.
+**Deliberately not done:** colour presets/style variations (pickers chosen instead); Google
+Fonts; buttons, links, borders and cards as separate settings (designer territory, per David).
+
+---
+
+## 2026-11-06 — Editor stylesheet (Q10) + v1.0
+
+**Changed:** `src/editor.css` → `dist/editor.css`, loaded by `add_editor_style()` instead of
+`dist/style.css`: Tailwind theme + utilities but **no Preflight**, Typography applied to the
+editor root (`className: is-root-container`), Preflight's `border: 0 solid` kept for prose
+(a quote's rule had width but `border-style: none`), root `max-width: none` so WordPress's
+layout sets the width. `vendor/typography.css` maps `:is(.prose, .is-root-container)`: one
+recipe for both. `package.json` builds both files. `theme.json` `contentSize` `68ch` →
+**`45.5rem`** (`ch` resolved per element: the 34px post title went 1516px wide and pinned
+left; 45.5rem = the same 728px for every element). Version 1.0.0 (`style.css`,
+`package.json`). Standards: docs/01, 02, 05, 09, 10, 12, 16, `templates/deploy.yml`, CHANGELOG.
+**Verified:** editor (Chrome): title, p, h2, ul all at left 348 / width 728; h2 44px/700 in the
+heading colour; bullets; links underlined in primary; quote 4px solid; tokens resolve
+(`--measure` 45.5rem); 0 console errors; `dist/style.css` no longer in the iframe. Front end
+(Playwright), 6 URLs × 6 widths: prose still 728px (and narrower on small screens), quote 4px,
+0 overflow, 0 contrast failures, 1 h1, 0 notices, 0 console errors. `verify-tokens.sh`: none
+undefined. A brace slip while moving a block broke the editor build once; caught because only
+one of the two builds reported "Done", rewritten and re-verified.
+**Tagged:** `v1.0` (see the release notes in the tag).
+
+---
+
+## 2026-11-06 — Editor + ACF admin checks (Q1)
+
+**Changed:** nothing in code.
+**Verified (Claude in Chrome, logged in as the local admin):**
+- Token bridge **in the editor iframe**: presets and layout sizes print on the iframe's
+  `:root`; our tokens resolve there (`--color-primary` #2d5ba8, `--fs-h2` and
+  `--space-fluid-m` keep their `cqi` clamps, `--wrap` 80rem, `--font-sans`); paragraph text
+  gets `--color-text`. docs/12's three checks now pass in both places.
+- Editor presets: colours = our 6 slots only, custom colour off; font sizes = sm/body/lead/
+  h4–h1 (D4), custom off; spacing = fluid s/m/l/xl. WordPress keeps its default palette
+  (12), gradients (12) and duotones (8) registered under the `default` origin, but
+  `defaultPalette/Gradients/Duotone: false`, so the editor doesn't offer them.
+- ACF admin: the Page layouts box on About (empty) and on /_sample/ (44 rows, in order,
+  Content + Section tabs, controls holding `ground/accent/spacing`); Site Settings with
+  Identity/Contact/Social/Icons/Forms tabs and the placeholder values. 0 console errors on
+  both after a reload.
+**Found:** editor content unstyled (Q10).
 
 ---
 
@@ -156,13 +322,13 @@ to end; VoiceOver itself (the accessibility tree and names were checked, not a s
 reader); browsers other than Chromium.
 
 ### v1.0 done when (docs/12)
-- [x] The build passes and `dist/style.css` isn't empty (43.5KB minified).
+- [x] The build passes and `dist/style.css` (43.7KB) and `dist/editor.css` (21.7KB) aren't empty.
 - [x] `/_sample/` renders every layout on every ground, with 0 console errors and 0 notices.
 - [x] The full `08` sweep passes at all widths, plus keyboard, forced colours, reduced
       motion and 200% zoom. (Business node: 0 at first; `schema.php` added 2026-11-06 → 1
       on every URL.)
-- [ ] The token bridge is verified in the editor and on the front end. **Front end only;
-      editor blocked on a login (Q1).**
+- [x] The token bridge is verified in the editor and on the front end (editor 2026-11-06,
+      after David logged Chrome in). See Q10: the bridge works, but editor content is unstyled.
 - [x] Fork test: change only `theme.json` and `tokens.css`, and the site fully re-skins.
 - [x] `CLAUDE.md` (rules) and `docs/STATUS.md` (history) exist.
 

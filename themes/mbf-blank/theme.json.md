@@ -37,7 +37,22 @@ edge there; border 3.37 / 3.06 on the light grounds; submit = the button row abo
 Roles on light grounds: `--color-border` 3.37:1 on base, 3.06:1 on tertiary (meaningful edges:
 field, toggle). Button hover (primary + 15% contrast, `#294f95`): white label 7.93:1.
 
+## Style Settings (2026-11-06)
+
+Site owners can override the palette, fonts, content gap, section spacing and corners
+(Site Settings › Style, admins only). The values above are the **defaults**; an override is
+checked before it's saved by `inc/style-settings.php`, which recomputes this whole table in PHP
+(`mbf_contrast_pairs()`, matched to the browser within 0.005) and refuses a palette that fails
+anywhere. So a client palette doesn't need re-measuring by hand; a **developer** changing these
+defaults still re-measures and updates this file.
+
 ## Token bridge facts (verified 2026-11-05, WP 7.1.4)
+
+- `layout.contentSize` is **45.5rem**, not `68ch` (2026-11-06). WordPress applies it as a
+  max-width to blocks in the editor, and `ch` is relative to each element's own font: the 34px
+  post title resolved `68ch` to 1516px (wider than the canvas, so pinned left) while
+  paragraphs got 728px. 45.5rem = 728px = 68 characters of 17px body text, independent of the
+  element's font, and still scales with zoom. `--measure` reads it, so prose width is unchanged.
 
 - Presets **and** `--wp--style--global--content-size/wide-size` print on `:root` (front end), so
   `--wrap` and `--measure` bridge too.

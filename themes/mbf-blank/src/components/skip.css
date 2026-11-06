@@ -1,14 +1,19 @@
 /* --- Skip link: off-screen until focused, then over the header --- */
 .mbf-skip {
+	/* Dials (03) */
+	--skip-offset: var(--space-s);
+	--skip-bg: var(--color-surface);
+	--skip-text: var(--color-heading);
+
 	position: absolute;
-	inset-block-start: var(--space-s);
-	inset-inline-start: var(--space-s);
+	inset-block-start: var(--skip-offset);
+	inset-inline-start: var(--skip-offset);
 	z-index: 100;
 	padding: var(--space-xs) var(--space-s);
-	background: var(--color-surface);
-	color: var(--color-heading);
+	background: var(--skip-bg);
+	color: var(--skip-text);
 	font-weight: 600;
-	translate: 0 calc(-100% - 2 * var(--space-s));
+	translate: 0 calc(-100% - 2 * var(--skip-offset));
 }
 
 .mbf-skip:focus { translate: 0; }

@@ -16,7 +16,8 @@ function mbf_setup(): void {
 	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );
 	add_theme_support( 'responsive-embeds' );
 	add_theme_support( 'editor-styles' );
-	add_editor_style( 'dist/style.css' );
+	// Editor-only build: tokens + prose on the canvas, no Preflight (src/editor.css).
+	add_editor_style( 'dist/editor.css' );
 
 	register_nav_menus( [ 'primary' => __( 'Primary', 'mbf-blank' ) ] );
 

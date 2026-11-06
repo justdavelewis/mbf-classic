@@ -1,6 +1,6 @@
 <?php
 /**
- * Site header: brand | inline nav (wide) | drawer toggle (narrow).
+ * Site header: brand | inline nav (wide) | header button | drawer toggle (narrow).
  *
  * The nav ↔ drawer switch is one min-width breakpoint, stated in
  * src/components/site-header.css and copied once in assets/js/drawer.js.
@@ -10,6 +10,10 @@
  * visible: the inline nav is display:none below the breakpoint, and the drawer is a
  * closed <dialog> above it.
  *
+ * The header button (Site Settings › Header) follows the same rule: beside the nav when
+ * wide, inside the drawer when narrow, so a 320px header never has to fit four things.
+ * With no menu there is no drawer, so it stays in the header at every width.
+ *
  * @package mbf-blank
  */
 
@@ -17,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 $mbf_menu = mbf_menu_tree( 'primary' );
 $mbf_name = mbf_company_name();
+$mbf_cta  = mbf_link( mbf_setting( 'header_cta' ) ) ? [ mbf_setting( 'header_cta' ) ] : [];
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -44,7 +49,16 @@ $mbf_name = mbf_company_name();
 			<nav class="mbf-nav" aria-label="<?php esc_attr_e( 'Primary', 'mbf-blank' ); ?>">
 				<?php mbf_the_menu( $mbf_menu, 'mbf-nav', 'mbf-nav' ); ?>
 			</nav>
+		<?php endif; ?>
 
+		<?php if ( $mbf_cta ) : ?>
+			<?php // --drawer: hidden below the breakpoint, where the drawer carries it (server class, not :has(), §2). ?>
+			<div class="mbf-site-header__cta<?php echo $mbf_menu ? ' mbf-site-header__cta--drawer' : ''; ?>">
+				<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => $mbf_cta ] ); ?>
+			</div>
+		<?php endif; ?>
+
+		<?php if ( $mbf_menu ) : ?>
 			<?php
 			/*
 			 * commandfor/command open the dialog with no JS where supported (docs/13 tier 2);
@@ -76,6 +90,11 @@ $mbf_name = mbf_company_name();
 				<nav class="mbf-drawer__nav" aria-label="<?php esc_attr_e( 'Primary', 'mbf-blank' ); ?>">
 					<?php mbf_the_menu( $mbf_menu, 'mbf-drawer' ); ?>
 				</nav>
+				<?php if ( $mbf_cta ) : ?>
+					<div class="mbf-drawer__cta">
+						<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => $mbf_cta ] ); ?>
+					</div>
+				<?php endif; ?>
 			</div>
 		</dialog>
 	<?php endif; ?>

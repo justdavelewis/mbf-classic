@@ -67,6 +67,38 @@
             "library": "all"
         },
         {
+            "key": "field_mbf_site_tab_header",
+            "label": "Header",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0,
+            "selected": 0
+        },
+        {
+            "key": "field_mbf_site_header_cta",
+            "label": "Header button",
+            "name": "header_cta",
+            "type": "link",
+            "instructions": "Optional. One button beside the menu (inside the menu panel on phones), e.g. \"Get in touch\" → Contact. Leave empty for no button.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "array"
+        },
+        {
             "key": "field_mbf_site_tab_contact",
             "label": "Contact",
             "name": "",
@@ -309,5 +341,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1793895183
+    "modified": 1793968481
 }

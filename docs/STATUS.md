@@ -9,7 +9,8 @@
 ## Outstanding
 
 ### DECISION FIRST (don't build on these)
-- [ ] Q2 Header CTA button and footer menu: every-site, or per-fork? Left out of the starter.
+- (none open)
+- Q2 **Resolved 2026-11-06:** both in the starter (David: *"yes do both"*). See the dated entry.
 - Q3 **Resolved 2026-11-06:** palette off (`--color-*: initial;` in `tokens.css`), David:
   *"turn those tailwind colours off"*. See the dated entry.
 ### Resolved 2026-11-05 (David: *"Go with your recommendations on D1–D8"*)
@@ -82,6 +83,41 @@
 |---|---|---|---|---|
 
 ---
+
+## 2026-11-06 — Header button + footer menu (Q2); global CLAUDE.md; branches
+
+**Decisions (David, 2026-11-06):** *"yes do both, and delete the merged branches"*, i.e. Q2 in
+the starter, and the global `~/.claude/CLAUDE.md` changed from importing the standards to
+pointing at them.
+
+**Changed:**
+- **Header button:** Site Settings › Header › `header_cta` (ACF link; empty = none). Renders via
+  `cta-buttons.php` beside the nav at ≥64rem and inside the drawer below it (server class
+  `mbf-site-header__cta--drawer`, hidden in the one breakpoint block); with no Primary menu
+  there's no drawer, so it stays in the header at every width. `flex-shrink: 0`. The brand's
+  `margin-inline-end: auto` replaces `space-between`, so nav + button + toggle group at the end.
+- **Footer menu:** `footer` location ("Footer (legal links)"), rendered flat (top level) in the
+  legal row as `nav[aria-label=Legal] > ul.mbf-footer__menu`, links underlined in the ground's
+  text colour, `padding-block: .25em` for a 24px+ target. Legal row `align-items: baseline`.
+- **Placeholder script:** menus via one helper (Primary + Footer), items read from the term's
+  raw objects so unpublished targets can't cause duplicates on re-run; publishes WP's draft
+  Privacy Policy, adds a Terms page, sets `header_cta` = "Get in touch" → Contact. The empty
+  check is `empty()`, not a string cast (a link field returns an array).
+- Global `~/.claude/CLAUDE.md`: no import; read the standards in an MBF project that doesn't
+  import them yet (outside this repo; standards §9 now holds without exception).
+- Branches `feature/style-settings` and `release/v1.0` deleted locally and on GitHub (both
+  fully merged into `main`). **The `v1.0` tag is local only: never pushed.**
+- Standards: docs/03 (site-header row), docs/05 (Site Settings + two menu locations),
+  CLAUDE.md §5, CHANGELOG.
+
+**Verified:** script dry run listed only the new items; force; second dry run a no-op; Primary
+still 5 items. 10 page types (incl. Privacy, Terms) × 1440/1280/1024/1023/768/390/320 = 70
+views: 0 overflow, button/toggle flush right on the correct side of the switch, footer menu on
+every page, 0 console errors, 0 PHP notices. Header button 47–48px, primary on base; in the
+drawer accent on secondary (the measured pair). Keyboard: brand → nav → button, 2px rings; the
+drawer's copy is not reachable while closed. Footer links white on secondary, 29px targets,
+white focus ring. No-menu case (Primary unassigned, then restored by the script): button in
+the header at 1440/390/320; at 320 it wrapped to two lines until `flex-shrink: 0`.
 
 ## 2026-11-06 — Palette off, deploy gap fixed at the source, housekeeping
 

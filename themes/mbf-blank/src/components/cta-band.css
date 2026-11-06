@@ -4,7 +4,7 @@
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: space-between;
-	gap: var(--space-fluid-m);
+	gap: var(--content-gap);
 }
 
 .mbf-cta-band__text { display: grid; gap: var(--space-fluid-s); max-inline-size: var(--measure); }

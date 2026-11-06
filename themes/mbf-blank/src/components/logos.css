@@ -3,7 +3,7 @@
 .mbf-logos__list {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(min(9rem, 100%), 1fr));   /* 9rem: a logo tile */
-	gap: var(--space-fluid-m);
+	gap: var(--content-gap);
 	align-items: center;
 }
 

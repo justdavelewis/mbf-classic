@@ -52,6 +52,10 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
 - Dark grounds: `mbf_is_dark_ground()` is the one list. The accent guard
   (`mbf_accent_colour()`) holds the measured pairs; re-measure and edit it on any palette
   change.
+- Style Settings (`mbf-style-settings`, admins only): saved choices override `theme.json`
+  through `wp_theme_json_data_theme`; defaults stay in `theme.json` `settings.custom` + palette.
+  Selects default to `theme` (override nothing). A new colour pair in the CSS must be added to
+  `mbf_contrast_pairs()`, or the save check won't cover it.
 - Schema: `inc/schema.php` prints the ONE business node from Site Settings, and goes
   silent when an SEO plugin is active (`mbf_print_business_schema` filter to override).
 - Scripts take field keys from `acf-json/`. The section-controls clone's reference key is

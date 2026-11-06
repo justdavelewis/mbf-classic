@@ -1,6 +1,6 @@
 /* --- Stack: a gap column. Grid, not flex, so a capped child can't collapse (10) --- */
 .mbf-stack {
-	--stack-gap: var(--space-fluid-m);
+	--stack-gap: var(--content-gap);          /* Style Settings › Spacing */
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);   /* not auto: see .mbf-section__inner */
 	align-content: start;

@@ -6,7 +6,7 @@
 }
 
 .mbf-footer__brand { display: grid; gap: var(--space-fluid-s); align-content: start; }
-.mbf-footer__brand-name { font-size: var(--fs-h4); font-weight: 700; color: var(--section-heading); }
+.mbf-footer__brand-name { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: 700; color: var(--section-heading); }
 .mbf-footer__logo { inline-size: auto; max-block-size: var(--button-h); }
 
 .mbf-footer__contact { display: grid; gap: var(--space-xs); align-content: start; font-style: normal; }

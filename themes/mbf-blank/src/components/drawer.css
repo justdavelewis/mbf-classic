@@ -29,6 +29,7 @@
 .mbf-drawer__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-s); }
 
 .mbf-drawer__brand {
+	font-family: var(--font-display);
 	font-size: var(--fs-h4);
 	font-weight: 700;
 	line-height: 1.2;

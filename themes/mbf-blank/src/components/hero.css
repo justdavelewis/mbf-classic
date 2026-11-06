@@ -1,6 +1,6 @@
 /* --- Hero layout (template-parts/blocks/hero.php) --- */
 .mbf-hero__grid { display: grid; gap: var(--space-fluid-l); align-items: center; }
-.mbf-hero__text { display: grid; gap: var(--space-fluid-m); max-inline-size: var(--measure); }
+.mbf-hero__text { display: grid; gap: var(--content-gap); max-inline-size: var(--measure); }
 
 .mbf-hero__image {
 	inline-size: 100%;

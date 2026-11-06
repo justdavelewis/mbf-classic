@@ -1,0 +1,21 @@
+{
+    "key": "ui_options_page_mbf_style_settings",
+    "title": "Style",
+    "page_title": "Style",
+    "menu_slug": "mbf-style-settings",
+    "menu_title": "Style",
+    "advanced_configuration": 1,
+    "redirect": "0",
+    "parent_slug": "mbf-site-settings",
+    "position": "",
+    "icon_url": "",
+    "menu_order": 0,
+    "capability": "manage_options",
+    "data_storage": "options",
+    "description": "",
+    "updated_message": "Style updated",
+    "update_button": "Update",
+    "autoload": 1,
+    "active": true,
+    "modified": 1793961716
+}

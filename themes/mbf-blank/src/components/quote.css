@@ -1,5 +1,5 @@
 /* --- Quote (template-parts/blocks/quote.php) --- */
-.mbf-quote__figure { display: grid; gap: var(--space-fluid-m); max-inline-size: var(--measure); }
+.mbf-quote__figure { display: grid; gap: var(--content-gap); max-inline-size: var(--measure); }
 
 .mbf-quote__text {
 	padding-inline-start: var(--space-fluid-m);

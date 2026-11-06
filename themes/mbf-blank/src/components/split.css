@@ -1,6 +1,6 @@
 /* --- Split layout: text + image (template-parts/blocks/split.php) --- */
 .mbf-split__grid { display: grid; gap: var(--space-fluid-l); align-items: center; }
-.mbf-split__text { display: grid; gap: var(--space-fluid-m); }
+.mbf-split__text { display: grid; gap: var(--content-gap); }
 
 .mbf-split__image {
 	inline-size: 100%;

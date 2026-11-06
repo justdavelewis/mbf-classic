@@ -56,6 +56,12 @@
   `contentSize` in rem; both also fixed in the standards (David: *"yes do the editor
   stylesheet then tag v1.0"*).
 
+- Site owner styling: **Style Settings** built 2026-11-06 (David: *"an area which enables
+  users to have customisation options without having to fiddle with code… fonts (display +
+  body), content spacing (fluid-m by default), global colours as a minimum"*; chose colour
+  pickers + contrast check, section spacing + corners as extras, fonts bundled in the theme,
+  admins only; tabs). Amends D1 again (`inc/style-settings.php`).
+
 ### Tasks
 - [ ] Switch Local to PHP 8.4 (theme CLAUDE.md TODO; Local is on 8.2.29)
 - [ ] Enter ACF Pro + WS Form Pro licences (David)
@@ -72,6 +78,41 @@
 
 | Date | Who | Command (`wp @live …`) | Backup file | Result / verified |
 |---|---|---|---|---|
+
+---
+
+## 2026-11-06 — Style Settings (site owners change the look without code)
+
+**Changed (branch `feature/style-settings`, uncommitted):** Site Settings › **Style**
+(admins only), tabs Colours / Typography / Spacing / Shape (`acf-json/group_mbf_style_settings`,
+`ui_options_page_mbf_style_settings`). `inc/style-settings.php`: saved choices → theme.json via
+`wp_theme_json_data_theme` (full palette + `custom.*`), cache cleared on save, font choices from
+theme.json `fontFamilies`, and a **contrast check on save** (PHP OKLab/OKLCH port of the CSS
+`color-mix` derivations + WCAG ratio over the theme.json.md matrix; three worst failures per
+field, then "and N more"). `theme.json`: `serif` system stack; `settings.custom` defaults.
+`tokens.css`: `--font-sans`/`--font-display`/`--content-gap`/`--section-y` scale/radii read
+`--wp--custom--*` (42 globals). CSS: content-item gaps → `--content-gap`; headings, `.h*`,
+brand text → `--font-display`. Standards: docs/01, 05, 12, 16, seed, CLAUDE.md, README, CHANGELOG.
+**Verified:**
+- PHP maths vs the 13 browser-measured ratios in theme.json.md: worst diff 0.005; default
+  palette passes.
+- Chrome (admin): failing primary `#7cc4ff` refused, field lists the pairs + ratios, nothing
+  saved (CLI + front end still `#2d5ba8`). `#1b6b4a` (the fork-test green) **also refused**:
+  a hovered light button on the primary ground at 4.49:1, which no earlier sweep measured.
+  `#196645` saved with serif display, Large gap, Roomy, Round: front end primary/button
+  `#196645`, serif headings with sans body, gaps 61.9px, section padding 110px, radius
+  24px/999px; editor iframe the same (preset, tokens, fonts, picker palette). With those
+  settings: 4 URLs × 5 widths, 0 contrast failures on all grounds, 0 overflow, 0 notices,
+  0 console errors.
+- **Found and fixed:** the first Update stored `font_body = sans` (a select's default) and
+  froze it against later theme.json changes. Every select now defaults to "Theme default (…)",
+  which overrides nothing; an untouched save → `mbf_style_overrides()` = `[]`.
+- Fork test (theme.json only: purple primary, serif display, square corners, small gap):
+  all applied. Restored. Access: Editor role lacks `manage_options`, Administrator has it.
+- Back at defaults: identical to before (primary `#2d5ba8`, 88px section padding, 12/6px
+  radius, Medium gap); 6 URLs × 7 widths clean; `verify-tokens.sh` none undefined.
+**Deliberately not done:** colour presets/style variations (pickers chosen instead); Google
+Fonts; buttons, links, borders and cards as separate settings (designer territory, per David).
 
 ---
 

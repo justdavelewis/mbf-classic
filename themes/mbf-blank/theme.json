@@ -55,6 +55,11 @@
 					"slug": "sans",
 					"name": "Sans",
 					"fontFamily": "system-ui, sans-serif"
+				},
+				{
+					"slug": "serif",
+					"name": "Serif",
+					"fontFamily": "Georgia, 'Times New Roman', serif"
 				}
 			],
 			"fontSizes": [
@@ -120,6 +125,18 @@
 					"size": "clamp(3rem, calc(1.8261rem + 5.2174cqi), 6rem)"
 				}
 			]
+		},
+		"custom": {
+			"font": {
+				"body": "var(--wp--preset--font-family--sans)",
+				"display": "var(--wp--preset--font-family--sans)"
+			},
+			"contentGap": "var(--wp--preset--spacing--fluid-m)",
+			"sectionScale": "1",
+			"radius": {
+				"surface": "12px",
+				"control": "6px"
+			}
 		}
 	}
 }

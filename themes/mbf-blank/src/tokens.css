@@ -15,9 +15,12 @@
    re-measure contrast and update the comments. Ratios computed 2026-11-05
    (oklch mix approximated in Python; confirm computed colours in a browser).
 
-   TOKEN BRIDGE (mbf-blank): every token that is also an editor preset (or a
-   theme.json layout size) reads
-   its VALUE from theme.json (var(--wp--preset--*)), so there is one copy.
+   TOKEN BRIDGE (mbf-blank): every token that is also an editor preset, a
+   theme.json layout size, or a theme.json `custom` value (fonts, content gap,
+   section scale, radii: the ones Style Settings can change) reads its VALUE
+   from theme.json (var(--wp--preset--* / --wp--style--* / --wp--custom--*)),
+   so there is one copy. Style Settings overrides arrive through the same
+   variables (inc/style-settings.php).
    The ratios beside each slot describe the theme.json placeholder values.
    Everything else here is set directly. A fork re-skins by editing
    theme.json + this file only.
@@ -44,7 +47,8 @@
      reaches its max at the cap. Formula: docs/01-tokens.md. */
 
   /* --- type: 8 steps (headings fluid in cqi, small steps fixed) ----------- */
-  --font-sans: var(--wp--preset--font-family--sans);
+  --font-sans:    var(--wp--custom--font--body);     /* body text (Tailwind's default-font name) */
+  --font-display: var(--wp--custom--font--display);  /* headings, brand text */
   --fs-display: clamp(2.5rem,   calc(1.7174rem + 3.4783cqi), 4.5rem);
   --fs-h1:      var(--wp--preset--font-size--h-1);
   --fs-h2:      var(--wp--preset--font-size--h-2);
@@ -57,10 +61,11 @@
   /* --- space: 2 micro (fixed) + 4 fluid + 2 section ------------------------ */
   --space-xs: .5rem;   --space-s: .75rem;                                  /* glyph↔label, caption offsets */
   --space-fluid-s:  var(--wp--preset--spacing--fluid-s);
-  --space-fluid-m:  var(--wp--preset--spacing--fluid-m);    /* default content gap */
+  --space-fluid-m:  var(--wp--preset--spacing--fluid-m);
   --space-fluid-l:  var(--wp--preset--spacing--fluid-l);
   --space-fluid-xl: var(--wp--preset--spacing--fluid-xl);
-  --section-y: clamp(3.75rem, calc(3.75rem + 2.2cqi), 5.5rem);
+  --content-gap: var(--wp--custom--content-gap);     /* gap between content items: one fluid step, default m */
+  --section-y: calc(clamp(3.75rem, calc(3.75rem + 2.2cqi), 5.5rem) * var(--wp--custom--section-scale));
   --section-x: clamp(1rem, calc(.642rem + 1.59vi), 2rem);                  /* gutter follows the device */
 
   /* --- layout: 2 widths + 2 grids ------------------------------------------ */
@@ -74,8 +79,8 @@
   --button-pad-x: clamp(1.125rem, calc(.9696rem + .663vi), 1.5rem);
 
   /* --- surface: 2 radii + 1 shadow ---------------------------------------- */
-  --radius:        12px;                                                   /* surfaces */
-  --radius-button: 6px;                                                    /* controls (pill = 999px literal) */
+  --radius:        var(--wp--custom--radius--surface);                     /* surfaces */
+  --radius-button: var(--wp--custom--radius--control);                     /* controls (pill = 999px literal) */
   --shadow: 0 16px 38px color-mix(in oklch, var(--color-contrast) 13%, transparent);
 
   /* --- motion: 2 ------------------------------------------------------------ */

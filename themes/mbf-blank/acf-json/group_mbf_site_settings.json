@@ -291,6 +291,387 @@
             "append": ""
         },
         {
+            "key": "field_mbf_site_tab_finder",
+            "label": "Solution finder",
+            "name": "",
+            "type": "tab",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "placement": "top",
+            "endpoint": 0
+        },
+        {
+            "key": "field_mbf_site_finder_message",
+            "label": "How the finder works",
+            "name": "",
+            "type": "message",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "message": "Shown in a hero (Beside the text › Solution finder) and in the Solution finder section. Visitors pick an option; with question 2 set they also pick a site type; then they see the recommendation and a button to the form page. The button adds <code>?need={option key}&amp;site={site key}</code>, so a form field whose default value is <code>#query_var(\"need\")</code> arrives already filled. Use the same keys as that field's option values. Without JavaScript every option is a plain link to its page.",
+            "new_lines": "wpautop",
+            "esc_html": 0
+        },
+        {
+            "key": "field_mbf_site_finder_eyebrow",
+            "label": "Panel label",
+            "name": "finder_eyebrow",
+            "type": "text",
+            "instructions": "Above the question in the hero panel.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Find your solution",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_mbf_site_finder_question",
+            "label": "Question 1",
+            "name": "finder_question",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Where's the risk on your site?",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_mbf_site_finder_options",
+            "label": "Question 1 options",
+            "name": "finder_options",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "block",
+            "min": 0,
+            "max": 0,
+            "collapsed": "field_mbf_site_finder_options_label",
+            "rows_per_page": 20,
+            "button_label": "Add option",
+            "sub_fields": [
+                {
+                    "key": "field_mbf_site_finder_options_key",
+                    "label": "Key",
+                    "name": "key",
+                    "type": "text",
+                    "instructions": "Lowercase, no spaces (roof-edge). Sent to the form.",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_options"
+                },
+                {
+                    "key": "field_mbf_site_finder_options_label",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "45",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_options"
+                },
+                {
+                    "key": "field_mbf_site_finder_options_icon",
+                    "label": "Icon",
+                    "name": "icon",
+                    "type": "text",
+                    "instructions": "Font Awesome name, e.g. fa-house-chimney.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "30",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_options"
+                },
+                {
+                    "key": "field_mbf_site_finder_options_page",
+                    "label": "Recommended page",
+                    "name": "page",
+                    "type": "page_link",
+                    "instructions": "Leave empty to send this option straight to the form (\"Not sure yet\").",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "post_type": [
+                        "page",
+                        "post"
+                    ],
+                    "taxonomy": "",
+                    "allow_null": 1,
+                    "allow_archives": 0,
+                    "multiple": 0,
+                    "parent_repeater": "field_mbf_site_finder_options"
+                },
+                {
+                    "key": "field_mbf_site_finder_options_title",
+                    "label": "Recommendation",
+                    "name": "title",
+                    "type": "text",
+                    "instructions": "E.g. \"Freestanding guardrail\". Defaults to the label.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "50",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_options"
+                },
+                {
+                    "key": "field_mbf_site_finder_options_points",
+                    "label": "Why",
+                    "name": "points",
+                    "type": "repeater",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "layout": "table",
+                    "min": 0,
+                    "max": 0,
+                    "collapsed": "",
+                    "rows_per_page": 20,
+                    "button_label": "Add point",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_site_finder_options_points_text",
+                            "label": "Text",
+                            "name": "text",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": "",
+                            "parent_repeater": "field_mbf_site_finder_options_points"
+                        }
+                    ],
+                    "parent_repeater": "field_mbf_site_finder_options"
+                }
+            ]
+        },
+        {
+            "key": "field_mbf_site_finder_question_2",
+            "label": "Question 2",
+            "name": "finder_question_2",
+            "type": "text",
+            "instructions": "Optional. Leave empty for a one-question finder.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "What kind of site is it?",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_mbf_site_finder_sites",
+            "label": "Question 2 options",
+            "name": "finder_sites",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "layout": "table",
+            "min": 0,
+            "max": 0,
+            "collapsed": "",
+            "rows_per_page": 20,
+            "button_label": "Add site type",
+            "sub_fields": [
+                {
+                    "key": "field_mbf_site_finder_sites_key",
+                    "label": "Key",
+                    "name": "key",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "25",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_sites"
+                },
+                {
+                    "key": "field_mbf_site_finder_sites_label",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "40",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_sites"
+                },
+                {
+                    "key": "field_mbf_site_finder_sites_phrase",
+                    "label": "Phrase",
+                    "name": "phrase",
+                    "type": "text",
+                    "instructions": "Completes \"Our recommendation for …\", e.g. \"a warehouse\".",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "35",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_sites"
+                }
+            ]
+        },
+        {
+            "key": "field_mbf_site_finder_button",
+            "label": "Button label",
+            "name": "finder_button",
+            "type": "text",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "Book a free site survey",
+            "maxlength": "",
+            "placeholder": "",
+            "prepend": "",
+            "append": ""
+        },
+        {
+            "key": "field_mbf_site_finder_target",
+            "label": "Form page",
+            "name": "finder_target",
+            "type": "page_link",
+            "instructions": "The page with the enquiry form.",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "50",
+                "class": "",
+                "id": ""
+            },
+            "post_type": [
+                "page",
+                "post"
+            ],
+            "taxonomy": "",
+            "allow_null": 1,
+            "allow_archives": 0,
+            "multiple": 0
+        },
+        {
             "key": "field_mbf_site_tab_forms",
             "label": "Forms",
             "name": "",
@@ -341,5 +722,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1793968481
+    "modified": 1793980332
 }

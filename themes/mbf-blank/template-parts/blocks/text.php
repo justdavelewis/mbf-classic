@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a = wp_parse_args( $args, [ 'heading' => '', 'body' => '' ] );
+$mbf_a = wp_parse_args( $args, [ 'heading' => '', 'lead' => '', 'body' => '' ] );
 
 if ( '' === (string) $mbf_a['heading'] && '' === (string) $mbf_a['body'] ) {
 	return;
@@ -19,7 +19,7 @@ $mbf_id = '' !== (string) $mbf_a['heading'] ? mbf_section_id( $mbf_a['heading'] 
 ?>
 <section <?php mbf_section_attrs( $mbf_a, $mbf_id, [ 'mbf-text' ] ); ?>>
 	<div class="mbf-section__inner">
-		<?php get_template_part( 'template-parts/section-heading', null, [ 'heading' => $mbf_a['heading'], 'id' => $mbf_id ] ); ?>
+		<?php get_template_part( 'template-parts/section-heading', null, [ 'heading' => $mbf_a['heading'], 'lead' => $mbf_a['lead'], 'id' => $mbf_id ] ); ?>
 		<?php if ( '' !== (string) $mbf_a['body'] ) : ?>
 			<div class="prose"><?php echo wp_kses_post( $mbf_a['body'] ); ?></div>
 		<?php endif; ?>

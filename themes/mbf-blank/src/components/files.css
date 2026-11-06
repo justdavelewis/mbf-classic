@@ -1,0 +1,20 @@
+/* --- Downloads list (template-parts/file-list.php), in Downloads and Specifications. --- */
+.mbf-files {
+	/* Dials (03) */
+	--files-gap: var(--space-s);
+	--files-tile: 20rem;
+	--file-gap: var(--space-s);
+	--file-divider: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);  /* decorative */
+	--file-cover: 4rem;
+
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(min(var(--files-tile), 100%), 1fr));
+	gap: var(--files-gap);
+}
+
+.mbf-file { display: flex; align-items: start; gap: var(--file-gap); padding-block: var(--file-gap); border-block-end: var(--file-divider); }
+.mbf-file__cover { flex-shrink: 0; inline-size: var(--file-cover); block-size: auto; }
+.mbf-file__body { display: grid; gap: var(--space-xs); min-inline-size: 0; }
+.mbf-file__link { font-weight: 600; color: var(--section-link, var(--color-primary)); overflow-wrap: anywhere; }
+.mbf-file__meta { font-weight: 400; }
+.mbf-file__note { font-size: var(--fs-sm); color: var(--section-muted, var(--color-text-muted)); }

@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a     = wp_parse_args( $args, [ 'heading' => '', 'lead' => '', 'items' => [] ] );
+$mbf_a     = wp_parse_args( $args, [ 'heading' => '', 'lead' => '', 'items' => [], 'button_1' => null ] );
 $mbf_items = array_filter( mbf_rows( $mbf_a['items'] ), static fn( $item ) => '' !== (string) ( $item['title'] ?? '' ) );
 
 if ( ! $mbf_items ) {
@@ -30,8 +30,12 @@ $mbf_level = '' !== (string) $mbf_a['heading'] ? 'h3' : 'h2';
 					<?php if ( '' !== (string) ( $mbf_item['text'] ?? '' ) ) : ?>
 						<p><?php echo esc_html( $mbf_item['text'] ); ?></p>
 					<?php endif; ?>
+					<?php if ( '' !== (string) ( $mbf_item['tag'] ?? '' ) ) : ?>
+						<span class="mbf-steps__tag"><?php echo esc_html( $mbf_item['tag'] ); ?></span>
+					<?php endif; ?>
 				</li>
 			<?php endforeach; ?>
 		</ol>
+		<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => [ $mbf_a['button_1'] ] ] ); ?>
 	</div>
 </section>

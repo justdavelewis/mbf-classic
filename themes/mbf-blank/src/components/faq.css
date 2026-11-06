@@ -9,6 +9,12 @@
 	--faq-question-weight: 600;
 	--faq-question-pad: var(--space-s);
 	--faq-answer-pad: var(--space-fluid-s);
+	--faq-gap: var(--layout-gap);
+	--faq-columns: minmax(0, 2fr) minmax(0, 1fr);   /* questions | side card, once split */
+	--faq-aside-gap: var(--space-fluid-s);
+	--faq-aside-pad: var(--space-fluid-m);
+	--faq-aside-border: var(--faq-divider);
+	--faq-aside-radius: var(--radius);
 }
 
 .mbf-faq__list { display: grid; max-inline-size: var(--faq-measure); }
@@ -32,3 +38,11 @@
 .mbf-faq__question .mbf-chevron { flex-shrink: 0; }
 
 .mbf-faq__answer { padding-block-end: var(--faq-answer-pad); }
+
+/* Only with a side card. A plain FAQ has no grid, and keeps its measure. */
+.mbf-faq__grid { display: grid; gap: var(--faq-gap); align-items: start; }
+.mbf-faq__aside { display: grid; gap: var(--faq-aside-gap); padding: var(--faq-aside-pad); border: var(--faq-aside-border); border-radius: var(--faq-aside-radius); }
+
+@container (min-width: 56rem) {
+	.mbf-faq__grid { grid-template-columns: var(--faq-columns); }
+}

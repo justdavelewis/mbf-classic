@@ -1,0 +1,46 @@
+/* --- Case study (template-parts/blocks/case-study.php) --- */
+.mbf-case-study {
+	/* Dials (03). The 48rem split point can't be one: custom properties don't work in @container. */
+	--case-study-gap: var(--layout-gap);
+	--case-study-text-gap: var(--content-gap);
+	--case-study-columns: repeat(2, minmax(0, 1fr));
+	--case-study-image-ratio: 4 / 3;
+	--case-study-image-radius: var(--radius);
+	--case-study-metric-tile: 8rem;
+	--case-study-value-size: var(--fs-h2);
+	--case-study-value-color: var(--section-accent, var(--color-primary));
+	--case-study-label-color: var(--section-muted, var(--color-text-muted));
+	--case-study-quote-rule: 3px solid var(--section-accent, var(--color-primary));
+	--case-study-quote-indent: var(--space-fluid-s);
+}
+
+.mbf-case-study__grid { display: grid; gap: var(--case-study-gap); align-items: center; }
+.mbf-case-study__text { display: grid; gap: var(--case-study-text-gap); }
+
+.mbf-case-study__metrics {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--case-study-metric-tile), 100%), 1fr));
+	gap: var(--space-s);
+}
+
+.mbf-case-study__metric { display: grid; gap: var(--space-xs); align-content: start; }
+.mbf-case-study__value { font-size: var(--case-study-value-size); font-weight: 700; line-height: 1; color: var(--case-study-value-color); }
+.mbf-case-study__label { font-size: var(--fs-sm); color: var(--case-study-label-color); }
+
+.mbf-case-study__quote { display: grid; gap: var(--space-xs); padding-inline-start: var(--case-study-quote-indent); border-inline-start: var(--case-study-quote-rule); }
+
+.mbf-case-study__image {
+	inline-size: 100%;
+	block-size: auto;
+	aspect-ratio: var(--case-study-image-ratio);
+	object-fit: cover;
+	border-radius: var(--case-study-image-radius);
+}
+
+@container (min-width: 48rem) {
+	.mbf-case-study__grid { grid-template-columns: var(--case-study-columns); }
+
+	/* Image first visually; the DOM stays text → image (03: grid-column, never order). */
+	.mbf-case-study--image-start .mbf-case-study__image { grid-column: 1; grid-row: 1; }
+	.mbf-case-study--image-start .mbf-case-study__text { grid-column: 2; }
+}

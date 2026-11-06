@@ -81,9 +81,35 @@
 
 ---
 
+## 2026-11-06 — Component dials: card, button, hero, section
+
+**Decision (David, 2026-11-06):** blocks get "dials" so one value re-skins every instance,
+*"sure it takes more set up but makes it infinitely easier to change things"*. Developer-only
+(CSS, no wp-admin fields). Start with four components, then review. No utility-class layer
+(*"thats more aimed at people doing my job"*). Andonette to review the docs/03 rule.
+
+**Changed:** `card.css` (+ radius, pad, gap, title size, image ratio), `button.css` (dials
+fill/label/fill-hover/label-hover/border/radius/font/size/weight; state `--button-bg/-text`
+swapped on hover; secondary re-sets dials only, at `.mbf-button.mbf-button--secondary`),
+`hero.css` (dials on `.mbf-hero`: gap, text gap, measure, image ratio and radius),
+`section.css` (pad-y/-x, gap, wrap). Standards: docs/03 "Component dials", CLAUDE.md §3,
+CHANGELOG.
+
+**Verified:** computed styles for every section, card, button and hero on `/_sample/` and
+`/` at 1440 and 390, plus 48 hover states: 504 values, **0 differences** before/after. Each
+dial turned and the block followed (pad 40→5px, radius 12→0, title 24→40px, button radius
+6→0 and weight 600→800, fill → test colour, hero gap 64→7px and ratio 4/3→1/1, section gap
+64→9px and padding 88→11px). Two things measured: an ancestor's `--card-pad` is ignored (the
+card's own declaration wins over inheritance), so overrides target the component; and a
+later `.mbf-button { --button-fill }` turned the secondary solid until the variant went to
+0-2-0. 0 console errors, 0 PHP notices, verify-tokens: none undefined.
+
+**Next:** review the pattern, then the other ~21 components. Then `--grid-gap` (cards, logos,
+stats and steps all repeat a grid gap).
+
 ## 2026-11-06 — Style Settings (site owners change the look without code)
 
-**Changed (branch `feature/style-settings`, uncommitted):** Site Settings › **Style**
+**Changed (branch `feature/style-settings`, committed `0ce821b`):** Site Settings › **Style**
 (admins only), tabs Colours / Typography / Spacing / Shape (`acf-json/group_mbf_style_settings`,
 `ui_options_page_mbf_style_settings`). `inc/style-settings.php`: saved choices → theme.json via
 `wp_theme_json_data_theme` (full palette + `custom.*`), cache cleared on save, font choices from

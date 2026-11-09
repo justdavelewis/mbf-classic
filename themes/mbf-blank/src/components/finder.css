@@ -50,8 +50,11 @@
 .mbf-finder__options {
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(min(var(--finder-tile), 100%), 1fr));
+	grid-auto-rows: 1fr;   /* every row matches the tallest, so a two-line label can't make one box taller */
 	gap: var(--finder-option-gap);
 }
+
+.mbf-finder__options > li { display: grid; }   /* the option fills its cell */
 
 .mbf-finder__option {
 	display: flex;

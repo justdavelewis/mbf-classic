@@ -1,14 +1,19 @@
 /* --- Hotspots (template-parts/blocks/hotspots.php, assets/js/hotspots.js) --- */
 .mbf-hotspots {
 	/*
-	 * Dials (03). The 56rem split point can't be one: custom properties don't work in
-	 * @container. Keep --hotspots-marker ≥ 44px. The marker's edge is what keeps it readable
-	 * on any photo, so it stays a solid light ring whatever the ground.
+	 * Dials (03). The 36rem and 56rem points can't be dials: custom properties don't work in
+	 * @container. The marker's edge is what keeps it readable on any photo, so it stays a solid
+	 * light ring whatever the ground.
+	 *
+	 * 2rem in a narrow container: at 44px a real 11-marker scene overlapped by up to 38% at 320
+	 * (measured 2026-11-09). Not a target-size cost: 32px passes 2.5.8 (24px), and the list is
+	 * the keyboard and screen-reader path. Keep --hotspots-marker ≥ 24px.
 	 */
 	--hotspots-gap: var(--layout-gap);
 	--hotspots-columns: minmax(0, 3fr) minmax(0, 2fr);   /* image | list, once split */
 	--hotspots-image-radius: var(--radius);
-	--hotspots-marker: var(--button-h);
+	--hotspots-marker: 2rem;
+	--hotspots-marker-wide: var(--button-h);
 	--hotspots-marker-bg: var(--color-primary);
 	--hotspots-marker-text: var(--color-base);
 	--hotspots-marker-edge: 0 0 0 2px var(--color-base);
@@ -71,6 +76,11 @@ a.mbf-hotspots__title { display: inline-block; color: var(--section-link, var(--
 
 /* The selected tab is marked by its underline as well as its colour (1.4.1). */
 .mbf-hotspots__tab[aria-selected="true"] { border-block-end-color: var(--hotspots-tab-active); color: var(--hotspots-tab-active); }
+
+/* Set on __media, not .mbf-hotspots: that's the section, outside the container it would query. */
+@container (min-width: 36rem) {
+	.mbf-hotspots__media { --hotspots-marker: var(--hotspots-marker-wide); }
+}
 
 @container (min-width: 56rem) {
 	.mbf-hotspots__scene { grid-template-columns: var(--hotspots-columns); }

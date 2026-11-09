@@ -84,6 +84,29 @@
 
 ---
 
+## 2026-11-09 — Smaller phone markers, equal finder options
+
+David: *"Yeah lets do all of those please"*, after a check of a real client hotspot scene
+(18 markers, 2 images) on `/_sample/`, and a read of Mantech's 9 November commits. The client
+content was a throwaway local import, never in the repo; placeholders are restored.
+
+- **Hotspot markers are 2rem in a container under 36rem.** At 44px, an 11-marker scene
+  overlapped by up to 24% at 390 and 38% at 320. At 32px: none at 390, and at 320 only two
+  pairs (3% and 15%), every number still readable. Wider containers are unchanged. 32px passes
+  2.5.8, and the list stays the keyboard and screen-reader path.
+- **Finder options are equal height** (from Mantech): `grid-auto-rows: 1fr`, and each option
+  fills its `li`. Measured with a forced long label through both steps, at 7 widths: one height
+  per step. The cost: in one column, a long label makes every option in that step taller.
+- **Verified:** before/after fingerprint over 63 views: only the finder options and the markers
+  at 390 and 320 changed; 0 overflow, 0 console errors, 0 PHP notices.
+- **Standards (same day):** logged-in anchor gotcha corrected, `--delay-updates` on deploys.
+
+**Open:** `/_sample/` is now the static front page (`page_on_front=39`, not set by a script), so
+`/` duplicates it and `/page/2/` no longer tests the blog index. `baseline-layout-library.json`
+predates that. Until it's settled, compare against `.fingerprints/after-marker-finder.json`.
+
+---
+
 ## 2026-11-06 — Layout library: the sections all our height-safety clients use
 
 David: *"look at all the ACF fields we have across Mantech, S&A & FA and make some very basic

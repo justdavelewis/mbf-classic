@@ -17,7 +17,7 @@
 - D1 `inc/`: `setup enqueue builder helpers options forms` only. No `woocommerce`,
   `post-types`, `admin-help`, `schema`. (`schema` added 2026-11-06, Q9.)
 - D2 Header: single row; dropdowns `<details>`; no mega menu.
-- D3 Breakpoint `64rem`.
+- D3 Breakpoint `64rem` (raised to `75rem`, 2026-11-09; see the dated entry).
 - D4 Editor presets: fontSizes sm/body/lead/h4–h1; spacing fluid s/m/l/xl. Display stays
   in tokens.css only.
 - D5 Components in `src/components/` until `mbf-css` exists.
@@ -84,6 +84,30 @@
 
 ---
 
+## 2026-11-09 — Home page and one page of each type, as the baseline
+
+David: *"Can we create a homepage and a sample page of each of the page types as a baseline?"*
+
+- **`scripts/build-page-types.php`** (dry/force, idempotent) writes the sections. Run after
+  `build-placeholder-content.php` and `build-sample-page.php`. Section order follows what the
+  client sites' pages of the same type use.
+- **Types:** home, about, product hub and detail, service hub and detail, industry hub and
+  detail, case studies, FAQs, contact, blog. Post, legal page, search and 404 already existed.
+- **Reading settings:** `/` is the new Home page, `/blog/` the posts page, and `/_sample/` is
+  its own page again (it had become the front page, so `/` duplicated it).
+- **Fingerprint:** 18 pages × 7 widths = 126 views, 0 overflow, 0 console errors, 0 PHP notices.
+  New baseline: `.fingerprints/baseline-page-types.json`. Each type: one h1, no skipped heading
+  levels, no two adjacent sections on the same ground.
+- **Scene images:** David: *"Keep the FA images in as they are typical of KEE"*. Two local
+  attachments tagged `_mbf_sample_asset` = `scene-rooftop` / `scene-warehouse`, in uploads only
+  (gitignored). The scripts use them if present; a fork gets the flat placeholder.
+
+- **Nav switch raised to 75rem** (David: *"Go with 75rem and open the PR"*; replaces D3's 64rem).
+  Seven top-level items plus the button overflowed by 80px at 1024 and 11px at 1100. The
+  placeholder menu stays at five, with Case studies and Blog linked from page content.
+
+---
+
 ## 2026-11-09 — Smaller phone markers, equal finder options
 
 David: *"Yeah lets do all of those please"*, after a check of a real client hotspot scene
@@ -100,10 +124,6 @@ content was a throwaway local import, never in the repo; placeholders are restor
 - **Verified:** before/after fingerprint over 63 views: only the finder options and the markers
   at 390 and 320 changed; 0 overflow, 0 console errors, 0 PHP notices.
 - **Standards (same day):** logged-in anchor gotcha corrected, `--delay-updates` on deploys.
-
-**Open:** `/_sample/` is now the static front page (`page_on_front=39`, not set by a script), so
-`/` duplicates it and `/page/2/` no longer tests the blog index. `baseline-layout-library.json`
-predates that. Until it's settled, compare against `.fingerprints/after-marker-finder.json`.
 
 ---
 

@@ -71,14 +71,15 @@
 .mbf-site-header__toggle-bars::after { inset-block-start: 4px; }
 
 /*
- * THE nav ↔ drawer breakpoint: 64rem (1024px), stated once, as min-width (§2, STATUS D3).
- * JS copy: assets/js/drawer.js (closes an open drawer when crossing it). Not a dial:
- * custom properties don't work in @media.
+ * THE nav ↔ drawer breakpoint: 75rem (1200px), stated once, as min-width (§2, STATUS D3).
+ * Raised from 64rem (David, 2026-11-09): seven top-level items plus the button overflowed
+ * by 80px at 1024. JS copy: assets/js/drawer.js (closes an open drawer when crossing it).
+ * Not a dial: custom properties don't work in @media.
  */
 .mbf-nav,
 .mbf-site-header__cta--drawer { display: none; }   /* below it, the drawer carries the button */
 
-@media (min-width: 64rem) {
+@media (min-width: 75rem) {
 	.mbf-nav,
 	.mbf-site-header__cta--drawer { display: block; }
 	.mbf-site-header__toggle { display: none; }

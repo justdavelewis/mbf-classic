@@ -77,6 +77,16 @@ $mbf_svc_a    = $mbf_services ? $mbf_ensure( 'page', 'inspection', 'Inspection',
 $mbf_svc_b    = $mbf_services ? $mbf_ensure( 'page', 'maintenance', 'Maintenance', '<p>Placeholder service page.</p>', $mbf_services ) : 0;
 $mbf_contact  = $mbf_ensure( 'page', 'contact', 'Contact', '<p>Placeholder contact page.</p>' );
 
+// One of each page type; build-page-types.php writes their sections.
+$mbf_ensure( 'page', 'home', 'Home', '' );
+$mbf_products   = $mbf_ensure( 'page', 'products', 'Products', '' );
+$mbf_product    = $mbf_products ? $mbf_ensure( 'page', 'placeholder-product', 'Placeholder product', '', $mbf_products ) : 0;
+$mbf_industries = $mbf_ensure( 'page', 'industries', 'Industries', '' );
+$mbf_sector     = $mbf_industries ? $mbf_ensure( 'page', 'placeholder-sector', 'Placeholder sector', '', $mbf_industries ) : 0;
+$mbf_ensure( 'page', 'case-studies', 'Case studies', '' );
+$mbf_ensure( 'page', 'faqs', 'FAQs', '' );
+$mbf_ensure( 'page', 'blog', 'Blog', '' );
+
 if ( ! $mbf_services ) {
 	$mbf_log( 'create the two Services child pages once Services exists' );
 }
@@ -145,6 +155,22 @@ $mbf_menu = static function ( string $name, string $location, array $items ) use
 		}
 	}
 
+	// The order given here, not the order items happened to be added across runs.
+	$position = 0;
+
+	foreach ( $items as [ $page_id ] ) {
+		++$position;
+		$item_id = $by_page[ $page_id ] ?? 0;
+
+		if ( $item_id && (int) get_post_field( 'menu_order', $item_id ) !== $position ) {
+			$mbf_log( "move \"{$name}\" menu item to position {$position}: " . get_the_title( $page_id ) );
+
+			if ( $mbf_force ) {
+				wp_update_post( [ 'ID' => $item_id, 'menu_order' => $position ] );
+			}
+		}
+	}
+
 	$locations = get_nav_menu_locations();
 
 	if ( ! $menu_id || ( $locations[ $location ] ?? 0 ) !== $menu_id ) {
@@ -160,7 +186,7 @@ $mbf_menu = static function ( string $name, string $location, array $items ) use
 $mbf_menu(
 	'Primary',
 	'primary',
-	[ [ $mbf_about, 0 ], [ $mbf_services, 0 ], [ $mbf_svc_a, $mbf_services ], [ $mbf_svc_b, $mbf_services ], [ $mbf_contact, 0 ] ]
+	[ [ $mbf_about, 0 ], [ $mbf_products, 0 ], [ $mbf_product, $mbf_products ], [ $mbf_services, 0 ], [ $mbf_svc_a, $mbf_services ], [ $mbf_svc_b, $mbf_services ], [ $mbf_industries, 0 ], [ $mbf_sector, $mbf_industries ], [ $mbf_contact, 0 ] ]
 );
 $mbf_menu( 'Footer', 'footer', [ [ $mbf_privacy, 0 ], [ $mbf_terms, 0 ] ] );
 

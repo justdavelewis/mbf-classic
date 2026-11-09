@@ -84,6 +84,34 @@
 
 ---
 
+## 2026-11-09 — End of day: where things stand
+
+**Three stacked PRs, all open. Merge in this order:** #4 (layout library), #5 (home page and page
+types), #6 (finder and enquiry form). GitHub only retargets the next PR by itself if the merged
+branch is deleted.
+
+**Before merging, still to do:**
+- Send a real form submission and try a file upload. Neither has been tested.
+- VoiceOver through the finder and the form.
+- In wp-admin, add a Hotspots section and the Solution finder settings, and save.
+- Decide: does the hero background photo stay (it partly reverses D8), and do we keep `specs`
+  (recommended: keep)?
+- Andi to review.
+
+**Local state, this database only:**
+- The enquiry form is ID 4. The script only creates a form if none has its label, so after editing
+  `scripts/data/enquiry-form.json`, trash the old one and re-run `build-sample-page.php force`.
+  Forms 2 and 3 are trashed test imports; form 1 is the old placeholder, now unused.
+- Two scene images (attachments 49 and 50) are copies of Fisher Alvin's, kept on purpose and
+  gitignored. They're tagged `scene-rooftop` / `scene-warehouse`.
+- Baseline: `.fingerprints/baseline-page-types.json`, current as of this entry.
+
+**Done since the form entry below:** Previous now sits beside Submit, under the consent box.
+
+**Next, once the PRs are in:** fork script, then a staging test fork, then the mega menu.
+
+---
+
 ## 2026-11-09 — Mantech's finder and enquiry form, on our tokens
 
 David: *"Can we take the finder from mantech? it has more options and i like the glassy effect"*,

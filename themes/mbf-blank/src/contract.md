@@ -52,17 +52,20 @@ ul.mbf-files[role=list] > li.mbf-file
   img.mbf-file__cover         optional; decorative
   .mbf-file__body > a.mbf-file__link[download] (span.mbf-file__meta "(PDF, 1.2 MB)")  p.mbf-file__note
 
-finder.php                   ($args: context=panel|section, level, show_question) data: inc/finder.php
+finder.php                   ($args: context=panel|glass|section, level, show_question) data: inc/finder.php
 .mbf-finder.mbf-finder--{context}[data-mbf-finder=JSON]
-  p.mbf-eyebrow               panel only
-  p.mbf-finder__step[aria-live=polite]    empty (hidden) until finder.js runs
+  .mbf-finder__head
+    p.mbf-eyebrow             panel and glass
+    p.mbf-finder__step[aria-live=polite]    empty (hidden) until finder.js runs
+  .mbf-finder__bars[aria-hidden] > span.mbf-finder__bar[.is-on]   built by finder.js, one per step
   .mbf-finder__stage
     h{level}.h4.mbf-finder__question      when show_question
     ul.mbf-finder__options[role=list] > li > a.mbf-finder__option   the no-JS finder
   · finder.js swaps the stage: button.mbf-finder__option (a link if it has no page),
     p.mbf-finder__intro, .mbf-ticks, .mbf-buttons, button.mbf-finder__back
   · panel: light card, re-scopes the section family AND --focus-ring (its rings are inside it)
-  · the form button adds ?need={key}&site={key}: WS Form fields read #query_var("need")
+  · glass: frosted, keeps the dark ground's section family; solid under prefers-reduced-transparency
+  · the form button adds ?need={key}&site={key}: WS Form fields read #query_var(need)
 
 cta-buttons.php              ($args: buttons[ACF link], phone_fallback)
 .mbf-buttons
@@ -98,11 +101,14 @@ enquiry-form.php             ($args: form_id)
 ## Layouts (`template-parts/blocks/`)
 
 ```
-hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], panel(image|finder), image, position
-  section.mbf-hero[.mbf-hero--media] > __inner > .mbf-hero__grid
+hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], panel(image|finder), image, background_image, position
+  section.mbf-hero[.mbf-hero--media][.mbf-hero--photo]
+    img.mbf-hero__photo[alt=""]   dark grounds only, under a veil (::before, --hero-veil)
+  __inner > .mbf-hero__grid
     .mbf-hero__text > p.mbf-eyebrow  h1|h2.display#id  p.lead  .mbf-buttons  .mbf-badges
     img.mbf-hero__image       library alt; eager + fetchpriority=high when first
-    | .mbf-finder--panel      panel=finder, when the finder has options
+    | .mbf-finder--panel      panel=finder, on a light ground, when the finder has options
+    | .mbf-finder--glass      panel=finder, on a dark ground (mbf_is_dark_ground())
   · h1 only when position = 1 (page.php then skips page-hero)
 
 text.php        heading, lead, body

@@ -55,7 +55,7 @@ function mbf_finder_config(): array {
 		$label = (string) ( $row['label'] ?? '' );
 
 		if ( '' !== $key && '' !== $label ) {
-			$sites[] = [ 'key' => $key, 'label' => $label, 'phrase' => (string) ( $row['phrase'] ?? '' ) ];
+			$sites[] = [ 'key' => $key, 'label' => $label, 'phrase' => (string) ( $row['phrase'] ?? '' ), 'icon' => mbf_icon( (string) ( $row['icon'] ?? '' ), 'mbf-finder__icon' ) ];
 		}
 	}
 

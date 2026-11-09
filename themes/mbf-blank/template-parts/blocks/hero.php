@@ -4,14 +4,14 @@
  * (page.php then skips the default page header). Anywhere else it's an h2, so a page never
  * gets two h1s.
  *
- * $args: heading, lead, button_1, button_2, image + section controls, position.
+ * $args: heading, lead, button_1, button_2, image, background_image + section controls, position.
  *
  * @package mbf-blank
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a = wp_parse_args( $args, [ 'eyebrow' => '', 'heading' => '', 'lead' => '', 'button_1' => null, 'button_2' => null, 'badges' => [], 'panel' => 'image', 'image' => 0, 'position' => 1 ] );
+$mbf_a = wp_parse_args( $args, [ 'eyebrow' => '', 'heading' => '', 'lead' => '', 'button_1' => null, 'button_2' => null, 'badges' => [], 'panel' => 'image', 'image' => 0, 'background_image' => 0, 'position' => 1 ] );
 
 if ( '' === (string) $mbf_a['heading'] ) {
 	return;
@@ -25,8 +25,23 @@ $mbf_tag   = $mbf_first ? 'h1' : 'h2';
 $mbf_finder = 'finder' === $mbf_a['panel'] && mbf_finder_config();
 $mbf_image  = $mbf_finder ? 0 : (int) $mbf_a['image'];
 $mbf_badges = array_filter( array_column( mbf_rows( $mbf_a['badges'] ), 'text' ), 'strlen' );
+
+// The veil's contrast is only measured for light text, so a photo and glass need a dark ground.
+$mbf_dark  = mbf_is_dark_ground( (string) ( $mbf_a['ground'] ?? '' ) );
+$mbf_photo = $mbf_dark ? (int) $mbf_a['background_image'] : 0;
 ?>
-<section <?php mbf_section_attrs( $mbf_a, $mbf_id, array_filter( [ 'mbf-hero', ( $mbf_image || $mbf_finder ) ? 'mbf-hero--media' : '' ] ) ); ?>>
+<section <?php mbf_section_attrs( $mbf_a, $mbf_id, array_filter( [ 'mbf-hero', ( $mbf_image || $mbf_finder ) ? 'mbf-hero--media' : '', $mbf_photo ? 'mbf-hero--photo' : '' ] ) ); ?>>
+	<?php
+	if ( $mbf_photo ) {
+		// Decorative: the heading says what the section is. The first row is the LCP image.
+		echo wp_get_attachment_image(
+			$mbf_photo,
+			'full',
+			false,
+			[ 'class' => 'mbf-hero__photo', 'alt' => '', 'sizes' => '100vw' ] + ( $mbf_first ? [ 'loading' => 'eager', 'fetchpriority' => 'high' ] : [] )
+		);
+	}
+	?>
 	<div class="mbf-section__inner">
 		<div class="mbf-hero__grid">
 			<div class="mbf-hero__text">
@@ -42,7 +57,7 @@ $mbf_badges = array_filter( array_column( mbf_rows( $mbf_a['badges'] ), 'text' )
 			</div>
 			<?php
 			if ( $mbf_finder ) {
-				get_template_part( 'template-parts/finder', null, [ 'context' => 'panel', 'level' => $mbf_first ? 2 : 3 ] );
+				get_template_part( 'template-parts/finder', null, [ 'context' => $mbf_dark ? 'glass' : 'panel', 'level' => $mbf_first ? 2 : 3 ] );
 			} elseif ( $mbf_image ) {
 				// Alt text comes from the Media Library (human-written, 04). The first row is the LCP image.
 				echo wp_get_attachment_image(

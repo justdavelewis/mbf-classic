@@ -4,7 +4,7 @@
  *   1. Which option? An option with no recommended page stays a link to the form.
  *   2. Which site type? Skipped when the site has no question 2.
  *   3. The recommendation, and a button to the form carrying ?need=…&site=…, which WS Form
- *      fields read with #query_var("need").
+ *      fields read with #query_var(need).
  *
  * Options are real <button>s. Each change moves focus to the new question (never on load,
  * which would scroll the page to the finder), and the step line announces itself.
@@ -44,6 +44,9 @@
 
 		const hasSites = Boolean( config.question2 && config.sites?.length );
 		const total = hasSites ? 3 : 2;
+		const bars = Array.from( { length: total }, () => element( 'span', 'mbf-finder__bar' ) );
+
+		root.querySelector( '[data-mbf-finder-bars]' )?.replaceChildren( ...bars );
 
 		const question = ( text ) => {
 			const heading = element( `h${ config.level }`, 'h4 mbf-finder__question', text );
@@ -54,6 +57,7 @@
 		const paint = ( step, nodes, moveFocus = true ) => {
 			stage.replaceChildren( ...nodes );
 			stepLine.textContent = format( config.strings.step, String( step ), String( total ) );
+			bars.forEach( ( bar, i ) => bar.classList.toggle( 'is-on', i < step ) );
 
 			if ( moveFocus ) {
 				( stage.querySelector( '.mbf-finder__question' ) ?? stage.querySelector( 'button, a' ) )?.focus();

@@ -8,11 +8,26 @@
 	--finder-option-radius: var(--radius-button);
 	--finder-option-text: var(--section-heading, var(--color-heading));
 	--finder-option-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 45%, transparent);  /* the label identifies it */
+	--finder-option-bg: transparent;
 	--finder-option-hover: color-mix(in oklch, var(--section-accent, var(--color-primary)) 12%, transparent);
+	--finder-option-hover-line: var(--section-accent, var(--color-primary));
 	--finder-icon-color: var(--section-accent, var(--color-primary));
+	--finder-bar: color-mix(in oklch, var(--section-text, var(--color-text)) 20%, transparent);
+	--finder-bar-on: var(--section-accent, var(--color-primary));
 
 	display: grid;
 	gap: var(--finder-gap);
+}
+
+/* Beside a hero: two columns of answers, one on a phone. */
+.mbf-finder--panel,
+.mbf-finder--glass {
+	--finder-panel-pad: var(--space-fluid-m);
+	--finder-panel-radius: var(--radius);
+	--finder-tile: 11rem;
+
+	padding: var(--finder-panel-pad);
+	border-radius: var(--finder-panel-radius);
 }
 
 /*
@@ -29,19 +44,49 @@
 	--section-on-accent: var(--color-base);
 	--section-link: var(--color-primary);
 	--focus-ring: var(--color-primary);
-	--finder-panel-pad: var(--space-fluid-m);
-	--finder-panel-radius: var(--radius);
-	--finder-tile: 100%;
 
-	padding: var(--finder-panel-pad);
-	border-radius: var(--finder-panel-radius);
 	background: var(--section-bg);
 	color: var(--section-text);
 	box-shadow: var(--shadow);
 }
 
+/*
+ * Glass: for a dark ground only. It keeps the section's own dark family (it doesn't re-scope
+ * like the panel), so every colour comes from the ground's tokens. PHP chooses it through
+ * mbf_is_dark_ground(). A fork's palette is covered by mbf_contrast_pairs().
+ */
+.mbf-finder--glass {
+	--finder-glass-tint: color-mix(in srgb, var(--color-contrast) 55%, transparent);
+	--finder-glass-filter: blur(16px) saturate(140%);
+	--finder-glass-line: color-mix(in srgb, var(--section-text) 18%, transparent);
+	--finder-glass-shadow: 0 18px 45px color-mix(in srgb, var(--color-contrast) 35%, transparent);
+	--finder-option-bg: color-mix(in srgb, var(--section-text) 8%, transparent);
+	--finder-option-hover: color-mix(in srgb, var(--section-text) 16%, transparent);
+	--finder-option-border: 1px solid var(--finder-glass-line);
+
+	border: 1px solid var(--finder-glass-line);
+	background: var(--finder-glass-tint);
+	-webkit-backdrop-filter: var(--finder-glass-filter);
+	backdrop-filter: var(--finder-glass-filter);
+	box-shadow: var(--finder-glass-shadow);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+	.mbf-finder--glass {
+		--finder-glass-tint: var(--color-contrast);
+		--finder-glass-filter: none;
+	}
+}
+
+.mbf-finder__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-xs) var(--space-s); }
+
 .mbf-finder__step { font-size: var(--fs-sm); color: var(--section-muted, var(--color-text-muted)); }
 .mbf-finder__step:empty { display: none; }  /* no JS: no steps */
+
+.mbf-finder__bars { display: flex; gap: var(--space-xs); }
+.mbf-finder__bars:empty { display: none; }
+.mbf-finder__bar { flex: 1; block-size: 3px; background: var(--finder-bar); }
+.mbf-finder__bar.is-on { background: var(--finder-bar-on); }
 
 .mbf-finder__stage { display: grid; gap: var(--finder-gap); }
 .mbf-finder__question { color: var(--section-heading, var(--color-heading)); scroll-margin-block-start: 6rem; }
@@ -65,15 +110,16 @@
 	padding: var(--finder-option-pad);
 	border: var(--finder-option-border);
 	border-radius: var(--finder-option-radius);
+	background: var(--finder-option-bg);
 	color: var(--finder-option-text);
 	font-weight: 600;
 	text-align: start;
 	text-decoration: none;
 	cursor: pointer;
-	transition: background-color 150ms var(--ease);
+	transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
 }
 
-.mbf-finder__option:is(:hover, :focus-visible) { background: var(--finder-option-hover); }
+.mbf-finder__option:is(:hover, :focus-visible) { border-color: var(--finder-option-hover-line); background: var(--finder-option-hover); }
 .mbf-finder__icon { flex-shrink: 0; color: var(--finder-icon-color); }
 
 .mbf-finder__back {

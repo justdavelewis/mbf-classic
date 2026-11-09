@@ -108,17 +108,17 @@ if ( ! $mbf_ids['file'] ) {
 	}
 }
 
-// --- 2. Placeholder enquiry form, from WS Form's own "Contact Us" template --------------
+// --- 2. The enquiry form: Mantech's structure, with nothing client-specific (scripts/data/) ---
 global $wpdb;
 
-$mbf_form_label = 'MBF placeholder enquiry';
+$mbf_form_label = 'MBF enquiry';
 $mbf_form_id    = (int) $wpdb->get_var( $wpdb->prepare( "SELECT id FROM {$wpdb->prefix}wsf_form WHERE label = %s AND status != 'trash' ORDER BY id LIMIT 1", $mbf_form_label ) );
 
 if ( ! $mbf_form_id ) {
-	$mbf_log( "create WS Form \"{$mbf_form_label}\" from the plugin's Contact Us template" );
+	$mbf_log( "create WS Form \"{$mbf_form_label}\" from scripts/data/enquiry-form.json" );
 
 	if ( $mbf_force ) {
-		$mbf_template = WS_FORM_PLUGIN_DIR_PATH . 'includes/templates/form/contact/wsf-form-contact-us.json';
+		$mbf_template = __DIR__ . '/data/enquiry-form.json';
 		$mbf_obj      = json_decode( (string) file_get_contents( $mbf_template ) );
 
 		if ( ! $mbf_obj ) {
@@ -133,6 +133,23 @@ if ( ! $mbf_form_id ) {
 		$mbf_form_id     = (int) $mbf_form->db_create();
 		$mbf_form->id    = $mbf_form_id;
 		$mbf_form->db_update_from_object( $mbf_obj, true, true, true );
+
+		// An import gives fields new IDs but leaves the old ones in action text, so the file names them {{Label}}.
+		$mbf_tree   = $mbf_form->db_read( true, true );
+		$mbf_action = (string) wp_json_encode( $mbf_tree->meta->action );
+
+		foreach ( $mbf_tree->groups as $mbf_group ) {
+			foreach ( $mbf_group->sections as $mbf_section ) {
+				foreach ( $mbf_section->fields as $mbf_field ) {
+					$mbf_action = str_replace( '{{' . $mbf_field->label . '}}', (string) $mbf_field->id, $mbf_action );
+				}
+			}
+		}
+
+		$mbf_meta            = new WS_Form_Meta();
+		$mbf_meta->object    = 'form';
+		$mbf_meta->parent_id = $mbf_form_id;
+		$mbf_meta->db_update_from_array( [ 'action' => json_decode( $mbf_action ) ], false, true );
 
 		// The front end renders the PUBLISHED snapshot, so publish after the writes (05).
 		$mbf_form     = new WS_Form_Form();
@@ -200,7 +217,7 @@ $mbf_rooftop   = $mbf_scene( 'scene-rooftop' );
 $mbf_warehouse = $mbf_scene( 'scene-warehouse' );
 
 $mbf_layouts = [
-	'hero'       => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Hero on {$g}", 'lead' => 'One lead sentence under the hero heading.', 'button_1' => $mbf_link( 'Get in touch', '/contact/' ), 'button_2' => $mbf_link( 'Our services', '/services/' ), 'badges' => $mbf_is( $g, 'base', 'tertiary' ) ? [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ] : [], 'panel' => $mbf_is( $g, 'tertiary', 'secondary' ) ? 'finder' : 'image', 'image' => $mbf_photo ],
+	'hero'       => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Hero on {$g}", 'lead' => 'One lead sentence under the hero heading.', 'button_1' => $mbf_link( 'Get in touch', '/contact/' ), 'button_2' => $mbf_link( 'Our services', '/services/' ), 'badges' => $mbf_is( $g, 'base', 'tertiary' ) ? [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ] : [], 'panel' => $mbf_is( $g, 'tertiary', 'secondary', 'primary' ) ? 'finder' : 'image', 'image' => $mbf_photo, 'background_image' => 'primary' === $g ? $mbf_rooftop : 0 ],
 	'text'       => static fn( string $g ) => [ 'heading' => "Text on {$g}", 'lead' => 'base' === $g ? 'An optional lead under the heading.' : '', 'body' => '<p>Rich text with <a href="' . esc_url( home_url( '/about/' ) ) . '">a link in running text</a> and <strong>bold text</strong>.</p><ul><li>A list item</li><li>Another list item</li></ul><blockquote><p>A short quotation.</p></blockquote>' ],
 	'split'      => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Split on {$g}", 'body' => '<p>Text beside an image. Alternate rows put the image first.</p>', 'points' => $mbf_is( $g, 'base', 'secondary' ) ? $mbf_ticks : [], 'image' => $mbf_photo, 'image_side' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read more', '/about/' ), 'button_2' => $mbf_is( $g, 'secondary' ) ? $mbf_link( 'Contact us', '/contact/' ) : null ],
 	'cards'      => static fn( string $g ) => [ 'heading' => "Cards on {$g}", 'lead' => count( $mbf_cards[ $g ] ) . ' cards.', 'link' => $mbf_is( $g, 'base', 'secondary' ) ? $mbf_link( 'All services', '/services/' ) : null, 'cards' => $mbf_cards[ $g ] ],

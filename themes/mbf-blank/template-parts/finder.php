@@ -6,8 +6,8 @@
  * what makes each one crawlable. assets/js/finder.js replaces it with the steps only once
  * it has parsed its data, so a script error leaves working links, never an empty panel.
  *
- * $args: context ('panel': a light card beside a hero. 'section': on the section's ground),
- * level (heading level of the questions), show_question (false when the section heading
+ * $args: context ('panel': a light card beside a hero. 'glass': frosted, beside a hero on a
+ * dark ground. 'section': on the section's ground), level (heading level of the questions), show_question (false when the section heading
  * already is the first question).
  *
  * @package mbf-blank
@@ -26,7 +26,7 @@ mbf_enqueue_script( 'mbf-finder', 'assets/js/finder.js' );
 
 $mbf_level   = max( 2, min( 6, (int) $mbf_a['level'] ) );
 $mbf_tag     = "h{$mbf_level}";
-$mbf_context = 'panel' === $mbf_a['context'] ? 'panel' : 'section';
+$mbf_context = in_array( $mbf_a['context'], [ 'panel', 'glass' ], true ) ? $mbf_a['context'] : 'section';
 
 // What the script needs, and every string it prints, so a fork translates in one place.
 $mbf_data = $mbf_config + [
@@ -45,12 +45,17 @@ $mbf_data = $mbf_config + [
 ];
 ?>
 <div class="mbf-finder mbf-finder--<?php echo esc_attr( $mbf_context ); ?>" data-mbf-finder="<?php echo esc_attr( (string) wp_json_encode( $mbf_data ) ); ?>">
-	<?php if ( 'panel' === $mbf_context && '' !== $mbf_config['eyebrow'] ) : ?>
-		<p class="mbf-eyebrow"><?php echo esc_html( $mbf_config['eyebrow'] ); ?></p>
-	<?php endif; ?>
+	<div class="mbf-finder__head">
+		<?php if ( 'section' !== $mbf_context && '' !== $mbf_config['eyebrow'] ) : ?>
+			<p class="mbf-eyebrow"><?php echo esc_html( $mbf_config['eyebrow'] ); ?></p>
+		<?php endif; ?>
 
-	<?php // Polite, and only this line: focus moves to each new question, which announces the rest. ?>
-	<p class="mbf-finder__step" data-mbf-finder-step aria-live="polite"></p>
+		<?php // Polite, and only this line: focus moves to each new question, which announces the rest. ?>
+		<p class="mbf-finder__step" data-mbf-finder-step aria-live="polite"></p>
+	</div>
+
+	<?php // Filled by finder.js. Presentational: the step line says the same thing in words. ?>
+	<div class="mbf-finder__bars" data-mbf-finder-bars aria-hidden="true"></div>
 
 	<div class="mbf-finder__stage" data-mbf-finder-stage>
 		<?php if ( $mbf_a['show_question'] ) : ?>

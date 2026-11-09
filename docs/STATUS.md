@@ -84,6 +84,38 @@
 
 ---
 
+## 2026-11-09 — Mantech's finder and enquiry form, on our tokens
+
+David: *"Can we take the finder from mantech? it has more options and i like the glassy effect"*,
+and *"The default WS Form should be lifted from Mantech/S&A too - the only real difference should
+be the site specific instances"*.
+
+**Finder.** Kept our logic (no focus on load, links with no JS). Added from Mantech: six answers,
+six site types with icons, three reasons per result, head row, progress bars, two-column tiles.
+- **Glass** on a dark hero, the light card on a light one (`mbf_is_dark_ground()`). It keeps the
+  ground's own tokens. Solid under `prefers-reduced-transparency`.
+- **Hero background photo** (optional, dark grounds only, decorative). Partly reverses D8 ("photo
+  ground out"): glass has nothing to blur without it.
+- **Veil measured against a pure white photo:** Secondary 80% (accent text 4.78:1, was 3.66 at
+  72%), Primary 88% (white text 5.01:1). Both pairs are in `mbf_contrast_pairs()`.
+
+**Enquiry form.** `scripts/data/enquiry-form.json` is Mantech's two-step form, cleaned: placeholder
+product list, `#blog_name` / `#blog_admin_email`, no webhook, no client details (scanned). It's
+imported through WS Form's restore path, so it has no checksum: to import it in wp-admin, follow
+`~/Workspace/ws-form/WS-FORM-MIGRATION-NOTES.md` §6.
+- S&A compared from its export: its shared fields are all here; accreditation, locations and
+  products are that site's own instances.
+- An import gives fields new IDs but leaves old ones in action text, so the file says `{{Name}}`
+  and the script fills it in.
+- Styling ported to section tokens. Measured on 4 grounds, both steps: all text ≥ 4.5:1, Submit
+  hover 4.6:1 at worst (plugin default 1.52:1).
+- **KeeQualify stays out of the starter** (David: *"that webhook is unique for every single site
+  - as is the code"*). The webhook, attribution fields and scripts, including the `kq-mailto`
+  click code, are added per site. Don't add the `[channel]`-style hidden fields without the
+  site's script: they submit that literal text.
+
+---
+
 ## 2026-11-09 — Home page and one page of each type, as the baseline
 
 David: *"Can we create a homepage and a sample page of each of the page types as a baseline?"*

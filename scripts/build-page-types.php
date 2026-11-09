@@ -83,7 +83,7 @@ $mbf_service = [
 // Section order follows what the client sites' pages of the same type actually use.
 $mbf_pages = [
 	'home'                       => [
-		$mbf_hero( 'secondary', 'A placeholder headline for the home page', [ 'eyebrow' => 'A short eyebrow', 'badges' => $mbf_standards, 'panel' => 'finder' ] ),
+		$mbf_hero( 'secondary', 'A placeholder headline for the home page', [ 'eyebrow' => 'A short eyebrow', 'badges' => $mbf_standards, 'panel' => 'finder', 'background_image' => $mbf_rooftop ] ),
 		$mbf_row( 'logos', 'base', [ 'heading' => 'Trusted by', 'logos' => $mbf_logos ] ),
 		$mbf_cards( 'tertiary', 'What we do', $mbf_product_cards, $mbf_link( 'All products', '/products/' ) ),
 		$mbf_steps( 'base' ),

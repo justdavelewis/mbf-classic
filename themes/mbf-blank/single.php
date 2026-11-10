@@ -12,7 +12,7 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 	?>
-	<article>
+	<article <?php post_class(); ?>>
 		<?php
 		get_template_part(
 			'template-parts/page-hero',
@@ -29,6 +29,7 @@ while ( have_posts() ) :
 			<div class="mbf-section__inner">
 				<?php the_post_thumbnail( 'large' ); ?>
 				<div class="prose"><?php the_content(); ?></div>
+				<?php wp_link_pages(); ?>
 			</div>
 		</div>
 	</article>

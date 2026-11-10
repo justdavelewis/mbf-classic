@@ -61,7 +61,11 @@ add_action(
 				'category'            => 'mbf',
 				'output_schema'       => [ 'type' => 'object' ],
 				'permission_callback' => static fn() => current_user_can( 'manage_options' ),
-				'execute_callback'    => static function (): array {
+				'execute_callback'    => static function () {
+					if ( ! function_exists( 'get_field' ) ) {
+						return new WP_Error( 'mbf_no_acf', 'ACF Pro is not active.' );
+					}
+
 					$group  = json_decode( (string) file_get_contents( get_theme_file_path( 'acf-json/group_mbf_site_settings.json' ) ), true );
 					$values = [];
 
@@ -101,7 +105,14 @@ add_action(
 
 					$sections = [];
 
-					foreach ( (array) get_field( 'page_layouts', $id ) as $row ) {
+					if ( ! function_exists( 'get_field' ) ) {
+						return new WP_Error( 'mbf_no_acf', 'ACF Pro is not active.' );
+					}
+
+					// get_field() returns false for a page with no sections, and (array) false is [ false ].
+					$rows = get_field( 'page_layouts', $id );
+
+					foreach ( is_array( $rows ) ? $rows : [] as $row ) {
 						$sections[] = [
 							'layout'  => (string) ( $row['acf_fc_layout'] ?? '' ),
 							'ground'  => (string) ( $row['ground'] ?? 'base' ),

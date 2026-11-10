@@ -248,10 +248,17 @@ $mbf_page = get_page_by_path( '_sample' );
 
 if ( ! $mbf_page ) {
 	$mbf_log( 'create page /_sample/' );
-	$mbf_page_id = $mbf_force ? (int) wp_insert_post(
+	$mbf_page_id = $mbf_force ? wp_insert_post(
 		[ 'post_type' => 'page', 'post_name' => '_sample', 'post_title' => 'Sample', 'post_status' => 'publish' ],
 		true
 	) : 0;
+
+	// Stop rather than carry on: (int) of a WP_Error is 1, so the rows would land on post 1.
+	if ( is_wp_error( $mbf_page_id ) ) {
+		WP_CLI::error( 'Could not create /_sample/: ' . $mbf_page_id->get_error_message() );
+	}
+
+	$mbf_page_id = (int) $mbf_page_id;
 } else {
 	$mbf_page_id = (int) $mbf_page->ID;
 }

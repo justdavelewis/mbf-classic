@@ -26,6 +26,7 @@ while ( have_posts() ) :
 		<div class="mbf-section">
 			<div class="mbf-section__inner">
 				<div class="prose"><?php the_content(); ?></div>
+				<?php wp_link_pages(); ?>
 			</div>
 		</div>
 		<?php

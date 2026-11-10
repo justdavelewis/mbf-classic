@@ -91,8 +91,9 @@ mostly yes. The WordPress coding standards checker (WPCS 3, run from a scratch f
 installed here) found no escaping, sanitising, translation or PHP 8.4 problems; an independent
 review agreed. Fixed:
 
-1. **Site Settings is administrators only** (`manage_options`, was `edit_posts`, which let
-   Contributors and Authors edit site-wide settings). Editors lose access too.
+1. **Site Settings is Editors and up** (`edit_others_pages`, was `edit_posts`, which let
+   Contributors and Authors edit site-wide settings). First set to `manage_options`, then David:
+   *"Let Editors keep access to Site Settings"*, so client staff can update contact details.
 2. **Scripts stop if creating a page fails.** `(int)` of a `WP_Error` is 1, so later writes
    would have landed on post 1.
 3. **Contrast messages are whole translatable strings** (`Headings on %s`, ground names

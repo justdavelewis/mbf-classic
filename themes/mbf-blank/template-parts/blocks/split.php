@@ -18,8 +18,18 @@ if ( ! $mbf_a['image'] ) {
 
 $mbf_id   = '' !== (string) $mbf_a['heading'] ? mbf_section_id( $mbf_a['heading'] ) : '';
 $mbf_side = 'start' === $mbf_a['image_side'] ? 'start' : 'end';
+
+// A portrait photo cropped to the landscape ratio loses its subject, so it shows whole, capped in height.
+$mbf_meta     = wp_get_attachment_metadata( (int) $mbf_a['image'] );
+$mbf_portrait = is_array( $mbf_meta ) && (int) ( $mbf_meta['height'] ?? 0 ) > (int) ( $mbf_meta['width'] ?? 0 );
+$mbf_attrs    = [ 'class' => 'mbf-split__image' ];
+
+if ( $mbf_portrait ) {
+	// Its own ratio, so CSS can size the width from the height cap (split.css).
+	$mbf_attrs['style'] = sprintf( '--split-image-ratio: %.4F', (int) $mbf_meta['width'] / (int) $mbf_meta['height'] );
+}
 ?>
-<section <?php mbf_section_attrs( $mbf_a, $mbf_id, [ 'mbf-split', "mbf-split--image-{$mbf_side}" ] ); ?>>
+<section <?php mbf_section_attrs( $mbf_a, $mbf_id, array_filter( [ 'mbf-split', "mbf-split--image-{$mbf_side}", $mbf_portrait ? 'mbf-split--portrait' : '' ] ) ); ?>>
 	<div class="mbf-section__inner">
 		<div class="mbf-split__grid">
 			<div class="mbf-split__text">
@@ -30,7 +40,7 @@ $mbf_side = 'start' === $mbf_a['image_side'] ? 'start' : 'end';
 				<?php get_template_part( 'template-parts/ticks', null, [ 'items' => $mbf_a['points'] ] ); ?>
 				<?php get_template_part( 'template-parts/cta-buttons', null, [ 'buttons' => [ $mbf_a['button_1'], $mbf_a['button_2'] ] ] ); ?>
 			</div>
-			<?php echo wp_get_attachment_image( (int) $mbf_a['image'], 'large', false, [ 'class' => 'mbf-split__image' ] ); ?>
+			<?php echo wp_get_attachment_image( (int) $mbf_a['image'], 'large', false, $mbf_attrs ); ?>
 		</div>
 	</div>
 </section>

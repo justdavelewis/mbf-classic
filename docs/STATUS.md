@@ -84,6 +84,37 @@
 
 ---
 
+## 2026-11-10 — A polished default look, phase 1: fonts, cards, split, FAQ
+
+David: *"I want to have this scaffolding still look good, like the mantech site does"*, then
+chose a **polished default look** (replacing docs/12's "the look belongs to the fork"),
+**phase 1 = image+text, linked tiles and FAQ, then review**, **Mantech's fonts**, and the
+**section nav in phase 2**. Research: two read-only agents compared Mantech's 18 layouts and the
+sections repeated across Mantech, S&A and FA.
+
+- **Fonts:** Archivo (variable, 90KB) + IBM Plex Mono 500 (15KB), self-hosted, preloaded while
+  Archivo is the body font. No Google requests.
+- **Eyebrow:** mono, uppercase, `.14em` tracking (Mantech).
+- **`.mbf-go`:** "Label →" with an arrow that nudges; on section-heading links and card CTAs.
+  Buttons lift 1px on hover.
+- **Cards (Mantech's):** image zooms to 1.04 over .5s, the edge takes the accent, icon in a
+  52px tile.
+- **Split (FA's):** 3:2. A portrait photo shows whole at its own ratio, 24rem tall: PHP passes
+  its ratio from the metadata (a grid item kept the column width and squashed it otherwise).
+- **FAQ (Mantech's structure, FA's surface):** boxed `<details>` rows mixed from the ground,
+  first real row open (counts past blank rows), plus → cross (only the bars turn), open row gets
+  the accent edge and a soft shadow, intro and side card in a column that's sticky once split,
+  answers slide open where `::details-content` is supported.
+- **Verified:** all 4 grounds: FAQ question ≥ 6.01:1 (Primary), marker ≥ 5.61:1 on its row;
+  keyboard opens rows with a visible ring; reduced motion stops zoom, nudge and lift; forced
+  colours keeps row edges and markers; 0 overflow at 390 and 320. Fingerprint over 126 views:
+  only the font, the planned components and sub-pixel knock-ons changed; 0 errors or notices.
+
+**Phase 2, after David's review:** CTA band, stats, steps, case study, specs/downloads, form,
+hero grid texture, section nav.
+
+---
+
 ## 2026-11-10 — WordPress conventions: the top five fixes
 
 David: *"Does this build follow proper WP conventions?"*, then *"yes fix the top five"*. Verdict:

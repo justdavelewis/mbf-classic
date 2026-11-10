@@ -42,6 +42,23 @@ function mbf_enqueue(): void {
 add_action( 'wp_enqueue_scripts', 'mbf_enqueue' );
 
 /**
+ * Preload the body font, so text doesn't reflow when it arrives. theme.json writes the
+ * @font-face rules; this only adds the hint, and only while the body font is still Archivo
+ * (Style Settings can switch it, and a preload nothing uses is a console warning).
+ */
+function mbf_preload_fonts(): void {
+	if ( ! str_contains( (string) wp_get_global_settings( [ 'custom', 'font', 'body' ] ), 'font-family--sans' ) ) {
+		return;
+	}
+
+	printf(
+		'<link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>' . "\n",
+		esc_url( get_theme_file_uri( 'assets/fonts/archivo-latin-wdth-normal.woff2' ) )
+	);
+}
+add_action( 'wp_head', 'mbf_preload_fonts', 1 );
+
+/**
  * The hotspot placer: click an image in the editor to set a spot's position. ACF admin
  * screens only. The front end never loads it.
  */

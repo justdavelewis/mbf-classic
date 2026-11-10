@@ -22,7 +22,14 @@
 	--card-gap: var(--space-fluid-s);
 	--card-title-size: var(--fs-h4);
 	--card-image-ratio: 16 / 10;
-	--card-icon-size: var(--fs-h3);
+	--card-image-zoom: 1.04;                 /* Mantech card.css:93-96: a slow, slight zoom */
+	--card-image-speed: .5s;
+	--card-border-hover: var(--card-accent); /* the edge takes the accent (Mantech card.css:323) */
+	--card-icon-tile: 3.25rem;               /* Mantech's icon tile: 52px, 10px corners */
+	--card-icon-radius: .625rem;
+	--card-icon-bg: var(--card-accent);
+	--card-icon-color: var(--color-base);    /* on the primary tile: 6.62:1 */
+	--card-icon-size: 1.375rem;
 
 	position: relative;
 	container-type: inline-size;
@@ -32,10 +39,16 @@
 	color: var(--card-text);
 	border: var(--card-border);
 	border-radius: var(--card-radius);
-	transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+	transition: transform var(--speed) var(--ease), box-shadow var(--speed) var(--ease), border-color var(--speed) var(--ease);
 }
 
-.mbf-card__image { inline-size: 100%; block-size: auto; aspect-ratio: var(--card-image-ratio); object-fit: cover; }
+.mbf-card__image {
+	inline-size: 100%;
+	block-size: auto;
+	aspect-ratio: var(--card-image-ratio);
+	object-fit: cover;
+	transition: scale var(--card-image-speed) var(--ease);   /* clipped by the card's overflow: hidden */
+}
 
 .mbf-card__body {
 	padding: var(--card-pad);
@@ -46,7 +59,16 @@
 
 .mbf-card__head { display: grid; gap: var(--space-xs); justify-items: start; }
 .mbf-card__tag { font-size: var(--fs-sm); font-weight: 600; color: var(--card-accent); }
-.mbf-card__icon { font-size: var(--card-icon-size); color: var(--card-accent); }
+.mbf-card__icon-tile {
+	display: grid;
+	place-items: center;
+	inline-size: var(--card-icon-tile);
+	aspect-ratio: 1;
+	border-radius: var(--card-icon-radius);
+	background: var(--card-icon-bg);
+}
+
+.mbf-card__icon { font-size: var(--card-icon-size); color: var(--card-icon-color); }
 
 /* A tag or icon makes the title row taller: plain cards' titles drop to the same line. Only in
    a grid that has one. Without :has() they sit a little high, which is cosmetic (§2). */
@@ -69,7 +91,8 @@
  * Lift only a LINKED card (03 rule 6: no URL, no lift). 03's CSS lifts every card; the
  * :has() gate is the fix. Not layout-critical, so :has() alone is fine (§2).
  */
-.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) { transform: translateY(-2px); box-shadow: var(--shadow); }
+.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--card-border-hover); }
+.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) .mbf-card__image { scale: var(--card-image-zoom); }
 
 /* The ring moves from the link to the card for keyboard focus only (:focus-within also
    rings on click). Both halves sit inside @supports: without :has(), the link keeps its
@@ -103,4 +126,5 @@
 	.mbf-card, .mbf-card__hit { transition: none; }
 	/* Same selector as the lift: a plainer one loses on specificity and the card still moved. */
 	.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) { transform: none; }
+	.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) .mbf-card__image { scale: none; }
 }

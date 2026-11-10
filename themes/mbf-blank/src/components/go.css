@@ -1,0 +1,24 @@
+/* --- Go link: "Label →" whose arrow nudges on hover and focus (Mantech case-study.css:157-160).
+   Used by the section-heading link and a card's CTA. The arrow is aria-hidden: the name is the label. --- */
+.mbf-go {
+	/* Dials (03) */
+	--go-gap: .35em;
+	--go-shift: .25rem;
+	--go-weight: 600;
+
+	display: inline-flex;
+	align-items: baseline;
+	gap: var(--go-gap);
+	font-weight: var(--go-weight);
+}
+
+.mbf-go__arrow { transition: translate var(--speed) var(--ease); }
+
+/* A link nudges its own arrow. A card's CTA nudges with the card: the card's link is its title. */
+a.mbf-go:is(:hover, :focus-visible) .mbf-go__arrow,
+.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) .mbf-go__arrow { translate: var(--go-shift) 0; }
+
+@media (prefers-reduced-motion: reduce) {
+	a.mbf-go:is(:hover, :focus-visible) .mbf-go__arrow,
+	.mbf-card:has(.mbf-card__hit):is(:hover, :focus-within) .mbf-go__arrow { translate: none; }
+}

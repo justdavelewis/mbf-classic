@@ -23,13 +23,14 @@ article.mbf-card
   img.mbf-card__image         optional; alt="" aria-hidden="true"; size 'card' (16:10)
   .mbf-card__body             required; carries the padding
     .mbf-card__head           only with a tag or icon; one subgrid row, holds the title
-      i.mbf-card__icon[aria-hidden]  only with no image and icons on
+      span.mbf-card__icon-tile > i.mbf-card__icon[aria-hidden]  only with no image and icons on
       span.mbf-card__tag      read before the title
     h{level}.mbf-card__title  h2 under an archive h1, h3 under a section h2
       a.mbf-card__hit         title text ONLY — the one link, stretched by ::before
     p.mbf-card__text          optional
-    span.mbf-card__cta        aria-hidden="true", never a link; only when linked
-  · no url → no a, no cta, no lift (lift is gated on :has(.mbf-card__hit))
+    span.mbf-card__cta.mbf-go aria-hidden="true", never a link; only when linked
+      span.mbf-go__arrow      nudges with the card's hover/focus (go.css)
+  · no url → no a, no cta, no lift, no image zoom, no border change (all gated on :has(.mbf-card__hit))
   · in .mbf-grid: subgrid rows image | title | text | cta
   · surface is always light: re-scopes --section-text/heading/muted and --card-accent
     to the light-ground roles; keeps the section's --focus-ring (the ring is outside)
@@ -39,7 +40,8 @@ header.mbf-section-heading
   p.mbf-eyebrow               optional
   h{level}.{size}#{id}        optional
   p.lead.mbf-section-heading__lead   optional
-  a.mbf-section-heading__link optional; arrow is aria-hidden
+  a.mbf-section-heading__link.mbf-go   optional
+    span.mbf-go__arrow[aria-hidden]   nudges on hover/focus (go.css)
 
 ticks.php                    ($args: items[text])
 ul.mbf-ticks[role=list] > li.mbf-ticks__item    tick = ::before with empty alt
@@ -115,9 +117,10 @@ text.php        heading, lead, body
   section.mbf-text > __inner > header.mbf-section-heading  .prose
 
 split.php       eyebrow, heading, body, points[text], image(req), image_side(end|start), button_1, button_2
-  section.mbf-split.mbf-split--image-{side} > __inner > .mbf-split__grid
+  section.mbf-split.mbf-split--image-{side}[.mbf-split--portrait] > __inner > .mbf-split__grid
     .mbf-split__text > header.mbf-section-heading  .prose  .mbf-ticks  .mbf-buttons
-    img.mbf-split__image      library alt
+    img.mbf-split__image      library alt; 3:2 cropped, or whole when portrait:
+                              style="--split-image-ratio: w/h" from its metadata, width from the 24rem cap
   · DOM is always text → image; image-start moves it with grid-column
 
 cards.php       heading, lead, link, cards[tag, title(req), text, url, icon, image]
@@ -130,12 +133,13 @@ cta-band.php    eyebrow, heading(req), text, button_1, button_2
     .mbf-buttons              phone_fallback: no button_2 → "Call {phone}"
 
 faq.php         heading, lead, items[question(req), answer], aside_heading, aside_text, aside_button
-  section.mbf-faq > __inner > header.mbf-section-heading
-    [.mbf-faq__grid when aside_heading]
-    .mbf-faq__list > details.mbf-faq__item
-      summary.mbf-faq__question  text + span.mbf-chevron[aria-hidden]
+  section.mbf-faq > __inner
+    [.mbf-faq__grid > .mbf-faq__intro  when a heading, lead or aside: intro | questions, intro sticky once split]
+      header.mbf-section-heading
+      aside.mbf-faq__aside > h3.h4  p  .mbf-buttons     when aside_heading
+    .mbf-faq__list > details.mbf-faq__item[open on the first non-blank row]
+      summary.mbf-faq__question  text + span.mbf-faq__marker[aria-hidden]  (plus → cross)
       .mbf-faq__answer.prose
-    aside.mbf-faq__aside > h3.h4  p  .mbf-buttons
 
 stats.php       heading, items[value(req), label], badges[name, logo]
   section.mbf-stats > __inner > header  ul.mbf-stats__list[role=list]  .mbf-badges

@@ -41,7 +41,9 @@ $mbf_tag_text = (string) $mbf_a['tag'];
 		<?php if ( $mbf_icon || '' !== $mbf_tag_text ) : ?>
 			<?php // One subgrid row with the title, so tagged and plain cards still align (card.css). ?>
 			<div class="mbf-card__head">
-				<?php echo $mbf_icon; // phpcs:ignore WordPress.Security.EscapeOutput -- built by mbf_icon() ?>
+				<?php if ( $mbf_icon ) : ?>
+					<span class="mbf-card__icon-tile"><?php echo $mbf_icon; // phpcs:ignore WordPress.Security.EscapeOutput -- built by mbf_icon() ?></span>
+				<?php endif; ?>
 				<?php if ( '' !== $mbf_tag_text ) : ?>
 					<span class="mbf-card__tag"><?php echo esc_html( $mbf_tag_text ); ?></span>
 				<?php endif; ?>
@@ -60,7 +62,7 @@ $mbf_tag_text = (string) $mbf_a['tag'];
 			<p class="mbf-card__text"><?php echo esc_html( $mbf_a['text'] ); ?></p>
 		<?php endif; ?>
 		<?php if ( '' !== $mbf_url ) : ?>
-			<span class="mbf-card__cta" aria-hidden="true"><?php echo esc_html( $mbf_a['cta'] ); ?> &rarr;</span>
+			<span class="mbf-card__cta mbf-go" aria-hidden="true"><?php echo esc_html( $mbf_a['cta'] ); ?><span class="mbf-go__arrow">&rarr;</span></span>
 		<?php endif; ?>
 	</div>
 </article>

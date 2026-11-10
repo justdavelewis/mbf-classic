@@ -32,12 +32,17 @@
 	color: var(--button-text);
 	font: var(--button-weight) var(--button-font-size)/1.2 var(--button-font);
 	text-decoration: none;
-	transition: background-color 150ms var(--ease), border-color 150ms var(--ease);
+	transition: background-color 150ms var(--ease), border-color 150ms var(--ease), translate 150ms var(--ease);
 }
 
 .mbf-button:is(:hover, :focus-visible) {
 	--button-bg: var(--button-fill-hover);
 	--button-text: var(--button-label-hover);
+	translate: 0 -1px;                       /* Mantech button.css:56: a lift you feel more than see */
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mbf-button:is(:hover, :focus-visible) { translate: none; }
 }
 
 /* Second button: an outline in the ground's heading colour (≥6.62:1 on every ground),

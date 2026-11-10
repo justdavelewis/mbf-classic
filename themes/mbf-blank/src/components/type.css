@@ -9,13 +9,16 @@
 .h4 { font-size: var(--fs-h4); line-height: 1.25; font-weight: 700; }
 .lead { font-size: var(--fs-lead); }
 
-/* The short label above a heading. The guarded accent passes ≥4.5:1 on every ground. */
+/* The short label above a heading. The guarded accent passes ≥4.5:1 on every ground.
+   Mono, uppercase, widely tracked: Mantech's label (section.css:70-77). Plex Mono ships at 500 only. */
 .mbf-eyebrow {
+	--eyebrow-font: var(--font-mono);
 	--eyebrow-size: var(--fs-sm);
-	--eyebrow-weight: 600;
-	--eyebrow-tracking: .06em;
+	--eyebrow-weight: 500;
+	--eyebrow-tracking: .14em;
 	--eyebrow-color: var(--section-accent, var(--color-primary));
 
+	font-family: var(--eyebrow-font);
 	font-size: var(--eyebrow-size);
 	font-weight: var(--eyebrow-weight);
 	letter-spacing: var(--eyebrow-tracking);

@@ -53,13 +53,41 @@
 			"fontFamilies": [
 				{
 					"slug": "sans",
-					"name": "Sans",
-					"fontFamily": "system-ui, sans-serif"
+					"name": "Archivo",
+					"fontFamily": "Archivo, system-ui, sans-serif",
+					"fontFace": [
+						{
+							"fontFamily": "Archivo",
+							"fontStyle": "normal",
+							"fontWeight": "100 900",
+							"fontStretch": "62% 125%",
+							"fontDisplay": "swap",
+							"src": [
+								"file:./assets/fonts/archivo-latin-wdth-normal.woff2"
+							]
+						}
+					]
 				},
 				{
 					"slug": "serif",
 					"name": "Serif",
 					"fontFamily": "Georgia, 'Times New Roman', serif"
+				},
+				{
+					"slug": "mono",
+					"name": "IBM Plex Mono",
+					"fontFamily": "'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace",
+					"fontFace": [
+						{
+							"fontFamily": "IBM Plex Mono",
+							"fontStyle": "normal",
+							"fontWeight": "500",
+							"fontDisplay": "swap",
+							"src": [
+								"file:./assets/fonts/ibm-plex-mono-latin-500-normal.woff2"
+							]
+						}
+					]
 				}
 			],
 			"fontSizes": [

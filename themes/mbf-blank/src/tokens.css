@@ -54,6 +54,7 @@
   /* --- type: 8 steps (headings fluid in cqi, small steps fixed) ----------- */
   --font-sans:    var(--wp--custom--font--body);     /* body text (Tailwind's default-font name) */
   --font-display: var(--wp--custom--font--display);  /* headings, brand text */
+  --font-mono:    var(--wp--preset--font-family--mono); /* eyebrows, step numbers, codes: not a Style Settings choice */
   --fs-display: clamp(2.5rem,   calc(1.7174rem + 3.4783cqi), 4.5rem);
   --fs-h1:      var(--wp--preset--font-size--h-1);
   --fs-h2:      var(--wp--preset--font-size--h-2);

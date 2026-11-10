@@ -1,11 +1,12 @@
 /* --- Button: the fill is the ground's accent, so it re-themes with the section --- */
 .mbf-button {
 	/*
-	 * Dials: the button's whole look. Change these, not the rules below (03). Height and
-	 * side padding are the shared control globals --button-h / --button-pad-x (nav, search
-	 * and pagination use them too). A changed fill must pass the save check:
-	 * mbf_contrast_pairs() models the hover as fill 85% + contrast.
+	 * Dials: the button's whole look. Change these, not the rules below (03). Height is the
+	 * shared control global --button-h (nav, search and pagination use it too); side padding
+	 * is the button's own: only the button ever read it (2026-11-10). A changed fill must pass
+	 * the save check: mbf_contrast_pairs() models the hover as fill 85% + contrast.
 	 */
+	--button-pad-x: clamp(1.125rem, calc(.9696rem + .663vi), 1.5rem);   /* vi: a target follows the device */
 	--button-fill: var(--section-accent, var(--color-primary));
 	--button-label: var(--section-on-accent, var(--color-base));
 	--button-fill-hover: color-mix(in oklch, var(--button-fill), var(--color-contrast) 15%);

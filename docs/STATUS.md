@@ -84,6 +84,35 @@
 
 ---
 
+## 2026-11-10 — Card grid: content gap, at most 3 columns
+
+David: *"the default card gap in the grid is set to fluid-l, but thats too big, do we actually
+need an extra token for this?"* No new token: the grid's own `--grid-gap` dial now defaults to
+`--content-gap` (fluid-m, 24→40px, Style Settings can change it), as on Mantech; `--layout-gap`
+(fluid-l) stays for two-column layouts.
+
+The smaller gap exposed an existing bug: `--grid-cards` had no column cap, so 3 cards at 1440
+already sat in 4 tracks with a 336px empty column, and 1280 would have joined it. The token now
+caps at 3 (`max(17rem, (100% - 2 × content-gap) / 3)`), fixed in the standards seed and docs/01
+too. Measured with 1–4 cards at 6 widths: 3 fill a row, 2 and 4 pair, a lone card stays a third,
+2 columns at 768, 1 on phones, 0 overflow. Fingerprint: only `.mbf-grid` gaps and track widths
+(plus position knock-ons) changed; 0 errors or notices.
+
+**Token audit, same day** (David: *"Are any other tokens redundant like this?"*, then *"Yes please
+fix this"*). Counted every token's consumers:
+- **Stats, steps and spec groups** had the same mistake as cards: rows of items on `--layout-gap`.
+  All three now use `--content-gap` (32→24px on phones). `--layout-gap` stays for side-by-side
+  columns: split, hero, case study, enquiry, footer, FAQ intro, hotspots.
+- **`--space-fluid-xl`** removed from the starter's tokens: nothing read it. The `fluid-xl`
+  preset stays (Style Settings offers it as a gap). The seed keeps it in its four-step scale.
+- **`--button-pad-x`** is now a button dial, not a global: only the button ever read it, despite
+  the standards calling it shared. Seed and docs corrected; the seed is 42 globals.
+- Kept on purpose: the `theme.json` bridge aliases, the role aliases (`--color-heading`,
+  `--color-surface`, `--layout-gap`), the Tailwind transition lines, `--grid-cards`, `--font-mono`.
+- Fingerprint: only those three gaps changed; buttons identical; 0 errors or notices.
+
+---
+
 ## 2026-11-10 — A polished default look, phase 1: fonts, cards, split, FAQ
 
 David: *"I want to have this scaffolding still look good, like the mantech site does"*, then

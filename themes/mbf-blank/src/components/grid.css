@@ -2,7 +2,7 @@
 .mbf-grid {
 	/* Dials (03) */
 	--grid-columns: var(--grid-cards);
-	--grid-gap: var(--layout-gap);
+	--grid-gap: var(--content-gap);          /* cards are content, not layout columns: fluid-m, as on Mantech (grid.css:5). --layout-gap (fluid-l) was too wide */
 
 	display: grid;
 	grid-template-columns: var(--grid-columns);

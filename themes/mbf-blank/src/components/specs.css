@@ -1,7 +1,7 @@
 /* --- Specifications (template-parts/blocks/specs.php) --- */
 .mbf-specs {
 	/* Dials (03) */
-	--specs-gap: var(--layout-gap);
+	--specs-gap: var(--content-gap);         /* a row of items, not layout columns: as on Mantech (fluid-m or less) */
 	--specs-tile: 24rem;
 	--specs-divider: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);  /* decorative */
 	--specs-cell-pad: var(--space-s);

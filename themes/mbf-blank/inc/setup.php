@@ -11,6 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 function mbf_setup(): void {
 	add_theme_support( 'title-tag' );
+	add_theme_support( 'automatic-feed-links' );
 	add_theme_support( 'post-thumbnails' );
 	// No comment-form / comment-list: the starter has no comments template (STATUS D8).
 	add_theme_support( 'html5', [ 'search-form', 'gallery', 'caption', 'style', 'script' ] );

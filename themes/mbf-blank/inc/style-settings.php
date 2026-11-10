@@ -317,17 +317,28 @@ function mbf_contrast_pairs( array $p ): array {
 	$border = mbf_mix( $p['contrast'], 45, $p['base'] );   // --color-border
 	$pairs  = [];
 
-	foreach ( [ 'base', 'tertiary' ] as $ground ) {
-		$bg    = $p[ $ground ];
-		$label = ucfirst( $ground );
+	// Ground names as Style Settings shows them, so each message is one whole translatable string.
+	$grounds = [
+		'base'     => __( 'Base', 'mbf-blank' ),
+		'tertiary' => __( 'Tertiary', 'mbf-blank' ),
+	];
+
+	foreach ( $grounds as $ground => $label ) {
+		$bg = $p[ $ground ];
 		array_push(
 			$pairs,
-			[ "Headings on {$label}", $p['contrast'], $bg, 4.5, 'contrast' ],
-			[ "Body text on {$label}", $text, $bg, 4.5, 'contrast' ],
-			[ "Muted text on {$label}", $muted, $bg, 4.5, 'contrast' ],
-			[ "Field and toggle borders on {$label}", $border, $bg, 3.0, 'contrast' ],
-			[ "Primary links and accents on {$label}", $p['primary'], $bg, 4.5, 'primary' ],
-			[ "Form errors on {$label}", $error, $bg, 4.5, $ground ]
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Headings on %s', 'mbf-blank' ), $label ), $p['contrast'], $bg, 4.5, 'contrast' ],
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Body text on %s', 'mbf-blank' ), $label ), $text, $bg, 4.5, 'contrast' ],
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Muted text on %s', 'mbf-blank' ), $label ), $muted, $bg, 4.5, 'contrast' ],
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Field and toggle borders on %s', 'mbf-blank' ), $label ), $border, $bg, 3.0, 'contrast' ],
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Primary links and accents on %s', 'mbf-blank' ), $label ), $p['primary'], $bg, 4.5, 'primary' ],
+			/* translators: %s: a light background colour, e.g. "Base". */
+			[ sprintf( __( 'Form errors on %s', 'mbf-blank' ), $label ), $error, $bg, 4.5, $ground ]
 		);
 	}
 
@@ -346,23 +357,23 @@ function mbf_contrast_pairs( array $p ): array {
 
 	array_push(
 		$pairs,
-		[ 'Button text on a Primary button', $p['base'], $p['primary'], 4.5, 'primary' ],
-		[ 'Button text on a hovered Primary button', $p['base'], $hover( $p['primary'] ), 4.5, 'primary' ],
+		[ __( 'Button text on a Primary button', 'mbf-blank' ), $p['base'], $p['primary'], 4.5, 'primary' ],
+		[ __( 'Button text on a hovered Primary button', 'mbf-blank' ), $p['base'], $hover( $p['primary'] ), 4.5, 'primary' ],
 		// Secondary (dark) ground.
-		[ 'Text on Secondary', $p['base'], $p['secondary'], 4.5, 'secondary' ],
-		[ 'Muted text on Secondary', mbf_mix( $p['base'], 80, $p['secondary'] ), $p['secondary'], 4.5, 'secondary' ],
-		[ 'Accent links and buttons on Secondary', $p['accent'], $p['secondary'], 4.5, 'accent' ],
-		[ 'Button text on an Accent button', $p['secondary'], $p['accent'], 4.5, 'accent' ],
-		[ 'Button text on a hovered Accent button', $p['secondary'], $hover( $p['accent'] ), 4.5, 'accent' ],
-		[ 'Form errors on Secondary', mbf_mix( $error, 20, $p['base'] ), $p['secondary'], 4.5, 'secondary' ],
+		[ __( 'Text on Secondary', 'mbf-blank' ), $p['base'], $p['secondary'], 4.5, 'secondary' ],
+		[ __( 'Muted text on Secondary', 'mbf-blank' ), mbf_mix( $p['base'], 80, $p['secondary'] ), $p['secondary'], 4.5, 'secondary' ],
+		[ __( 'Accent links and buttons on Secondary', 'mbf-blank' ), $p['accent'], $p['secondary'], 4.5, 'accent' ],
+		[ __( 'Button text on an Accent button', 'mbf-blank' ), $p['secondary'], $p['accent'], 4.5, 'accent' ],
+		[ __( 'Button text on a hovered Accent button', 'mbf-blank' ), $p['secondary'], $hover( $p['accent'] ), 4.5, 'accent' ],
+		[ __( 'Form errors on Secondary', 'mbf-blank' ), mbf_mix( $error, 20, $p['base'] ), $p['secondary'], 4.5, 'secondary' ],
 		// Primary ground.
-		[ 'Text on Primary', $p['base'], $p['primary'], 4.5, 'primary' ],
-		[ 'Muted text on Primary', mbf_mix( $p['base'], 90, $p['primary'] ), $p['primary'], 4.5, 'primary' ],
-		[ 'Button text on a hovered button on Primary', $p['primary'], $hover( $p['base'] ), 4.5, 'primary' ],
-		[ 'Form errors on Primary', mbf_mix( $error, 20, $p['base'] ), $p['primary'], 4.5, 'primary' ],
+		[ __( 'Text on Primary', 'mbf-blank' ), $p['base'], $p['primary'], 4.5, 'primary' ],
+		[ __( 'Muted text on Primary', 'mbf-blank' ), mbf_mix( $p['base'], 90, $p['primary'] ), $p['primary'], 4.5, 'primary' ],
+		[ __( 'Button text on a hovered button on Primary', 'mbf-blank' ), $p['primary'], $hover( $p['base'] ), 4.5, 'primary' ],
+		[ __( 'Form errors on Primary', 'mbf-blank' ), mbf_mix( $error, 20, $p['base'] ), $p['primary'], 4.5, 'primary' ],
 		// Hero photo, worst case: a pure white photo under the veil (--hero-veil, hero.css). The finder's glass only darkens this further.
-		[ 'Accent text over a hero photo on Secondary', $p['accent'], $veil( $p['secondary'], 80 ), 4.5, 'secondary' ],
-		[ 'Text over a hero photo on Primary', $p['base'], $veil( $p['primary'], 88 ), 4.5, 'primary' ]
+		[ __( 'Accent text over a hero photo on Secondary', 'mbf-blank' ), $p['accent'], $veil( $p['secondary'], 80 ), 4.5, 'secondary' ],
+		[ __( 'Text over a hero photo on Primary', 'mbf-blank' ), $p['base'], $veil( $p['primary'], 88 ), 4.5, 'primary' ]
 	);
 
 	return $pairs;

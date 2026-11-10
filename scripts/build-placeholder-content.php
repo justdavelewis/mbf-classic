@@ -57,7 +57,7 @@ $mbf_ensure = static function ( string $type, string $slug, string $title, strin
 		return 0;
 	}
 
-	return (int) wp_insert_post(
+	$id = wp_insert_post(
 		[
 			'post_type'    => $type,
 			'post_name'    => $slug,
@@ -68,6 +68,13 @@ $mbf_ensure = static function ( string $type, string $slug, string $title, strin
 		],
 		true
 	);
+
+	// Stop rather than carry on: (int) of a WP_Error is 1, so later writes would land on post 1.
+	if ( is_wp_error( $id ) ) {
+		WP_CLI::error( "Could not create {$type} \"{$title}\": " . $id->get_error_message() );
+	}
+
+	return (int) $id;
 };
 
 // --- Pages ---------------------------------------------------------------------------

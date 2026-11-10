@@ -84,6 +84,30 @@
 
 ---
 
+## 2026-11-10 — WordPress conventions: the top five fixes
+
+David: *"Does this build follow proper WP conventions?"*, then *"yes fix the top five"*. Verdict:
+mostly yes. The WordPress coding standards checker (WPCS 3, run from a scratch folder, not
+installed here) found no escaping, sanitising, translation or PHP 8.4 problems; an independent
+review agreed. Fixed:
+
+1. **Site Settings is administrators only** (`manage_options`, was `edit_posts`, which let
+   Contributors and Authors edit site-wide settings). Editors lose access too.
+2. **Scripts stop if creating a page fails.** `(int)` of a `WP_Error` is 1, so later writes
+   would have landed on post 1.
+3. **Contrast messages are whole translatable strings** (`Headings on %s`, ground names
+   translated). Same English text.
+4. **Core conventions:** `automatic-feed-links`, `post_class()` on posts, `wp_link_pages()`.
+5. **ACF switched off:** pages fall back to the page header and `the_content()` instead of only
+   the header (tested by deactivating ACF: `/`, `/about/` and a product page return 200 with
+   no fatal error). The MCP abilities return "ACF Pro is not active".
+
+Verified: dry runs are no-ops; render fingerprint identical over 126 views (one transient
+"failed to load" on `/services/` at 768, clean on 5 reloads). Left: 841 style hits, mostly `[]`
+over `array()` (743 auto-fixable), and the 3-letter `mbf` prefix the checker calls short.
+
+---
+
 ## 2026-11-10 — MCP adapter: proof of concept, local and read only
 
 David: *"I want to introduce this to this build"* (the WordPress MCP Adapter), *"Local only"*,

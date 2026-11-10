@@ -60,6 +60,12 @@ function mbf_row_args( string $layout ): array {
  * @return string[]
  */
 function mbf_layout_names( int $post_id, string $field = 'page_layouts' ): array {
+	// Without ACF the rows can't render, so report none: page.php then falls back to the_content()
+	// instead of printing nothing but the page header.
+	if ( ! function_exists( 'get_field' ) ) {
+		return [];
+	}
+
 	$names = get_post_meta( $post_id, $field, true );
 
 	return is_array( $names ) ? array_values( array_map( 'strval', $names ) ) : [];

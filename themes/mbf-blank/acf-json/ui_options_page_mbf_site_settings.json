@@ -10,7 +10,7 @@
     "position": "58",
     "icon_url": "dashicons-admin-generic",
     "menu_order": 0,
-    "capability": "edit_posts",
+    "capability": "manage_options",
     "data_storage": "options",
     "description": "",
     "updated_message": "Site Settings updated",

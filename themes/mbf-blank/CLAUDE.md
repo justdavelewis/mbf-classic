@@ -50,6 +50,7 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
 ## ACF
 
 - Site Settings options page slug: `mbf-site-settings`. Read it only through `mbf_setting()`.
+  Administrators only (`manage_options`): it holds site-wide config and the icon token.
 - Header button: Site Settings › Header (`header_cta`). Menus: `primary` and `footer` (legal,
   top level only). Placeholder values come from `scripts/build-placeholder-content.php`.
 - Dark grounds: `mbf_is_dark_ground()` is the one list. The accent guard

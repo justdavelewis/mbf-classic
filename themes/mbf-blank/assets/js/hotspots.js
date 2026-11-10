@@ -4,8 +4,10 @@
  *  - Tabs when there are several scenes: built here, so without JS there's no tablist that
  *    doesn't work, only every scene under its own heading. Arrow keys, Home and End move
  *    between tabs (roving tabindex).
- *  - The marker ↔ list highlight: hovering or focusing an entry marks its marker. Clicking
- *    a marker marks its entry and brings it into view.
+ *  - Escape hides a popup until the pointer or focus moves (1.4.13).
+ *  - The marker ↔ list highlight, both ways: hovering or focusing an entry marks its marker;
+ *    hovering a marker marks its entry. Clicking a marker follows its entry's link, or marks
+ *    the entry and brings it into view when it has none.
  */
 ( () => {
 	const reduceMotion = window.matchMedia( '(prefers-reduced-motion: reduce)' );
@@ -24,11 +26,27 @@
 			item.addEventListener( 'focusout', () => mark( null ) );
 		} );
 
+		/*
+		 * Markers pair on hover too (David, 2026-11-10: hovering a spot did nothing, though
+		 * hovering its row did). A tap follows the card's link, as on FA: the marker looks
+		 * tappable. A spot with no page marks its card and brings it into view instead.
+		 */
 		scene.querySelectorAll( '.mbf-hotspots__marker' ).forEach( ( marker ) => {
+			const spot = marker.dataset.mbfSpot;
+			const item = scene.querySelector( `.mbf-hotspots__item[data-mbf-spot="${ spot }"]` );
+
+			marker.addEventListener( 'pointerenter', () => mark( spot ) );
+			marker.addEventListener( 'pointerleave', () => mark( null ) );
 			marker.addEventListener( 'click', () => {
-				mark( marker.dataset.mbfSpot );
-				scene.querySelector( `.mbf-hotspots__item[data-mbf-spot="${ marker.dataset.mbfSpot }"]` )
-					?.scrollIntoView( { block: 'nearest', behavior: reduceMotion.matches ? 'auto' : 'smooth' } );
+				const link = item?.querySelector( 'a.mbf-hotspots__link' );
+
+				if ( link ) {
+					link.click();
+					return;
+				}
+
+				mark( spot );
+				item?.scrollIntoView( { block: 'nearest', behavior: reduceMotion.matches ? 'auto' : 'smooth' } );
 			} );
 		} );
 	};
@@ -95,6 +113,18 @@
 		root.prepend( list );
 		select( 0, false );
 	};
+
+	// Escape dismisses a popup shown by hover or focus (1.4.13), without moving focus.
+	document.addEventListener( 'keydown', ( event ) => {
+		if ( 'Escape' === event.key ) {
+			document.querySelectorAll( '.mbf-hotspots .is-active' ).forEach( ( part ) => part.classList.remove( 'is-active' ) );
+			document.querySelectorAll( '.mbf-hotspots__media' ).forEach( ( media ) => media.classList.add( 'is-dismissed' ) );
+		}
+	} );
+
+	// A dismissed popup stays away until the pointer or focus moves on.
+	document.addEventListener( 'pointermove', () => document.querySelectorAll( '.mbf-hotspots__media.is-dismissed' ).forEach( ( media ) => media.classList.remove( 'is-dismissed' ) ) );
+	document.addEventListener( 'focusin', () => document.querySelectorAll( '.mbf-hotspots__media.is-dismissed' ).forEach( ( media ) => media.classList.remove( 'is-dismissed' ) ) );
 
 	document.querySelectorAll( '[data-mbf-hotspots]' ).forEach( ( root, index ) => {
 		const scenes = [ ...root.querySelectorAll( '[data-mbf-hotspots-scene]' ) ];

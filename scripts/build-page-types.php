@@ -55,6 +55,8 @@ $mbf_row  = static fn( string $layout, string $ground, array $fields ) => [ 'acf
 $mbf_card = static fn( string $title, string $path, string $text = 'A short placeholder description.', int $image = 0 ) => [ 'tag' => '', 'icon' => '', 'title' => $title, 'text' => $text, 'url' => $mbf_id( $path ), 'image' => $image ];
 
 $mbf_contact_link = $mbf_link( 'Get in touch', '/contact/' );
+$mbf_spot         = static fn( string $solution, float $x, float $y ) => [ 'solution' => $solution, 'title' => '', 'text' => '', 'url' => '', 'x' => $x, 'y' => $y ];
+$mbf_own          = static fn( string $title, string $path, float $x, float $y ) => [ 'solution' => '', 'title' => $title, 'text' => 'A short line about this solution.', 'url' => $mbf_id( $path ), 'x' => $x, 'y' => $y ];
 $mbf_ticks        = [ [ 'text' => 'A first reason to choose it' ], [ 'text' => 'A second reason to choose it' ], [ 'text' => 'A third reason to choose it' ] ];
 $mbf_standards    = [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ];
 $mbf_glance       = [ [ 'label' => 'Fixing', 'value' => 'A short placeholder fact' ], [ 'label' => 'Roof types', 'value' => 'Placeholder, placeholder' ], [ 'label' => 'Height', 'value' => '1,100 mm' ], [ 'label' => 'Finish', 'value' => 'Galvanised' ] ];
@@ -90,34 +92,8 @@ $mbf_pages = [
 		$mbf_steps( 'base' ),
 		$mbf_band( 'primary' ),
 		$mbf_study( 'base' ),
-		$mbf_row(
-			'hotspots',
-			'tertiary',
-			[
-				'heading' => 'See a typical site',
-				'lead'    => 'Tap a number, or read the list.',
-				'scenes'  => [
-					[
-						'label' => 'Rooftop',
-						'image' => $mbf_rooftop,
-						'spots' => [
-							[ 'title' => 'Edge protection', 'text' => 'Short text about this spot.', 'url' => $mbf_id( 'products/placeholder-product' ), 'x' => 14, 'y' => 12 ],
-							[ 'title' => 'Walkway', 'text' => 'Short text about this spot.', 'url' => $mbf_id( 'products/placeholder-product' ), 'x' => 37, 'y' => 19 ],
-							[ 'title' => 'Access ladder', 'text' => 'Short text about this spot.', 'url' => '', 'x' => 8, 'y' => 46 ],
-							[ 'title' => 'Gate', 'text' => 'Short text about this spot.', 'url' => '', 'x' => 51, 'y' => 79 ],
-						],
-					],
-					[
-						'label' => 'Warehouse',
-						'image' => $mbf_warehouse,
-						'spots' => [
-							[ 'title' => 'Guardrail', 'text' => 'Short text about this spot.', 'url' => $mbf_id( 'products/placeholder-product' ), 'x' => 30, 'y' => 40 ],
-							[ 'title' => 'Pallet gate', 'text' => 'Short text about this spot.', 'url' => '', 'x' => 68, 'y' => 55 ],
-						],
-					],
-				],
-			]
-		),
+		// The site's scenes come from Site Settings › Hotspots (written below); the section only adds them.
+		$mbf_row( 'hotspots', 'tertiary', [ 'show_scenes' => [] ] ),
 		$mbf_faq( 'base' ),
 		$mbf_row( 'posts', 'tertiary', [ 'heading' => 'Latest articles', 'lead' => '', 'source' => 'latest', 'category' => '', 'count' => 3, 'chosen' => [], 'link' => $mbf_link( 'All articles', '/blog/' ) ] ),
 		$mbf_enquiry( 'secondary' ),
@@ -216,6 +192,74 @@ foreach ( $mbf_pages as $mbf_path => $mbf_rows ) {
 	if ( $mbf_force ) {
 		update_field( 'page_layouts', $mbf_rows, $mbf_page_id );
 		update_post_meta( $mbf_page_id, '_mbf_page_type_hash', $mbf_hash );
+	}
+}
+
+// --- Site Settings › Hotspots: the site's scenes, set once (written only when unset) -------
+$mbf_hotspots = [
+	'hotspot_heading' => 'See a typical site',
+	'hotspot_lead'    => 'Hover a number to see what it is, or choose from the list.',
+	'hotspot_scenes'  => [
+		[
+			'label' => 'Rooftop',
+			'image' => $mbf_rooftop,
+			// FA's 11 rooftop positions on the same render (2026-11-10), with generic names. Spots that
+			// match a finder answer take it; the rest set their own name and link.
+			'spots' => [
+				$mbf_spot( 'roof-edge', 14.15, 11.81 ),
+				$mbf_spot( 'fragile-roof', 38.05, 18.85 ),
+				$mbf_spot( 'routes', 51.2, 26.83 ),
+				$mbf_own( 'Mini step-over', 'products/placeholder-product', 67.04, 42.23 ),
+				$mbf_own( 'Rooflight cover', 'products', 8.17, 46.37 ),
+				$mbf_own( 'Ramp handrail', 'services/inspection', 50.61, 80.49 ),
+				$mbf_own( 'Tube and fittings', 'products/placeholder-product', 4.4, 84 ),
+				$mbf_own( 'Access platform', 'services/maintenance', 62, 27.86 ),
+				$mbf_own( 'Self-closing gate', 'products', 27.93, 81.37 ),
+				$mbf_own( 'Handrail kit', 'products/placeholder-product', 66.63, 88.87 ),
+				$mbf_own( 'Ground-level barrier', 'industries/placeholder-sector', 15.5, 69.5 ),
+			],
+		],
+		[
+			'label' => 'Warehouse',
+			'image' => $mbf_warehouse,
+			// FA's 7 warehouse positions.
+			'spots' => [
+				$mbf_own( 'Mobile access platform', 'services/maintenance', 61.58, 60.6 ),
+				$mbf_own( 'Tube and fittings', 'products/placeholder-product', 72.32, 34.7 ),
+				$mbf_spot( 'loading', 40.61, 25.24 ),
+				$mbf_own( 'Floor demarcation', 'industries/placeholder-sector', 48.17, 76.31 ),
+				$mbf_own( 'Impact barrier', 'products', 9.51, 44.39 ),
+				$mbf_own( 'Self-closing gate', 'products', 26.22, 50.33 ),
+				$mbf_own( 'Handrail kit', 'products/placeholder-product', 85.49, 53.85 ),
+			],
+		],
+	],
+];
+
+foreach ( $mbf_hotspots as $mbf_name => $mbf_value ) {
+	if ( ! empty( get_option( "options_{$mbf_name}" ) ) ) {
+		continue;
+	}
+
+	$mbf_log( "set Site Settings {$mbf_name}" );
+
+	if ( $mbf_force ) {
+		update_field( $mbf_name, $mbf_value, 'option' );
+	}
+}
+
+// --- Featured images: the hotspot popup shows the linked page's, so the placeholders get one --
+foreach ( [ 'products' => $mbf_warehouse, 'products/placeholder-product' => $mbf_rooftop, 'services/inspection' => $mbf_warehouse, 'services/maintenance' => $mbf_rooftop, 'industries/placeholder-sector' => $mbf_warehouse ] as $mbf_path => $mbf_image ) {
+	$mbf_page_id = $mbf_id( $mbf_path );
+
+	if ( ! $mbf_page_id || has_post_thumbnail( $mbf_page_id ) ) {
+		continue;
+	}
+
+	$mbf_log( "set featured image on {$mbf_path}" );
+
+	if ( $mbf_force ) {
+		set_post_thumbnail( $mbf_page_id, $mbf_image );
 	}
 }
 

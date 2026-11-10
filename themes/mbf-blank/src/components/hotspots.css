@@ -1,7 +1,7 @@
 /* --- Hotspots (template-parts/blocks/hotspots.php, assets/js/hotspots.js) --- */
 .mbf-hotspots {
 	/*
-	 * Dials (03). The 36rem and 56rem points can't be dials: custom properties don't work in
+	 * Dials (03). The 30rem, 36rem and 56rem points can't be dials: custom properties don't work in
 	 * @container. The marker's edge is what keeps it readable on any photo, so it stays a solid
 	 * light ring whatever the ground.
 	 *
@@ -10,7 +10,7 @@
 	 * the keyboard and screen-reader path. Keep --hotspots-marker ≥ 24px.
 	 */
 	--hotspots-gap: var(--layout-gap);
-	--hotspots-columns: minmax(0, 3fr) minmax(0, 2fr);   /* image | list, once split */
+	--hotspots-columns: minmax(0, 2fr) minmax(0, 1fr);   /* image | list, once split (David, 2026-11-10: 2:1) */
 	--hotspots-image-radius: var(--radius);
 	--hotspots-marker: 2rem;
 	--hotspots-marker-wide: var(--button-h);
@@ -18,8 +18,20 @@
 	--hotspots-marker-text: var(--color-base);
 	--hotspots-marker-edge: 0 0 0 2px var(--color-base);
 	--hotspots-marker-active-edge: 0 0 0 4px var(--color-contrast);
-	--hotspots-item-gap: var(--space-s);
-	--hotspots-item-active: color-mix(in oklch, var(--section-accent, var(--color-primary)) 12%, transparent);
+	--hotspots-pop-width: 17rem;
+	--hotspots-pop-bg: var(--color-base);        /* on the photo, not the ground: always light */
+	--hotspots-pop-text: var(--color-text);
+	--hotspots-pop-title: var(--color-heading);
+	--hotspots-pop-radius: var(--radius);
+	--hotspots-pop-ratio: 16 / 9;
+	--hotspots-item-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 20%, transparent);
+	--hotspots-item-pad: .3rem .25rem;           /* compact: 11 rows (38px each) fit beside the image at 1440 (449px); .45rem ran 478px */
+	--hotspots-item-active: color-mix(in oklch, var(--section-accent, var(--color-primary)) 6%, transparent);   /* 12% took muted text to 4.31:1 on primary */
+	--hotspots-n-size: 1.75rem;
+	--hotspots-list-gap: var(--content-gap);    /* between the list's two columns when stacked */
+	--hotspots-n-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 45%, transparent);
+	--hotspots-n-active-bg: var(--section-accent, var(--color-primary));
+	--hotspots-n-active-text: var(--section-on-accent, var(--color-base));
 	--hotspots-tabs-gap: var(--content-gap);
 	--hotspots-tab-border: 2px solid transparent;
 	--hotspots-tab-active: var(--section-accent, var(--color-primary));
@@ -32,7 +44,8 @@
 .mbf-hotspots__scene[hidden] { display: none; }
 .mbf-hotspots__label[hidden] { display: none; }
 
-.mbf-hotspots__media { position: relative; }
+/* A container, so the popup's width can follow the image (cqi) rather than the page. */
+.mbf-hotspots__media { position: relative; container-type: inline-size; }
 .mbf-hotspots__image { inline-size: 100%; block-size: auto; border-radius: var(--hotspots-image-radius); }
 
 /* Clamped, so a spot at the very edge never pushes past the image and overflows the page. */
@@ -53,16 +66,94 @@
 	cursor: pointer;
 }
 
-.mbf-hotspots__marker.is-active { box-shadow: var(--hotspots-marker-edge), var(--hotspots-marker-active-edge); }
+/* :hover works without JS; .is-active is the pairing with the list, both ways. */
+.mbf-hotspots__marker:hover,
+.mbf-hotspots__marker.is-active {
+	z-index: 2;
+	box-shadow: var(--hotspots-marker-edge), var(--hotspots-marker-active-edge);
+}
 
-.mbf-hotspots__list { display: grid; gap: var(--hotspots-item-gap); padding-inline-start: 1.75em; list-style: decimal; }
-.mbf-hotspots__item { padding: var(--space-xs); border-radius: var(--radius-button); }
-.mbf-hotspots__item.is-active { background: var(--hotspots-item-active); }
-.mbf-hotspots__item::marker { font-weight: 700; color: var(--section-accent, var(--color-primary)); }
-.mbf-hotspots__title { font-weight: 600; color: var(--section-heading, var(--color-heading)); }
-a.mbf-hotspots__title { display: inline-block; color: var(--section-link, var(--color-primary)); }  /* standalone link: ≥24px (2.5.8) */
-.mbf-hotspots__text { margin-block-start: var(--space-xs); }
+/*
+ * --- The popup card at the marker: the linked page's featured image, the title, the info line.
+ * Visual only (the marker is aria-hidden; the info line describes the list link). It opens away
+ * from the nearest edges (the partial picks start/end and below), at most half the image wide,
+ * so it can't leave the page. Hoverable: it's inside the marker, so moving onto it keeps it open.
+ */
+.mbf-hotspots__pop {
+	position: absolute;
+	inset-block-end: calc(100% + .5rem);
+	inline-size: min(var(--hotspots-pop-width), 50cqi);
+	overflow: hidden;
+	border-radius: var(--hotspots-pop-radius);
+	background: var(--hotspots-pop-bg);
+	color: var(--hotspots-pop-text);
+	box-shadow: var(--shadow);
+	font-weight: 400;
+	text-align: start;
+	cursor: pointer;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity var(--speed) var(--ease), visibility var(--speed);
+}
 
+.mbf-hotspots__pop--start { inset-inline-start: 0; }
+.mbf-hotspots__pop--end { inset-inline-end: 0; }
+.mbf-hotspots__pop--below { inset-block-end: auto; inset-block-start: calc(100% + .5rem); }
+
+.mbf-hotspots__marker:hover .mbf-hotspots__pop,
+.mbf-hotspots__marker.is-active .mbf-hotspots__pop { opacity: 1; visibility: visible; }
+
+/* Escape (hotspots.js): hidden until the pointer or focus moves on (1.4.13). */
+.mbf-hotspots__media.is-dismissed .mbf-hotspots__pop { opacity: 0; visibility: hidden; }
+
+.mbf-hotspots__pop-image { display: block; inline-size: 100%; block-size: auto; aspect-ratio: var(--hotspots-pop-ratio); object-fit: cover; }
+.mbf-hotspots__pop-body { display: grid; gap: .25rem; padding: var(--space-s); }
+.mbf-hotspots__pop-title { font-weight: 700; line-height: 1.25; color: var(--hotspots-pop-title); }
+.mbf-hotspots__pop-text { font-size: var(--fs-sm); line-height: 1.4; }
+
+/* --- The list: compact numbered text links (number + title), the original side-by-side. --- */
+.mbf-hotspots__list { display: grid; column-gap: var(--hotspots-list-gap); border-block-start: var(--hotspots-item-border); }
+.mbf-hotspots__item { border-block-end: var(--hotspots-item-border); }
+
+.mbf-hotspots__link {
+	display: flex;
+	align-items: center;
+	gap: var(--space-s);
+	padding: var(--hotspots-item-pad);
+	color: var(--section-heading, var(--color-heading));
+	text-decoration: none;
+	transition: background-color var(--speed) var(--ease);
+}
+
+.mbf-hotspots__item.is-active .mbf-hotspots__link,
+a.mbf-hotspots__link:hover { background: var(--hotspots-item-active); }
+
+/* A link's title underlines on hover and pairing: a cue that isn't colour alone. */
+.mbf-hotspots__item.is-active a .mbf-hotspots__title,
+a.mbf-hotspots__link:hover .mbf-hotspots__title { text-decoration: underline; text-underline-offset: .2em; }
+
+.mbf-hotspots__n {
+	flex: none;
+	display: grid;
+	place-items: center;
+	inline-size: var(--hotspots-n-size);
+	block-size: var(--hotspots-n-size);
+	border: var(--hotspots-n-border);
+	border-radius: 50%;
+	font-size: var(--fs-sm);
+	font-weight: 700;
+}
+
+.mbf-hotspots__item.is-active .mbf-hotspots__n,
+a.mbf-hotspots__link:hover .mbf-hotspots__n {
+	border-color: var(--hotspots-n-active-bg);
+	background: var(--hotspots-n-active-bg);
+	color: var(--hotspots-n-active-text);
+}
+
+.mbf-hotspots__title { font-weight: 600; }
+
+/* --- Tabs (built by hotspots.js when there are several scenes) --- */
 .mbf-hotspots__tabs { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
 
 .mbf-hotspots__tab {
@@ -77,23 +168,39 @@ a.mbf-hotspots__title { display: inline-block; color: var(--section-link, var(--
 /* The selected tab is marked by its underline as well as its colour (1.4.1). */
 .mbf-hotspots__tab[aria-selected="true"] { border-block-end-color: var(--hotspots-tab-active); color: var(--hotspots-tab-active); }
 
-/* Set on __media, not .mbf-hotspots: that's the section, outside the container it would query. */
+/* Set on __media's parent query, not .mbf-hotspots: that's the section, outside the container. */
 @container (min-width: 36rem) {
 	.mbf-hotspots__media { --hotspots-marker: var(--hotspots-marker-wide); }
 }
 
+/*
+ * Stacked under the image, the list takes two columns once each can hold a title (David,
+ * 2026-11-10); one on phones. Row by row, so the order on screen is the list's order.
+ */
+@container (min-width: 30rem) {
+	.mbf-hotspots__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 @container (min-width: 56rem) {
 	.mbf-hotspots__scene { grid-template-columns: var(--hotspots-columns); }
+	.mbf-hotspots__list { grid-template-columns: minmax(0, 1fr); }   /* beside the image: one column again */
 	.mbf-hotspots__label { grid-column: 1 / -1; }
 }
 
-/* Forced colours drop backgrounds and shadows: a real border keeps the marker and its state. */
+/* Forced colours drop backgrounds and shadows: real borders keep the marker, popup and state. */
 @media (forced-colors: active) {
 	.mbf-hotspots__marker { border: 2px solid; background: Canvas; color: CanvasText; }
 	.mbf-hotspots__marker.is-active { border-width: 4px; }
-	.mbf-hotspots__item.is-active { outline: 2px solid; }
+	.mbf-hotspots__pop { border: 1px solid; }
+	.mbf-hotspots__item.is-active .mbf-hotspots__link { outline: 2px solid; outline-offset: -2px; }
+	.mbf-hotspots__item.is-active .mbf-hotspots__n { border-color: Highlight; background: Highlight; color: HighlightText; }
 
 	/* A transparent border is painted solid here, so every tab looked selected (measured). */
 	.mbf-hotspots__tab { border-block-end-color: Canvas; }
 	.mbf-hotspots__tab[aria-selected="true"] { border-block-end-color: Highlight; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mbf-hotspots__pop,
+	.mbf-hotspots__link { transition: none; }
 }

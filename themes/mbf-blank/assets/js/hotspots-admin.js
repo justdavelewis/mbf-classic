@@ -1,5 +1,5 @@
 /**
- * The hotspot placer (editor only). Select a spot, click the scene's image: its Across and
+ * The hotspot placer (Site Settings › Hotspots). Select a spot, click the scene's image: its Across and
  * Down fields fill in, and markers show every spot on the preview. The numbers stay editable,
  * so a spot can still be nudged by hand and this is never the only way to set one.
  */
@@ -17,7 +17,7 @@
 	`;
 	document.head.append( style );
 
-	const sceneOf = ( node ) => node.closest( `.acf-field[data-name="scenes"] .acf-row` );
+	const sceneOf = ( node ) => node.closest( `.acf-field[data-name="hotspot_scenes"] .acf-row` );
 	const spotRows = ( scene ) => [ ...scene.querySelectorAll( `${ SPOTS } .acf-row:not(.acf-clone)` ) ];
 	const input = ( row, name ) => row.querySelector( `.acf-field[data-name="${ name }"] input` );
 
@@ -48,7 +48,7 @@
 		} );
 	};
 
-	const drawAll = () => document.querySelectorAll( '.acf-field[data-name="scenes"] .acf-row:not(.acf-clone)' ).forEach( ( row ) => {
+	const drawAll = () => document.querySelectorAll( '.acf-field[data-name="hotspot_scenes"] .acf-row:not(.acf-clone)' ).forEach( ( row ) => {
 		if ( row.querySelector( SPOTS ) ) {
 			draw( row );
 		}

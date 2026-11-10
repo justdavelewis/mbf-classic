@@ -84,6 +84,123 @@
 
 ---
 
+## 2026-11-10 — v1.1 sweep (docs/08 + docs/12 "v1.0 done when")
+
+David: *"yes start the v1.0 sweep, i think we've done a decent amount since 1.0, is this worth
+updating to a 1.1"*. v1.0 was tagged 2026-11-06 (local tag, never pushed). Everything since
+(layout library, page types, finder glass, shared form, MCP, conventions, polished look,
+solution hero, Duotone icons, hotspots) → **1.1.0** (`style.css`, `package.json` and the lockfile's
+root entries; the lockfile had never left 0.1.0), tagged on `main` once #11 and #12 merge.
+From here: minor for new sections/features, patch for fixes, major only when a change would
+break a forked site's content or fields.
+
+**Passed** (on `feature/hotspots-complete`, which holds everything):
+- **Structure, 18 pages:** one h1 each, no skipped heading levels, header/nav/main/footer, skip
+  link, every image has `alt`, every link/button named, no `aria-hidden=""`, one business node,
+  `lang`, statuses as expected (404 page 404). Plex Mono loads wherever it's used (pages with
+  no mono text never request it). "Same ground" pairs are the page header + first section: the
+  header is `--flush-btm` by design.
+- **Keyboard, 12 page types × 1280 and 390:** every stop has a ≥2px ring (own or the card's),
+  nothing hidden takes focus, order never jumps back, every page reaches the footer
+  (`/_sample/`: 208 and 203 stops). Drawer: modal, focus inside, Esc closes, focus returns, Tab
+  cycles inside (via the browser chrome, as native modals do). Dropdowns, finder (focus to the
+  next question), FAQ, hotspot tabs (arrows), gallery thumbs all work by keyboard. A first run
+  stopped early on `/_sample/` at 390: the harness keyed stops by HTML + position, and two
+  identical links scrolled to the same spot. Re-keyed per element; clean.
+- **Reduced motion:** no moving transitions or animations on 7 pages; smooth scroll off.
+- **200% zoom (640px) and text spacing (1.4.12) at 1280/390:** 0 page overflow. Everything
+  "clipped" is meant to be: screen-reader text, WS Form's hidden progress label/legend, and
+  step-2 fields not yet shown. No visible field lacks a visible label.
+- **Forced colours:** focus outlines stay 2px in the system colour; every control keeps an edge
+  (logo badges are images, no edge needed).
+- **Contrast, every text node, 16 pages × 1280 and 390:** none below AA. Scanner proven on a
+  #bbb canary (1.92:1, flagged; a first canary landed on the navy hero, where #bbb really is
+  8.8:1). Text over photos (hero veil, gallery caption, hotspot popup) was measured when built.
+- **PHP notices:** a throwaway mu-plugin raised `E_USER_NOTICE`; it showed in the HTML, so "0
+  notices" is real. Canary deleted.
+- **Form, end to end** (`/contact/?need=roof-edge&site=industrial`): both steps, a PNG upload,
+  submit. Saved as submission #1: every field, the upload (WS Form attachment 66), and the
+  hidden `Finder need`/`Finder site` = `roof-edge`/`industrial`. Gate checked with the right
+  argument order: `database`/`message`/`redirect` run, `email`/`webhook` blocked (the form has a
+  Send Email action; it didn't run).
+- **Fork test:** five palette slots swapped in `theme.json` only → every page type re-skinned,
+  0 computed colours left on the old palette (scanner proven: 186 hits on `/` with the real
+  palette). Restored from git.
+
+**Findings:**
+1. **Finder → form — FIXED** (David: *"yes fix the checkbox and clean up the test data"*). The
+   products checkbox wasn't pre-ticked from `?need=`: its values were labels and nothing set its
+   default. Now (`scripts/data/enquiry-form.json`, and applied to this site's form 4 + published)
+   it has a Label and a Value column, values are the finder keys (`roof-edge`, `fragile-roof`,
+   `ladders`, `loading`, `routes`, `other`), `checkbox_field_value` = 1, and the default is
+   `#query_var(need)`. No script: keys have no commas, so WS Form's own match by value works
+   (Mantech's `prefill-checkbox.js` exists because its labels did). The parse-variable column
+   stays on the label, so `#email_submission` still prints "Roof edge or perimeter" (checked
+   with `WS_Form_Common::get_datagrid_value`). Checked: each of the 5 keys ticks its box;
+   `not-sure`, an unknown key and none tick nothing; the visitor can untick. Fingerprint: only
+   the hidden step-2 labels' measured width (306.9 → 293.3px off-screen); step 2 on screen looks
+   as before.
+2. **Editor token bridge** not re-checked (needs a logged-in editor). Last verified 2026-11-06,
+   before the font change.
+3. **Screen reader:** checked through the accessibility tree and names/descriptions, not with
+   VoiceOver.
+4. **Fingerprint capture blip:** in 2 of 5 captures `/services/@768` logged a failed static load,
+   then WS Form's jQuery UI chain threw (`o.widget is not a function`). 12 reloads clean: Local
+   under 126 back-to-back views, not the theme. Every form page loads 23 scripts (jQuery UI
+   sortable/mouse, touch-punch, intl-tel-input, dropzone…): a performance note for later.
+5. **Test data — CLEANED:** submission #1 deleted through WS Form (`db_delete( true )`, its meta
+   too), attachment 66 and both upload files deleted, the empty `uploads/ws-form/4/` folders
+   removed. Hotspots reset to FA's positions: `hotspot_scenes` cleared and rewritten by
+   `build-page-types.php` (rooftop 1 back to 14.15, warehouse 1 to 61.58; second run a no-op).
+   Note: saving Site Settings rounds positions to one decimal (the x/y fields' step is 0.1).
+   Fingerprint after cleanup: matches the baseline except the checkbox labels above; 0
+   overflow/errors/notices on 126 views. Baseline: `.fingerprints/after-sweep.json`.
+6. `/_sample/` repeats WS Form field IDs (the form appears on 4 grounds). Sample-only.
+
+## 2026-11-10 — Hotspots: set once per site, every spot a solution, popups at the markers
+
+David, in four steps: *"make the hotspot area complete ... so that each spot matches up to a
+solution, like it does on FA. Also when hovering over the spots themselves theres no
+interaction"*; then *"there should be 11 or 12 based on FA"*; then, after full-width image +
+4-column cards: *"this whole change actually seems to make the cards redundant. Maybe we could go
+back to a 2 column layout ... a 2:1 column ratio ... titles still remain ... and the number, but no
+extra text. A different card pops up on hover ... with a title, information and maybe an image"*,
+and *"this block should not be customisable in ACF, its just one thing to add in on a page"*.
+Chose: Site Settings for the data, section controls kept.
+
+- **Data: Site Settings › Hotspots** (`hotspot_heading`, `hotspot_lead`, `hotspot_scenes`), read by
+  `mbf_hotspots_config()` (`inc/hotspots.php`). The layout's fields are now only `show_scenes`
+  (checkboxes filled live from the site's scenes; empty = all) and the section controls. The
+  placer (`hotspots-admin.js`) works on Site Settings. Showing only chosen spots: a per-site
+  maybe, not built.
+- **Solutions:** each spot has a Solution select (`field_mbf_site_hotspot_scenes_spots_solution`)
+  filled live from the finder's answers with a page; it takes their title, page and answer
+  label unless the spot sets its own (`mbf_finder_solution()`).
+- **Layout:** image | list at 2:1 from 56rem; the list is numbered text links, title only, 38px
+  rows (11 = 426px beside a 449px image at 1440; .45rem padding ran 478px). Stacked, the list
+  takes 2 columns from a 30rem container, row by row, and 1 on phones (David: *"on collapse the
+  text links should be broken up into 2 columns at least and then finally into 1 on mobile"*).
+  Checked at 9 widths: side by side from 1024, 2 columns at 600–768, 1 at 480 and below; order
+  always 1, 2, 3… left to right, top to bottom.
+- **Popup card at the marker:** the linked page's featured image, title and info line, on
+  hovering the marker or hovering/focusing its link. It opens right of a spot in the left half
+  and below one in the top half, at most 50cqi wide, so it can't leave the page (checked: all
+  18 spots, 6 widths). Hoverable; Escape hides it until the pointer or focus moves (1.4.13). The
+  info line is the link's `aria-describedby`.
+- **Tried and replaced:** FA's rows beside the image (ran far below it with 11 spots), then the
+  image full width with 4-column cards and a name label at the marker (the cards duplicated the
+  popup).
+- **Placeholder data** (`build-page-types.php`, written only when unset): FA's 11 rooftop and 7
+  warehouse positions (read from FA's DB, read-only, positions and names only) on the same
+  renders, generic names; 4 spots use finder answers, the rest their own name and a placeholder
+  page. The product, service and sector placeholders get featured images, so popups show one.
+  `/_sample/`: all scenes on base and secondary, rooftop on tertiary, warehouse on primary.
+- **Verified:** 1440/1280/1200 side by side, 768/390/320 stacked, 0 overflow; marker hover ↔ link
+  both ways; link name = title, description = info line; Escape; popup hoverable with its image
+  loaded. Fingerprint vs `after-icons`: changes only on `/` and `/_sample/`; 0 overflow/errors/
+  notices on all 126 views. Both scripts re-run as no-ops. Baseline:
+  `.fingerprints/after-hotspots.json`.
+
 ## 2026-11-10 — Icons: Duotone Regular, and a bigger card tile
 
 David: *"yes go with duotone regular and the bigger tile"*, after a side-by-side of Sharp Regular

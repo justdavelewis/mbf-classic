@@ -30,6 +30,6 @@ $mbf_tag = 'h' . max( 1, min( 6, (int) $mbf_a['level'] ) );
 		<p class="lead mbf-section-heading__lead"><?php echo esc_html( $mbf_a['lead'] ); ?></p>
 	<?php endif; ?>
 	<?php if ( $mbf_link ) : ?>
-		<a class="mbf-section-heading__link" href="<?php echo esc_url( $mbf_link['url'] ); ?>"<?php echo $mbf_link['target'] ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html( $mbf_link['label'] ); ?> <span aria-hidden="true">&rarr;</span></a>
+		<a class="mbf-section-heading__link mbf-go" href="<?php echo esc_url( $mbf_link['url'] ); ?>"<?php echo $mbf_link['target'] ? ' target="_blank" rel="noopener"' : ''; ?>><?php echo esc_html( $mbf_link['label'] ); ?><span class="mbf-go__arrow" aria-hidden="true">&rarr;</span></a>
 	<?php endif; ?>
 </header>

@@ -26,6 +26,9 @@ belongs in STATUS and the rule belongs here.
 - WordPress: 7.1.4 (2026-11-05)
 - Plugins: ACF Pro 6.8.10 · WS Form Pro 1.12.16 (both active, licensed) · Woo:
   no (opt-in per fork, docs/06)
+- Fonts: Archivo (variable, latin) + IBM Plex Mono 500, self-hosted in `assets/fonts/` (OFL),
+  declared in `theme.json` (WordPress writes the `@font-face`). `--font-mono` is for eyebrows,
+  step numbers and codes, never body text. A fork replaces both files and the families.
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
 - Render fingerprint (standards docs/08): pages in `docs/fingerprint.json` (repo root); captures

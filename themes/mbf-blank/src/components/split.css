@@ -4,8 +4,9 @@
 	--split-gap: var(--layout-gap);
 	--split-text-gap: var(--content-gap);
 	--split-columns: repeat(2, minmax(0, 1fr));
-	--split-image-ratio: 4 / 3;
+	--split-image-ratio: 3 / 2;              /* Mantech gallery.css:76-79 */
 	--split-image-radius: var(--radius);
+	--split-portrait-max: 24rem;             /* a portrait photo's height cap (FA main.css:883-895) */
 }
 
 .mbf-split__grid { display: grid; gap: var(--split-gap); align-items: center; }
@@ -17,6 +18,15 @@
 	aspect-ratio: var(--split-image-ratio);
 	object-fit: cover;
 	border-radius: var(--split-image-radius);
+}
+
+/* Portrait: whole, at its own ratio, no taller than the cap. PHP adds the modifier and sets
+   --split-image-ratio on the image from its metadata. The width is computed from the cap: a grid
+   item kept the column's width whatever its height, so the photo came out squashed (578×384,
+   measured 2026-11-10). min() keeps it inside a narrow column, still at its ratio. */
+.mbf-split--portrait .mbf-split__image {
+	inline-size: min(100%, calc(var(--split-portrait-max) * var(--split-image-ratio)));
+	justify-self: center;
 }
 
 @container (min-width: 48rem) {

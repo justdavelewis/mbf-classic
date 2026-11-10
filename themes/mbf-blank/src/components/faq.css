@@ -1,25 +1,59 @@
-/* --- FAQ (template-parts/blocks/faq.php): native <details>, not cards (03) --- */
+/* --- FAQ (template-parts/blocks/faq.php): native <details> as boxed rows, not the linked card (03).
+   Mantech's structure: an intro column beside the questions, sticky once split, first row open,
+   a plus that turns into a cross. FA's surface: rows mixed from the section ground, so the same
+   recipe works on every ground without re-scoping (main.css:2087). --- */
 .mbf-faq {
-	/* Dials (03) */
+	/* Dials (03). The 56rem split point can't be one: custom properties don't work in @container. */
 	--faq-measure: var(--measure);
-	--faq-divider: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);  /* decorative */
+	--faq-gap: var(--layout-gap);
+	--faq-columns: minmax(0, 4fr) minmax(0, 7fr);   /* intro | questions (Mantech faq.css:21) */
+	--faq-sticky-top: calc(var(--wp-admin--admin-bar--height, 0px) + var(--space-fluid-m));   /* core sets the bar's height when it shows */
+	--faq-list-gap: var(--space-xs);
+	--faq-item-bg: color-mix(in oklch, var(--section-text, var(--color-text)) 4%, var(--section-bg, var(--color-surface)));
+	--faq-item-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 18%, transparent);   /* decorative: the text and marker identify a row */
+	--faq-item-radius: var(--radius);
+	--faq-item-pad: var(--space-fluid-s);
+	--faq-open-border: var(--section-accent, var(--color-primary));   /* with the cross and the answer, never colour alone (1.4.1) */
+	--faq-open-shadow: 0 10px 28px color-mix(in oklch, var(--color-contrast) 10%, transparent);
 	--faq-question-color: var(--section-heading, var(--color-heading));
 	--faq-question-hover: var(--section-accent, var(--color-primary));
 	--faq-question-size: var(--fs-lead);
 	--faq-question-weight: 600;
-	--faq-question-pad: var(--space-s);
-	--faq-answer-pad: var(--space-fluid-s);
-	--faq-gap: var(--layout-gap);
-	--faq-columns: minmax(0, 2fr) minmax(0, 1fr);   /* questions | side card, once split */
+	--faq-marker-size: 1.75rem;
+	--faq-marker-bg: var(--section-accent, var(--color-primary));
+	--faq-marker-color: var(--section-on-accent, var(--color-base));
+	--faq-marker-radius: var(--radius-button);
+	--faq-intro-gap: var(--space-fluid-m);
 	--faq-aside-gap: var(--space-fluid-s);
 	--faq-aside-pad: var(--space-fluid-m);
-	--faq-aside-border: var(--faq-divider);
+	--faq-aside-bg: var(--faq-item-bg);
+	--faq-aside-rule: 3px solid var(--section-accent, var(--color-primary));   /* FA main.css:2145 */
 	--faq-aside-radius: var(--radius);
 }
 
-.mbf-faq__list { display: grid; max-inline-size: var(--faq-measure); }
+.mbf-faq__grid { display: grid; gap: var(--faq-gap); align-items: start; }
+.mbf-faq__intro { display: grid; gap: var(--faq-intro-gap); align-content: start; }
 
-.mbf-faq__item { border-block-end: var(--faq-divider); }
+.mbf-faq__aside {
+	display: grid;
+	gap: var(--faq-aside-gap);
+	padding: var(--faq-aside-pad);
+	border-inline-start: var(--faq-aside-rule);
+	border-radius: var(--faq-aside-radius);
+	background: var(--faq-aside-bg);
+}
+
+.mbf-faq__list { display: grid; gap: var(--faq-list-gap); align-content: start; max-inline-size: var(--faq-measure); }
+
+.mbf-faq__item {
+	interpolate-size: allow-keywords;        /* lets the answer's height animate to auto, below */
+	border: var(--faq-item-border);
+	border-radius: var(--faq-item-radius);
+	background: var(--faq-item-bg);
+	transition: border-color var(--speed) var(--ease), box-shadow var(--speed) var(--ease);
+}
+
+.mbf-faq__item[open] { border-color: var(--faq-open-border); box-shadow: var(--faq-open-shadow); }
 
 .mbf-faq__question {
 	display: flex;
@@ -27,22 +61,59 @@
 	justify-content: space-between;
 	gap: var(--space-s);
 	min-block-size: var(--button-h);
-	padding-block: var(--faq-question-pad);
+	padding: var(--faq-item-pad);
 	color: var(--faq-question-color);
 	font-size: var(--faq-question-size);
 	font-weight: var(--faq-question-weight);
+	list-style: none;                        /* our marker, not the UA triangle */
+	cursor: pointer;
 	transition: color 150ms var(--ease);
 }
 
+.mbf-faq__question::-webkit-details-marker { display: none; }
 .mbf-faq__question:is(:hover, :focus-visible) { color: var(--faq-question-hover); }
-.mbf-faq__question .mbf-chevron { flex-shrink: 0; }
 
-.mbf-faq__answer { padding-block-end: var(--faq-answer-pad); }
+/* Plus → cross (Mantech faq.css:273-274). The bars are borders in currentColor, so forced colours keeps them. */
+.mbf-faq__marker {
+	position: relative;
+	flex-shrink: 0;
+	inline-size: var(--faq-marker-size);
+	block-size: var(--faq-marker-size);
+	border-radius: var(--faq-marker-radius);
+	background: var(--faq-marker-bg);
+	color: var(--faq-marker-color);
+}
 
-/* Only with a side card. A plain FAQ has no grid, and keeps its measure. */
-.mbf-faq__grid { display: grid; gap: var(--faq-gap); align-items: start; }
-.mbf-faq__aside { display: grid; gap: var(--faq-aside-gap); padding: var(--faq-aside-pad); border: var(--faq-aside-border); border-radius: var(--faq-aside-radius); }
+.mbf-faq__marker::before,
+.mbf-faq__marker::after {
+	content: "";
+	position: absolute;
+	inset-block-start: 50%;
+	inset-inline: 28%;
+	border-block-start: 2px solid currentColor;
+	translate: 0 -50%;
+	transition: rotate var(--speed) var(--ease);
+}
+
+/* The bars turn, not the tile: a turned tile reads as a diamond (seen 2026-11-10). */
+.mbf-faq__marker::after { rotate: 90deg; }
+.mbf-faq__item[open] .mbf-faq__marker::before { rotate: 45deg; }
+.mbf-faq__item[open] .mbf-faq__marker::after { rotate: 135deg; }
+
+.mbf-faq__answer { padding: 0 var(--faq-item-pad) var(--faq-item-pad); }
+
+/* The answer slides open where ::details-content exists; elsewhere it simply appears. */
+@supports selector(::details-content) {
+	.mbf-faq__item::details-content {
+		block-size: 0;
+		overflow-y: clip;
+		transition: block-size var(--speed) var(--ease), content-visibility var(--speed) allow-discrete;
+	}
+
+	.mbf-faq__item[open]::details-content { block-size: auto; }
+}
 
 @container (min-width: 56rem) {
 	.mbf-faq__grid { grid-template-columns: var(--faq-columns); }
+	.mbf-faq__intro { position: sticky; inset-block-start: var(--faq-sticky-top); }
 }

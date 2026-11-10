@@ -25,6 +25,7 @@
 @import "./components/footer.css" layer(components);
 @import "./components/section-heading.css" layer(components);
 @import "./components/card.css" layer(components);
+@import "./components/go.css" layer(components);
 @import "./components/page-hero.css" layer(components);
 @import "./components/crumbs.css" layer(components);
 @import "./components/social.css" layer(components);

@@ -69,7 +69,6 @@
   --space-fluid-s:  var(--wp--preset--spacing--fluid-s);
   --space-fluid-m:  var(--wp--preset--spacing--fluid-m);
   --space-fluid-l:  var(--wp--preset--spacing--fluid-l);
-  --space-fluid-xl: var(--wp--preset--spacing--fluid-xl);
   --content-gap: var(--wp--custom--content-gap);     /* gap between content items: one fluid step, default m */
   --layout-gap: var(--space-fluid-l);                 /* gap between layout columns/tracks: card grid, split, hero, stats, steps, footer, enquiry */
   --section-y: calc(clamp(3.75rem, calc(3.75rem + 2.2cqi), 5.5rem) * var(--wp--custom--section-scale));
@@ -79,11 +78,11 @@
   --wrap: var(--wp--style--global--wide-size);        /* theme.json layout.wideSize */
   --measure: var(--wp--style--global--content-size);  /* theme.json layout.contentSize */
   --grid-auto:  repeat(auto-fit,  minmax(min(20rem, 100%), 1fr));          /* content: fill the row */
-  --grid-cards: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));          /* cards: keep track width */
+  --grid-cards: repeat(auto-fill, minmax(min(100%, max(17rem, (100% - 2 * var(--content-gap)) / 3)), 1fr));
+                /* cards: keep track width, at most 3 columns. Without the cap, 3 cards at 1440 got a 4th, empty track (336px hole) */
 
-  /* --- controls: 2 (vi, not cqi — targets follow the device) --------------- */
+  /* --- controls: 1 (vi, not cqi — targets follow the device) --------------- */
   --button-h:     clamp(2.75rem, calc(2.6464rem + .442vi), 3rem);          /* 44px floor — never lower */
-  --button-pad-x: clamp(1.125rem, calc(.9696rem + .663vi), 1.5rem);
 
   /* --- surface: 2 radii + 1 shadow ---------------------------------------- */
   --radius:        var(--wp--custom--radius--surface);                     /* surfaces */

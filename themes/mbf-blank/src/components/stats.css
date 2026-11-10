@@ -2,7 +2,7 @@
 .mbf-stats {
 	/* Dials (03). The value is large text in the guarded accent: ≥3:1 needed, every
 	   ground's accent clears 4.5:1. */
-	--stats-gap: var(--layout-gap);
+	--stats-gap: var(--content-gap);         /* a row of items, not layout columns: as on Mantech (fluid-m or less) */
 	--stats-tile: 10rem;                     /* a stat is narrower than a card */
 	--stats-item-gap: var(--space-xs);
 	--stats-value-size: var(--fs-h1);

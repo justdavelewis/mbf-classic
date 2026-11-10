@@ -2,7 +2,7 @@
 .mbf-steps {
 	/* Dials (03). Keep --steps-marker-size ≥ 44px: the number is a target-sized disc. */
 	--steps-columns: var(--grid-auto);
-	--steps-gap: var(--layout-gap);
+	--steps-gap: var(--content-gap);         /* a row of items, not layout columns: as on Mantech (fluid-m or less) */
 	--steps-item-gap: var(--space-s);
 	--steps-marker-size: var(--button-h);
 	--steps-marker-radius: 999px;

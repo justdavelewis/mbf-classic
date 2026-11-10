@@ -23,6 +23,8 @@
 
 !/mu-plugins/
 /mu-plugins/*
+# Local-only MCP server (inert outside local/development; deploys copy the theme only)
+!/mu-plugins/mbf-mcp.php
 
 # Design handoff: keep the README brief, never the heavy binaries
 /themes/mbf-blank/design_handoff/*

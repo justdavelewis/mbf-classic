@@ -1141,7 +1141,7 @@
 								"hidden_warning": "",
 								"select_all": "",
 								"select_all_label": "",
-								"default_value": "",
+								"default_value": "#query_var(need)",
 								"help": "Select all products or systems relevant to your enquiry.",
 								"orientation": "horizontal",
 								"aria_label": "",
@@ -1171,6 +1171,10 @@
 										{
 											"id": 0,
 											"label": "Label"
+										},
+										{
+											"id": 1,
+											"label": "Value"
 										}
 									],
 									"groups": [
@@ -1184,37 +1188,43 @@
 												{
 													"id": 1,
 													"data": [
-														"Roof edge or perimeter"
+														"Roof edge or perimeter",
+														"roof-edge"
 													]
 												},
 												{
 													"id": 2,
 													"data": [
-														"Fragile roof or skylights"
+														"Fragile roof or skylights",
+														"fragile-roof"
 													]
 												},
 												{
 													"id": 3,
 													"data": [
-														"Ladders and access points"
+														"Ladders and access points",
+														"ladders"
 													]
 												},
 												{
 													"id": 4,
 													"data": [
-														"Loading bays or mezzanines"
+														"Loading bays or mezzanines",
+														"loading"
 													]
 												},
 												{
 													"id": 5,
 													"data": [
-														"Roof access routes"
+														"Roof access routes",
+														"routes"
 													]
 												},
 												{
 													"id": 6,
 													"data": [
-														"Other"
+														"Other",
+														"other"
 													]
 												}
 											]
@@ -1223,7 +1233,7 @@
 								},
 								"data_grid_rows_randomize": "",
 								"checkbox_field_label": "0",
-								"checkbox_field_value": "0",
+								"checkbox_field_value": "1",
 								"checkbox_field_parse_variable": "0",
 								"checkbox_cascade": "",
 								"checkbox_cascade_field_filter": "0",

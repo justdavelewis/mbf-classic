@@ -84,6 +84,79 @@
 
 ---
 
+## 2026-11-10 — v1.1 sweep (docs/08 + docs/12 "v1.0 done when")
+
+David: *"yes start the v1.0 sweep, i think we've done a decent amount since 1.0, is this worth
+updating to a 1.1"*. v1.0 was tagged 2026-11-06 (local tag, never pushed). Everything since
+(layout library, page types, finder glass, shared form, MCP, conventions, polished look,
+solution hero, Duotone icons, hotspots) → **1.1.0** (`style.css`, `package.json` and the lockfile's
+root entries; the lockfile had never left 0.1.0), tagged on `main` once #11 and #12 merge.
+From here: minor for new sections/features, patch for fixes, major only when a change would
+break a forked site's content or fields.
+
+**Passed** (on `feature/hotspots-complete`, which holds everything):
+- **Structure, 18 pages:** one h1 each, no skipped heading levels, header/nav/main/footer, skip
+  link, every image has `alt`, every link/button named, no `aria-hidden=""`, one business node,
+  `lang`, statuses as expected (404 page 404). Plex Mono loads wherever it's used (pages with
+  no mono text never request it). "Same ground" pairs are the page header + first section: the
+  header is `--flush-btm` by design.
+- **Keyboard, 12 page types × 1280 and 390:** every stop has a ≥2px ring (own or the card's),
+  nothing hidden takes focus, order never jumps back, every page reaches the footer
+  (`/_sample/`: 208 and 203 stops). Drawer: modal, focus inside, Esc closes, focus returns, Tab
+  cycles inside (via the browser chrome, as native modals do). Dropdowns, finder (focus to the
+  next question), FAQ, hotspot tabs (arrows), gallery thumbs all work by keyboard. A first run
+  stopped early on `/_sample/` at 390: the harness keyed stops by HTML + position, and two
+  identical links scrolled to the same spot. Re-keyed per element; clean.
+- **Reduced motion:** no moving transitions or animations on 7 pages; smooth scroll off.
+- **200% zoom (640px) and text spacing (1.4.12) at 1280/390:** 0 page overflow. Everything
+  "clipped" is meant to be: screen-reader text, WS Form's hidden progress label/legend, and
+  step-2 fields not yet shown. No visible field lacks a visible label.
+- **Forced colours:** focus outlines stay 2px in the system colour; every control keeps an edge
+  (logo badges are images, no edge needed).
+- **Contrast, every text node, 16 pages × 1280 and 390:** none below AA. Scanner proven on a
+  #bbb canary (1.92:1, flagged; a first canary landed on the navy hero, where #bbb really is
+  8.8:1). Text over photos (hero veil, gallery caption, hotspot popup) was measured when built.
+- **PHP notices:** a throwaway mu-plugin raised `E_USER_NOTICE`; it showed in the HTML, so "0
+  notices" is real. Canary deleted.
+- **Form, end to end** (`/contact/?need=roof-edge&site=industrial`): both steps, a PNG upload,
+  submit. Saved as submission #1: every field, the upload (WS Form attachment 66), and the
+  hidden `Finder need`/`Finder site` = `roof-edge`/`industrial`. Gate checked with the right
+  argument order: `database`/`message`/`redirect` run, `email`/`webhook` blocked (the form has a
+  Send Email action; it didn't run).
+- **Fork test:** five palette slots swapped in `theme.json` only → every page type re-skinned,
+  0 computed colours left on the old palette (scanner proven: 186 hits on `/` with the real
+  palette). Restored from git.
+
+**Findings:**
+1. **Finder → form — FIXED** (David: *"yes fix the checkbox and clean up the test data"*). The
+   products checkbox wasn't pre-ticked from `?need=`: its values were labels and nothing set its
+   default. Now (`scripts/data/enquiry-form.json`, and applied to this site's form 4 + published)
+   it has a Label and a Value column, values are the finder keys (`roof-edge`, `fragile-roof`,
+   `ladders`, `loading`, `routes`, `other`), `checkbox_field_value` = 1, and the default is
+   `#query_var(need)`. No script: keys have no commas, so WS Form's own match by value works
+   (Mantech's `prefill-checkbox.js` exists because its labels did). The parse-variable column
+   stays on the label, so `#email_submission` still prints "Roof edge or perimeter" (checked
+   with `WS_Form_Common::get_datagrid_value`). Checked: each of the 5 keys ticks its box;
+   `not-sure`, an unknown key and none tick nothing; the visitor can untick. Fingerprint: only
+   the hidden step-2 labels' measured width (306.9 → 293.3px off-screen); step 2 on screen looks
+   as before.
+2. **Editor token bridge** not re-checked (needs a logged-in editor). Last verified 2026-11-06,
+   before the font change.
+3. **Screen reader:** checked through the accessibility tree and names/descriptions, not with
+   VoiceOver.
+4. **Fingerprint capture blip:** in 2 of 5 captures `/services/@768` logged a failed static load,
+   then WS Form's jQuery UI chain threw (`o.widget is not a function`). 12 reloads clean: Local
+   under 126 back-to-back views, not the theme. Every form page loads 23 scripts (jQuery UI
+   sortable/mouse, touch-punch, intl-tel-input, dropzone…): a performance note for later.
+5. **Test data — CLEANED:** submission #1 deleted through WS Form (`db_delete( true )`, its meta
+   too), attachment 66 and both upload files deleted, the empty `uploads/ws-form/4/` folders
+   removed. Hotspots reset to FA's positions: `hotspot_scenes` cleared and rewritten by
+   `build-page-types.php` (rooftop 1 back to 14.15, warehouse 1 to 61.58; second run a no-op).
+   Note: saving Site Settings rounds positions to one decimal (the x/y fields' step is 0.1).
+   Fingerprint after cleanup: matches the baseline except the checkbox labels above; 0
+   overflow/errors/notices on 126 views. Baseline: `.fingerprints/after-sweep.json`.
+6. `/_sample/` repeats WS Form field IDs (the form appears on 4 grounds). Sample-only.
+
 ## 2026-11-10 — Hotspots: set once per site, every spot a solution, popups at the markers
 
 David, in four steps: *"make the hotspot area complete ... so that each spot matches up to a

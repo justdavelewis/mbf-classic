@@ -1,0 +1,139 @@
+/* --- Photo gallery (template-parts/gallery.php, assets/js/gallery.js). From Mantech's and FA's solution hero. --- */
+.mbf-gallery {
+	/* Dials (03) */
+	--gallery-gap: var(--space-s);
+	--gallery-ratio: 4 / 3;
+	--gallery-fit: cover;                 /* contain for cut-outs on white (FA): cropping removes the product */
+	--gallery-radius: var(--radius);
+	--gallery-bg: var(--color-tertiary);  /* behind a contained or loading photo */
+	--gallery-thumb-gap: var(--space-xs);
+	--gallery-thumb-radius: var(--radius-button);
+	--gallery-thumb-on: var(--section-accent, var(--color-primary));
+	--gallery-chip-bg: var(--color-base);     /* counter and arrows sit on the photo, not the ground */
+	--gallery-chip-text: var(--color-contrast);
+
+	display: grid;
+	gap: var(--gallery-gap);
+	align-content: start;
+}
+
+.mbf-gallery__main {
+	position: relative;
+	margin: 0;
+	aspect-ratio: var(--gallery-ratio);
+	overflow: hidden;
+	border-radius: var(--gallery-radius);
+	background: var(--gallery-bg);
+}
+
+/* All photos are stacked; the script moves .is-on. Without it, the first shows. */
+.mbf-gallery__image {
+	position: absolute;
+	inset: 0;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: var(--gallery-fit);
+	opacity: 0;
+	transition: opacity var(--speed) var(--ease);
+}
+
+.mbf-gallery__image.is-on { opacity: 1; }
+
+.mbf-gallery__count {
+	position: absolute;
+	inset-block-start: var(--space-s);
+	inset-inline-end: var(--space-s);
+	margin: 0;
+	padding: .25em .6em;
+	border-radius: var(--gallery-thumb-radius);
+	background: var(--gallery-chip-bg);
+	color: var(--gallery-chip-text);
+	font-family: var(--font-mono);
+	font-size: var(--fs-sm);
+}
+
+/* Pointer-only repeats of the thumbnails (see the partial), still at the 44px target floor. */
+.mbf-gallery__nav {
+	position: absolute;
+	inset-block-start: 50%;
+	translate: 0 -50%;
+	display: grid;
+	place-items: center;
+	inline-size: 2.75rem;
+	block-size: 2.75rem;
+	border-radius: 50%;
+	background: color-mix(in oklch, var(--gallery-chip-bg) 92%, transparent);
+	color: var(--gallery-chip-text);
+	box-shadow: var(--shadow);
+	cursor: pointer;
+}
+
+.mbf-gallery__nav:hover { background: var(--gallery-chip-bg); }
+.mbf-gallery__nav--prev { inset-inline-start: var(--space-s); }
+.mbf-gallery__nav--next { inset-inline-end: var(--space-s); }
+
+/*
+ * The scrim is a contrast floor across the whole text zone, not a fade from nothing: Mantech
+ * measured a transparent start at 3.45:1 over a white photo. From 72%: 7.07:1 at the first
+ * line, 11.76:1 at the last (Mantech gallery.css, over pure white).
+ */
+.mbf-gallery__caption {
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 0;
+	padding: 1.75rem 1rem .75rem;
+	font-size: var(--fs-sm);
+	color: var(--color-base);
+	background: linear-gradient(
+		to bottom,
+		transparent 0%,
+		color-mix(in oklch, var(--color-contrast) 72%, transparent) 38%,
+		color-mix(in oklch, var(--color-contrast) 88%, transparent) 100%
+	);
+}
+
+/* Counted, not auto-fit: auto-fit lays out an empty track beside a short strip. */
+.mbf-gallery__thumbs {
+	display: grid;
+	grid-template-columns: repeat(var(--gallery-thumb-cols, 4), minmax(0, 1fr));
+	gap: var(--gallery-thumb-gap);
+}
+
+.mbf-gallery__thumbs:has(> :nth-child(5)) { --gallery-thumb-cols: 5; }
+.mbf-gallery__thumbs:has(> :nth-child(6)) { --gallery-thumb-cols: 6; }
+
+.mbf-gallery__thumb {
+	display: block;
+	inline-size: 100%;
+	aspect-ratio: var(--gallery-ratio);
+	overflow: hidden;
+	padding: 0;
+	border: 2px solid transparent;
+	border-radius: var(--gallery-thumb-radius);
+	background: var(--gallery-bg);
+	cursor: pointer;
+}
+
+.mbf-gallery__thumb img {
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: var(--gallery-fit);
+	opacity: .7;
+	transition: opacity var(--speed) var(--ease);
+}
+
+/* The border is the non-colour cue with the opacity: the state never rests on colour alone. */
+.mbf-gallery__thumb[aria-pressed="true"] { border-color: var(--gallery-thumb-on); }
+
+.mbf-gallery__thumb[aria-pressed="true"] img,
+.mbf-gallery__thumb:hover img,
+.mbf-gallery__thumb:focus-visible img { opacity: 1; }
+
+@media (forced-colors: active) {
+	.mbf-gallery__thumb[aria-pressed="true"] { border-color: Highlight; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.mbf-gallery__image,
+	.mbf-gallery__thumb img { transition: none; }
+}

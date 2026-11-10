@@ -57,6 +57,7 @@ $mbf_card = static fn( string $title, string $path, string $text = 'A short plac
 $mbf_contact_link = $mbf_link( 'Get in touch', '/contact/' );
 $mbf_ticks        = [ [ 'text' => 'A first reason to choose it' ], [ 'text' => 'A second reason to choose it' ], [ 'text' => 'A third reason to choose it' ] ];
 $mbf_standards    = [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ];
+$mbf_glance       = [ [ 'label' => 'Fixing', 'value' => 'A short placeholder fact' ], [ 'label' => 'Roof types', 'value' => 'Placeholder, placeholder' ], [ 'label' => 'Height', 'value' => '1,100 mm' ], [ 'label' => 'Finish', 'value' => 'Galvanised' ] ];
 
 // Shared sections: each one is used by more than one page type.
 $mbf_enquiry = static fn( string $ground ) => $mbf_row( 'form', $ground, [ 'heading' => 'Talk to us about your site', 'text' => 'Tell us what you need and we will come back to you.', 'points' => [ [ 'text' => 'We reply within one working day' ], [ 'text' => 'No obligation' ] ], 'show_contact' => false ] );
@@ -140,9 +141,10 @@ $mbf_pages = [
 	],
 
 	'products/placeholder-product' => [
-		$mbf_hero( 'secondary', 'A placeholder product', [ 'badges' => $mbf_standards ] ),
-		$mbf_split( 'base', 'What it does', 'end', $mbf_rooftop ),
-		$mbf_split( 'tertiary', 'Where it fits', 'start', $mbf_warehouse ),
+		// The solution hero (panel 'gallery'): the default product header, from Mantech and FA.
+		$mbf_hero( 'base', 'A placeholder product', [ 'eyebrow' => 'A product range', 'badges' => $mbf_standards, 'panel' => 'gallery', 'gallery' => array_values( array_unique( [ $mbf_rooftop, $mbf_warehouse, $mbf_photo ] ) ), 'glance' => $mbf_glance, 'button_2' => $mbf_link( 'Specifications', '/products/placeholder-product/#specifications' ) ] ),
+		$mbf_split( 'tertiary', 'What it does', 'end', $mbf_rooftop ),
+		$mbf_split( 'base', 'Where it fits', 'start', $mbf_warehouse ),
 		$mbf_band( 'primary' ),
 		$mbf_row( 'specs', 'base', [ 'heading' => 'Specifications', 'lead' => '', 'groups' => [ [ 'heading' => 'Dimensions', 'rows' => [ [ 'label' => 'Height', 'value' => '1,100 mm' ], [ 'label' => 'Bay width', 'value' => '2,500 mm' ] ] ], [ 'heading' => 'Compliance', 'rows' => [ [ 'label' => 'Standard', 'value' => 'Placeholder standard' ], [ 'label' => 'Finish', 'value' => 'Galvanised' ] ] ] ], 'files' => [] ] ),
 		$mbf_row( 'downloads', 'tertiary', [ 'heading' => 'Downloads', 'lead' => '', 'files' => [ [ 'title' => 'Placeholder data sheet', 'file' => $mbf_file, 'note' => 'Updated this year', 'cover' => '' ], [ 'title' => 'Placeholder installation guide', 'file' => $mbf_file, 'note' => '', 'cover' => '' ] ] ] ),

@@ -29,6 +29,9 @@ belongs in STATUS and the rule belongs here.
 - Fonts: Archivo (variable, latin) + IBM Plex Mono 500, self-hosted in `assets/fonts/` (OFL),
   declared in `theme.json` (WordPress writes the `@font-face`). `--font-mono` is for eyebrows,
   step numbers and codes, never body text. A fork replaces both files and the families.
+- Icons: Font Awesome Pro, **Duotone Regular**, from `mbf_icon()` only (`inc/helpers.php`). A fork
+  changes the style with the `mbf_icon_style` filter, and its kit must serve that style. The
+  second layer's colour is `src/components/icon.css`.
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
 - Render fingerprint (standards docs/08): pages in `docs/fingerprint.json` (repo root); captures

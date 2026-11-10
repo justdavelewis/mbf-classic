@@ -169,7 +169,7 @@
                             "label": "Beside the text",
                             "name": "panel",
                             "type": "select",
-                            "instructions": "The solution finder is set up once, in Site Settings › Solution finder.",
+                            "instructions": "Photo gallery: the product or solution header, with photos, facts at a glance and the page's breadcrumb. The solution finder is set up once, in Site Settings › Solution finder.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -185,7 +185,8 @@
                             "placeholder": "",
                             "choices": {
                                 "image": "Image",
-                                "finder": "Solution finder"
+                                "finder": "Solution finder",
+                                "gallery": "Photo gallery (solution hero)"
                             },
                             "default_value": "image"
                         },
@@ -213,6 +214,111 @@
                             "return_format": "id",
                             "preview_size": "medium",
                             "library": "all"
+                        },
+                        {
+                            "key": "field_mbf_hero_gallery",
+                            "label": "Photos",
+                            "name": "gallery",
+                            "type": "gallery",
+                            "instructions": "The first photo shows first. Alt text comes from the Media Library; a photo's caption shows over it.",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_hero_panel",
+                                        "operator": "==",
+                                        "value": "gallery"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "library": "all",
+                            "min": "",
+                            "max": "",
+                            "min_width": "",
+                            "min_height": "",
+                            "min_size": "",
+                            "max_width": "",
+                            "max_height": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "insert": "append",
+                            "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_mbf_hero_glance",
+                            "label": "At a glance",
+                            "name": "glance",
+                            "type": "repeater",
+                            "instructions": "Short facts beside the photos, e.g. Fixing: non-penetrating. Three to five reads best.",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_hero_panel",
+                                        "operator": "==",
+                                        "value": "gallery"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add fact",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_hero_glance_label",
+                                    "label": "Label",
+                                    "name": "label",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "35",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_hero_glance"
+                                },
+                                {
+                                    "key": "field_mbf_hero_glance_value",
+                                    "label": "Value",
+                                    "name": "value",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_hero_glance"
+                                }
+                            ]
                         },
                         {
                             "key": "field_mbf_hero_background_image",
@@ -3342,5 +3448,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1793980332
+    "modified": 1794322695
 }

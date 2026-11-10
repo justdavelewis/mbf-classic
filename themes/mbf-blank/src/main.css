@@ -30,6 +30,7 @@
 @import "./components/crumbs.css" layer(components);
 @import "./components/social.css" layer(components);
 @import "./components/hero.css" layer(components);
+@import "./components/gallery.css" layer(components);
 @import "./components/split.css" layer(components);
 @import "./components/cta-band.css" layer(components);
 @import "./components/faq.css" layer(components);
@@ -40,6 +41,7 @@
 @import "./components/enquiry.css" layer(components);
 @import "./components/ticks.css" layer(components);
 @import "./components/badges.css" layer(components);
+@import "./components/icon.css" layer(components);
 @import "./components/files.css" layer(components);
 @import "./components/finder.css" layer(components);
 @import "./components/case-study.css" layer(components);

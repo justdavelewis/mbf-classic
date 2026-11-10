@@ -51,3 +51,66 @@
 @container (min-width: 48rem) {
 	.mbf-hero--media .mbf-hero__grid { grid-template-columns: var(--hero-columns); }
 }
+
+/*
+ * --- Solution hero: panel 'gallery' (Mantech's and FA's product header, 2026-11-10) ---
+ * Photos lead (slightly the wider column, as on Mantech: it's what a reader looks at first),
+ * the details follow on one tight rhythm. DOM order = visual order: gallery, then text.
+ */
+.mbf-hero--solution {
+	--hero-gap: var(--layout-gap);
+	--hero-text-gap: var(--space-fluid-s);   /* one rhythm down the column: FA found content-gap read as six unrelated parts */
+	--hero-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+	--hero-title-measure: 18ch;
+	--section-gap: var(--space-fluid-s);     /* crumbs → grid */
+
+	/* The crumbs sit near the header, as the page header's do; the full rhythm returns below (Mantech: 24px / 72px). */
+	padding-block: var(--space-fluid-m) var(--space-fluid-l);
+}
+
+.mbf-hero--solution .mbf-hero__grid { align-items: start; }
+.mbf-hero__title { max-inline-size: var(--hero-title-measure); text-wrap: balance; }
+
+/* Standards read as codes. */
+.mbf-hero--solution .mbf-badges { --badge-font: var(--font-mono); }
+
+@container (min-width: 60rem) {
+	.mbf-hero--solution .mbf-hero__grid { grid-template-columns: var(--hero-columns); }
+
+	/* The photo stays beside a long details column. The header isn't sticky, so no offset for it. */
+	.mbf-hero--solution .mbf-gallery { position: sticky; inset-block-start: var(--space-fluid-s); }
+}
+
+/* --- At a glance: label/value facts in a bordered box. A real <dl>: they're term/value pairs. --- */
+.mbf-glance {
+	/* Dials (03). The border is decorative: the rows read without it. */
+	--glance-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);
+	--glance-radius: var(--radius);
+	--glance-pad: .8rem 1.1rem;
+	--glance-label-width: 8.75rem;
+	--glance-label: var(--section-text, var(--color-text));
+	--glance-value: var(--section-heading, var(--color-heading));
+	--glance-size: var(--fs-sm);
+
+	container-type: inline-size;
+	margin: 0;
+	border: var(--glance-border);
+	border-radius: var(--glance-radius);
+	font-size: var(--glance-size);
+}
+
+.mbf-glance__row {
+	display: grid;
+	grid-template-columns: minmax(0, var(--glance-label-width)) minmax(0, 1fr);
+	gap: var(--space-s);
+	padding: var(--glance-pad);
+}
+
+.mbf-glance__row + .mbf-glance__row { border-block-start: var(--glance-border); }
+.mbf-glance__label { margin: 0; color: var(--glance-label); }
+.mbf-glance__value { margin: 0; color: var(--glance-value); font-weight: 600; }
+
+/* Narrow: the label stacks over its value rather than squeezing it. */
+@container (max-width: 26rem) {
+	.mbf-glance__row { grid-template-columns: minmax(0, 1fr); gap: .125rem; }
+}

@@ -627,6 +627,26 @@
                     "prepend": "",
                     "append": "",
                     "parent_repeater": "field_mbf_site_finder_sites"
+                },
+                {
+                    "key": "field_mbf_site_finder_sites_icon",
+                    "label": "Icon",
+                    "name": "icon",
+                    "type": "text",
+                    "instructions": "Optional. A Font Awesome name, e.g. fa-warehouse.",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "maxlength": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "parent_repeater": "field_mbf_site_finder_sites"
                 }
             ]
         },

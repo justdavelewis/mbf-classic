@@ -199,6 +199,8 @@ if ( ! function_exists( 'update_field' ) ) {
 $mbf_group = json_decode( (string) file_get_contents( get_theme_file_path( 'acf-json/group_mbf_site_settings.json' ) ), true );
 $mbf_keys  = array_column( $mbf_group['fields'] ?? [], 'key', 'name' );
 
+$mbf_reasons = [ [ 'text' => 'A first reason it suits' ], [ 'text' => 'A second reason it suits' ], [ 'text' => 'A third reason it suits' ] ];
+
 $mbf_settings = [
 	'company_name' => 'Placeholder Company Ltd',
 	'phone'        => '01234 567890',
@@ -211,16 +213,21 @@ $mbf_settings = [
 	'finder_eyebrow'    => 'Find your solution',
 	'finder_question'   => "Where's the risk on your site?",
 	'finder_options'    => $mbf_contact ? [
-		[ 'key' => 'roof-edge', 'label' => 'Roof edge or perimeter', 'icon' => 'fa-house-chimney', 'page' => $mbf_svc_a, 'title' => 'Placeholder roof edge system', 'points' => [ [ 'text' => 'A first reason it suits' ], [ 'text' => 'A second reason it suits' ] ] ],
-		[ 'key' => 'fragile-roof', 'label' => 'Fragile roof or skylights', 'icon' => 'fa-table-cells-large', 'page' => $mbf_svc_b, 'title' => 'Placeholder fragile roof system', 'points' => [ [ 'text' => 'A first reason it suits' ] ] ],
-		[ 'key' => 'access', 'label' => 'Ladders and access points', 'icon' => 'fa-stairs', 'page' => $mbf_services, 'title' => '', 'points' => [] ],
+		[ 'key' => 'roof-edge', 'label' => 'Roof edge or perimeter', 'icon' => 'fa-vector-square', 'page' => $mbf_product, 'title' => 'Placeholder roof edge system', 'points' => $mbf_reasons ],
+		[ 'key' => 'fragile-roof', 'label' => 'Fragile roof or skylights', 'icon' => 'fa-table-cells-large', 'page' => $mbf_svc_a, 'title' => 'Placeholder fragile roof system', 'points' => $mbf_reasons ],
+		[ 'key' => 'ladders', 'label' => 'Ladders and access points', 'icon' => 'fa-stairs', 'page' => $mbf_svc_b, 'title' => 'Placeholder ladder system', 'points' => $mbf_reasons ],
+		[ 'key' => 'loading', 'label' => 'Loading bays or mezzanines', 'icon' => 'fa-boxes-stacked', 'page' => $mbf_products, 'title' => 'Placeholder edge protection', 'points' => $mbf_reasons ],
+		[ 'key' => 'routes', 'label' => 'Roof access routes', 'icon' => 'fa-route', 'page' => $mbf_services, 'title' => 'Placeholder walkway system', 'points' => $mbf_reasons ],
 		[ 'key' => 'not-sure', 'label' => 'Not sure yet', 'icon' => 'fa-circle-question', 'page' => '', 'title' => '', 'points' => [] ],
 	] : null,
 	'finder_question_2' => 'What kind of site is it?',
 	'finder_sites'      => [
-		[ 'key' => 'commercial', 'label' => 'Commercial or office', 'phrase' => 'a commercial building' ],
-		[ 'key' => 'industrial', 'label' => 'Industrial or warehouse', 'phrase' => 'a warehouse' ],
-		[ 'key' => 'public', 'label' => 'School or public building', 'phrase' => 'a public building' ],
+		[ 'key' => 'commercial', 'label' => 'Commercial or office', 'phrase' => 'a commercial building', 'icon' => 'fa-building' ],
+		[ 'key' => 'industrial', 'label' => 'Warehouse or logistics', 'phrase' => 'a warehouse', 'icon' => 'fa-warehouse' ],
+		[ 'key' => 'manufacturing', 'label' => 'Manufacturing', 'phrase' => 'a factory', 'icon' => 'fa-industry' ],
+		[ 'key' => 'construction', 'label' => 'Construction', 'phrase' => 'a construction site', 'icon' => 'fa-helmet-safety' ],
+		[ 'key' => 'public', 'label' => 'School or public building', 'phrase' => 'a public building', 'icon' => 'fa-landmark' ],
+		[ 'key' => 'other', 'label' => 'Something else', 'phrase' => 'your site', 'icon' => 'fa-ellipsis' ],
 	],
 	'finder_button'     => 'Book a free site survey',
 	'finder_target'     => $mbf_contact ?: null,

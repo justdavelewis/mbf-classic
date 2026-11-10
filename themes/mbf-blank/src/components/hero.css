@@ -11,6 +11,30 @@
 	--hero-columns: repeat(2, minmax(0, 1fr));   /* text | image, once split */
 	--hero-image-ratio: 4 / 3;
 	--hero-image-radius: var(--radius);
+	--hero-veil: 80%;   /* how much of the ground covers a photo. Accent text over a pure white photo: 4.78:1 */
+}
+
+/* Lighter than Secondary, so it needs more cover. White text over a pure white photo: 5.01:1 */
+.mbf-section--primary.mbf-hero--photo { --hero-veil: 88%; }
+
+/* isolate: the negative layers sit above the section's own background, not behind it. */
+.mbf-hero--photo { position: relative; isolation: isolate; }
+
+.mbf-hero__photo {
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	inline-size: 100%;
+	block-size: 100%;
+	object-fit: cover;
+}
+
+.mbf-hero--photo::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: color-mix(in srgb, var(--section-bg) var(--hero-veil), transparent);
 }
 
 .mbf-hero__grid { display: grid; gap: var(--hero-gap); align-items: center; }

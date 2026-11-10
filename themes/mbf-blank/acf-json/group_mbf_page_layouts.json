@@ -215,6 +215,23 @@
                             "library": "all"
                         },
                         {
+                            "key": "field_mbf_hero_background_image",
+                            "label": "Background photo",
+                            "name": "background_image",
+                            "type": "image",
+                            "instructions": "Optional. Decorative, behind a veil of the section's colour. Only shows on a dark ground (Secondary or Primary).",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "preview_size": "medium",
+                            "library": "all"
+                        },
+                        {
                             "key": "field_mbf_hero_tab_section",
                             "label": "Section",
                             "name": "",

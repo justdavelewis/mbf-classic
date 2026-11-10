@@ -4,21 +4,50 @@
  *
  * WS Form defines these on :where([data-wsf-style-id="N"]), zero specificity, on the
  * form element itself, so this 0-2-0 selector wins without !important (read 2026-11-05,
- * WS Form Pro 1.12.16). Labels, the required mark and errors sit on the SECTION's ground,
- * so they read the section family; the fields are their own light surface, so they read
+ * WS Form Pro 1.12.16). Labels, help, steps and errors sit on the SECTION's ground, so
+ * they read the section family; the fields are their own light surface, so they read
  * the light-ground roles. Measured on all 4 grounds: theme.json.md.
+ *
+ * The two-step enquiry form's styling comes from Mantech (2026-11-09), on our tokens.
  */
 .mbf-form .wsf-form {
 	--wsf-form-font-family: var(--font-sans);
 	--wsf-form-font-size: var(--fs-body);
-	--wsf-field-label-color: var(--section-heading, var(--color-heading));
+	--wsf-form-border-radius: var(--radius);
 	--wsf-form-color-danger: var(--section-error, var(--color-error));     /* required mark + invalid feedback */
+
+	--wsf-field-label-color: var(--section-heading, var(--color-heading));
+	--wsf-field-label-font-size: var(--fs-sm);
+	--wsf-field-label-font-weight: 600;
+	--wsf-field-help-color: var(--section-muted, var(--color-text-muted));
+	--wsf-field-help-font-size: var(--fs-sm);
+
 	--wsf-field-color: var(--color-text);
 	--wsf-field-color-background: var(--color-surface);
 	--wsf-field-border-color: var(--color-border);                         /* 3.37:1 on base; on dark grounds the white fill is the edge */
+	--wsf-field-border-color-hover: var(--section-accent, var(--color-primary));
+	--wsf-field-border-color-focus: var(--section-accent, var(--color-primary));
 	--wsf-field-border-radius: var(--radius-button);
+	--wsf-field-checkbox-border-radius: 4px;                               /* a checkbox must not read as a radio at any --radius */
+	--wsf-field-file-dropzonejs-border-radius: var(--radius-button);
+	--wsf-field-file-dropzonejs-progress-border-radius: var(--radius-button);
+
+	--wsf-field-button-border-radius: var(--radius-button);
+	--wsf-field-button-font-weight: 600;
 	--wsf-field-button-primary-color-background: var(--section-accent, var(--color-primary));
 	--wsf-field-button-primary-color: var(--section-on-accent, var(--color-base));
+
+	/* Steps: no folder tabs. The active step is marked by colour and a rule (1.4.1). */
+	--wsf-group-li-border-width: 0;
+	--wsf-group-li-border-width-disabled: 0;
+	--wsf-group-li-color-background: transparent;
+	--wsf-group-li-color-background-active: transparent;
+	--wsf-group-li-color-background-focus: transparent;
+	--wsf-group-li-color-background-disabled: transparent;
+
+	--wsf-field-progress-size: 6px;
+	--wsf-field-progress-color-background: color-mix(in srgb, var(--section-text, var(--color-text)) 20%, transparent);
+	--wsf-field-progress-color-background-bar: var(--section-accent, var(--color-primary));
 }
 
 /*
@@ -26,8 +55,11 @@
  * forced colours removes (04, 13). Seam #3, a targeted unlayered rule: its selector,
  * `.wsf-form input[type=…].wsf-field:focus`, is 0-4-1; the doubled class makes this 0-5-0
  * so it wins whatever order the stylesheets load in. :focus-visible only, like base.
+ * The tab selector has to out-rank `.wsf-form ul.wsf-group-tabs > li > a:focus`.
  */
-.mbf-form .wsf-form :is(.wsf-field.wsf-field, .wsf-button.wsf-button):focus-visible {
+.mbf-form .wsf-form :is(.wsf-field.wsf-field, .wsf-button.wsf-button, .dropzone):focus-visible,
+.mbf-form .wsf-form ul.wsf-group-tabs > li > a:focus-visible,
+.mbf-form .wsf-form .wsf-field-wrapper a:focus-visible {
 	outline: 2px solid var(--focus-ring, var(--color-primary));
 	outline-offset: 3px;
 }
@@ -35,4 +67,88 @@
 /* 44px targets (04): WS Form's 8.5px padding gives 43px. Not checkboxes or radios. */
 .mbf-form .wsf-form :is(input.wsf-field:not([type="checkbox"], [type="radio"]), select.wsf-field, button.wsf-button) {
 	min-block-size: var(--button-h);
+}
+
+/* Text beside a checkbox sits on the section's ground, and a link in it needs more than colour (1.4.1). */
+.mbf-form .wsf-form :is(.wsf-label, label) { color: var(--section-heading, var(--color-heading)); }
+.mbf-form .wsf-form .wsf-field-wrapper a:not(.wsf-button) { color: var(--section-link, var(--color-primary)); text-decoration: underline; text-underline-offset: .15em; }
+
+/* The steps: an inset shadow for the rule, because the plugin's border shorthand flattens any border set here. */
+.mbf-form .wsf-form ul.wsf-group-tabs > li { margin-block-end: 0; }
+
+.mbf-form .wsf-form ul.wsf-group-tabs > li > a {
+	margin: 0;
+	margin-inline-end: var(--space-fluid-m);
+	padding: var(--space-xs) 0;
+	border: 0;
+	border-radius: 0;
+	background: none;
+	color: var(--section-muted, var(--color-text-muted));
+	font-weight: 600;
+}
+
+/* A step you can't reach yet is still a label, so it keeps 4.5:1 (the plugin's measured 1.46:1 on Primary). */
+.mbf-form .wsf-form ul.wsf-group-tabs > li > a.wsf-tab-disabled {
+	color: var(--section-muted, var(--color-text-muted));
+	opacity: 1;
+}
+
+.mbf-form .wsf-form ul.wsf-group-tabs > li.wsf-tab-active > a {
+	color: var(--section-heading, var(--color-heading));
+	box-shadow: inset 0 -2px 0 0 var(--section-accent, var(--color-primary));
+}
+
+/* Progress: keep the bar and its name for screen readers; the label and "0%" read as debug output. */
+.mbf-form .wsf-field-wrapper:has(progress) > :is(.wsf-help, .wsf-label) {
+	position: absolute;
+	inline-size: 1px;
+	block-size: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border-width: 0;
+}
+
+/* Next and Submit are each step's real action. The imported form marks neither as primary (1.52:1 on Secondary without this). */
+.mbf-form .wsf-form :is(.wsf-button[data-action="wsf-tab_next"], button[type="submit"].wsf-button) {
+	border-color: var(--section-accent, var(--color-primary));
+	background-color: var(--section-accent, var(--color-primary));
+	color: var(--section-on-accent, var(--color-base));
+}
+
+/*
+ * Hover and focus go through the plugin's variables, set on the button itself: its
+ * `:hover:enabled:not(:checked):not(:focus)` selector is 0-7-1, and its default dark fill
+ * measured 1.52:1 under on-accent text on Secondary. Same 15% as .mbf-button.
+ */
+.mbf-form .wsf-form :is(.wsf-button[data-action="wsf-tab_next"], button[type="submit"].wsf-button) {
+	--mbf-form-button-hover: color-mix(in oklch, var(--section-accent, var(--color-primary)) 85%, var(--color-contrast));
+	--wsf-field-button-color-background-hover: var(--mbf-form-button-hover);
+	--wsf-field-button-color-background-focus: var(--mbf-form-button-hover);
+	--wsf-field-button-color-hover: var(--section-on-accent, var(--color-base));
+	--wsf-field-button-color-focus: var(--section-on-accent, var(--color-base));
+	--wsf-field-button-border-color-hover: var(--mbf-form-button-hover);
+	--wsf-field-button-border-color-focus: var(--mbf-form-button-hover);
+	--wsf-field-button-primary-color-background-hover: var(--mbf-form-button-hover);
+	--wsf-field-button-primary-color-background-focus: var(--mbf-form-button-hover);
+	--wsf-field-button-primary-color-hover: var(--section-on-accent, var(--color-base));
+	--wsf-field-button-primary-color-focus: var(--section-on-accent, var(--color-base));
+	--wsf-field-button-primary-border-color-hover: var(--mbf-form-button-hover);
+	--wsf-field-button-primary-border-color-focus: var(--mbf-form-button-hover);
+}
+
+.mbf-form .wsf-form .wsf-button[data-action="wsf-tab_previous"] {
+	--mbf-form-button-ghost: color-mix(in srgb, var(--section-text, var(--color-text)) 12%, transparent);
+	--wsf-field-button-color-background-hover: var(--mbf-form-button-ghost);
+	--wsf-field-button-color-background-focus: var(--mbf-form-button-ghost);
+	--wsf-field-button-color-hover: var(--section-text, var(--color-text));
+	--wsf-field-button-color-focus: var(--section-text, var(--color-text));
+	--wsf-field-button-border-color-hover: var(--section-text, var(--color-text));
+	--wsf-field-button-border-color-focus: var(--section-text, var(--color-text));
+
+	border-color: var(--section-text, var(--color-text));
+	background-color: transparent;
+	color: var(--section-text, var(--color-text));
 }

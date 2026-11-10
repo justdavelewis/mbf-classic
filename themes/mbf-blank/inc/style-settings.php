@@ -333,6 +333,17 @@ function mbf_contrast_pairs( array $p ): array {
 
 	$hover = static fn( string $fill ) => mbf_mix( $fill, 85, $p['contrast'] );   // button hover: 15% contrast
 
+	// A colour at this opacity over white. Plain alpha blending, as the browser does it, so not mbf_mix().
+	$veil = static function ( string $hex, int $pct ): string {
+		$out = '#';
+
+		foreach ( str_split( ltrim( $hex, '#' ), 2 ) as $channel ) {
+			$out .= sprintf( '%02x', (int) round( hexdec( $channel ) * $pct / 100 + 255 * ( 100 - $pct ) / 100 ) );
+		}
+
+		return $out;
+	};
+
 	array_push(
 		$pairs,
 		[ 'Button text on a Primary button', $p['base'], $p['primary'], 4.5, 'primary' ],
@@ -348,7 +359,10 @@ function mbf_contrast_pairs( array $p ): array {
 		[ 'Text on Primary', $p['base'], $p['primary'], 4.5, 'primary' ],
 		[ 'Muted text on Primary', mbf_mix( $p['base'], 90, $p['primary'] ), $p['primary'], 4.5, 'primary' ],
 		[ 'Button text on a hovered button on Primary', $p['primary'], $hover( $p['base'] ), 4.5, 'primary' ],
-		[ 'Form errors on Primary', mbf_mix( $error, 20, $p['base'] ), $p['primary'], 4.5, 'primary' ]
+		[ 'Form errors on Primary', mbf_mix( $error, 20, $p['base'] ), $p['primary'], 4.5, 'primary' ],
+		// Hero photo, worst case: a pure white photo under the veil (--hero-veil, hero.css). The finder's glass only darkens this further.
+		[ 'Accent text over a hero photo on Secondary', $p['accent'], $veil( $p['secondary'], 80 ), 4.5, 'secondary' ],
+		[ 'Text over a hero photo on Primary', $p['base'], $veil( $p['primary'], 88 ), 4.5, 'primary' ]
 	);
 
 	return $pairs;

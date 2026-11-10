@@ -63,7 +63,9 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
   silent when an SEO plugin is active (`mbf_print_business_schema` filter to override).
 - Solution finder: Site Settings › Solution finder, read only by `mbf_finder_config()`
   (`inc/finder.php`). One set of answers per site. Keys travel as `?need=&site=`; form fields
-  read them with `#query_var("need")`, and their option values must be the same keys.
+  read them with `#query_var(need)`, and their option values must be the same keys.
+- Enquiry form: `scripts/data/enquiry-form.json`, shared by every site. A fork changes only its
+  own instances (product list, enquiry types). Fields in action text are `{{Label}}`, never IDs.
 - Scripts take field keys from `acf-json/`. The section-controls clone's reference key is
   composite (`field_mbf_{layout}_controls_field_mbf_section_ground`); write by field name
   with `update_field()`, or read that composite from the JSON.

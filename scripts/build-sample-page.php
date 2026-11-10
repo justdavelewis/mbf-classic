@@ -174,7 +174,6 @@ if ( ! $mbf_form_id || (int) get_field( 'field_mbf_site_form_enquiry', 'option' 
 $mbf_grounds = [ 'base', 'tertiary', 'secondary', 'primary' ];
 $mbf_photo   = $mbf_ids['photo'];
 $mbf_link    = static fn( string $title, string $path ) => [ 'title' => $title, 'url' => home_url( $path ), 'target' => '' ];
-$mbf_page_id_of = static fn( string $path ) => (int) url_to_postid( home_url( $path ) );
 $mbf_card    = static fn( string $title, string $path, bool $image = true, string $text = 'A short placeholder description.', string $tag = '', string $icon = '' ) => [
 	'tag'   => $tag,
 	'icon'  => $icon,
@@ -196,11 +195,6 @@ $mbf_rows = [];
 
 // Grounds exercise the optional fields: some rows carry them, some don't, so both shapes render.
 $mbf_ticks   = [ [ 'text' => 'A first ticked point' ], [ 'text' => 'A second, longer ticked point that wraps onto another line at narrow widths' ] ];
-$mbf_spots   = [
-	[ 'title' => 'A linked spot', 'text' => 'Short text about this spot.', 'url' => $mbf_page_id_of( '/services/inspection/' ), 'x' => 22, 'y' => 30 ],
-	[ 'title' => 'A spot with no link', 'text' => 'Another short description.', 'url' => '', 'x' => 64, 'y' => 48 ],
-	[ 'title' => 'At the very edge', 'text' => 'Placed at 100% so the clamp can be seen.', 'url' => '', 'x' => 100, 'y' => 100 ],
-];
 $mbf_files   = [ [ 'title' => 'Placeholder data sheet', 'file' => $mbf_ids['file'], 'note' => 'Updated this year', 'cover' => '' ], [ 'title' => 'Placeholder guide with a cover', 'file' => $mbf_ids['file'], 'note' => '', 'cover' => $mbf_photo ] ];
 $mbf_tables  = [
 	[ 'heading' => 'Dimensions', 'rows' => [ [ 'label' => 'Height', 'value' => '1,100 mm' ], [ 'label' => 'Bay width', 'value' => '2,500 mm' ] ] ],
@@ -231,7 +225,8 @@ $mbf_layouts = [
 	'form'       => static fn( string $g ) => [ 'heading' => "Enquiry form on {$g}", 'text' => 'The placeholder WS Form. Email and webhook actions are off outside production.', 'points' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'text' => 'We reply within one working day' ], [ 'text' => 'No obligation' ] ] : [], 'show_contact' => $mbf_is( $g, 'base', 'primary' ) ],
 	'finder'     => static fn( string $g ) => [ 'heading' => $mbf_is( $g, 'tertiary', 'primary' ) ? "Finder on {$g}" : '', 'lead' => 'Pick the closest match.' ],
 	'case_study' => static fn( string $g ) => [ 'eyebrow' => 'Case study', 'heading' => "Case study on {$g}", 'text' => 'A short summary of the job and how it went.', 'metrics' => [ [ 'value' => '37 km', 'label' => 'Of edge protection' ], [ 'value' => '12 wks', 'label' => 'Start to handover' ] ], 'quote' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short quote from the client about the job.' : '', 'name' => 'A. Person', 'role' => 'Placeholder role', 'image' => $mbf_photo, 'image_side' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read the case study', '/about/' ) ],
-	'hotspots'   => static fn( string $g ) => [ 'heading' => "Hotspots on {$g}", 'lead' => 'Tap a number, or read the list.', 'scenes' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'label' => 'Rooftop', 'image' => $mbf_rooftop, 'spots' => $mbf_spots ], [ 'label' => 'Warehouse', 'image' => $mbf_warehouse, 'spots' => array_slice( $mbf_spots, 0, 2 ) ] ] : [ [ 'label' => '', 'image' => $mbf_rooftop, 'spots' => $mbf_spots ] ] ],
+	// The scenes are the site's (Site Settings › Hotspots, written by build-page-types.php); a section only picks which.
+	'hotspots'   => static fn( string $g ) => [ 'show_scenes' => [ 'tertiary' => [ 'rooftop' ], 'primary' => [ 'warehouse' ] ][ $g ] ?? [] ],
 	'specs'      => static fn( string $g ) => [ 'heading' => "Specifications on {$g}", 'lead' => '', 'groups' => $mbf_is( $g, 'primary' ) ? array_slice( $mbf_tables, 0, 1 ) : $mbf_tables, 'files' => $mbf_is( $g, 'base', 'secondary' ) ? array_slice( $mbf_files, 0, 1 ) : [] ],
 	'downloads'  => static fn( string $g ) => [ 'heading' => "Downloads on {$g}", 'lead' => 'Brochures and guides.', 'files' => $mbf_files ],
 	'posts'      => static fn( string $g ) => [ 'heading' => "Posts on {$g}", 'lead' => '', 'source' => 'latest', 'category' => '', 'count' => $mbf_is( $g, 'tertiary' ) ? 2 : 3, 'chosen' => [], 'link' => $mbf_link( 'All articles', '/blog/' ) ],

@@ -2473,11 +2473,11 @@
                             "endpoint": 0
                         },
                         {
-                            "key": "field_mbf_hotspots_heading",
-                            "label": "Heading",
-                            "name": "heading",
-                            "type": "text",
-                            "instructions": "",
+                            "key": "field_mbf_hotspots_show_scenes",
+                            "label": "Scenes to show",
+                            "name": "show_scenes",
+                            "type": "checkbox",
+                            "instructions": "The scenes are set once, in Site Settings › Hotspots. Leave all unticked to show every scene.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -2485,212 +2485,13 @@
                                 "class": "",
                                 "id": ""
                             },
-                            "default_value": "",
-                            "maxlength": "",
-                            "placeholder": "",
-                            "prepend": "",
-                            "append": ""
-                        },
-                        {
-                            "key": "field_mbf_hotspots_lead",
-                            "label": "Lead",
-                            "name": "lead",
-                            "type": "textarea",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "rows": 2,
-                            "new_lines": "",
-                            "default_value": "",
-                            "placeholder": "",
-                            "maxlength": ""
-                        },
-                        {
-                            "key": "field_mbf_hotspots_scenes",
-                            "label": "Scenes",
-                            "name": "scenes",
-                            "type": "repeater",
-                            "instructions": "",
-                            "required": 0,
-                            "conditional_logic": 0,
-                            "wrapper": {
-                                "width": "",
-                                "class": "",
-                                "id": ""
-                            },
-                            "layout": "block",
-                            "min": 0,
-                            "max": 0,
-                            "collapsed": "field_mbf_hotspots_scenes_label",
-                            "rows_per_page": 20,
-                            "button_label": "Add scene",
-                            "sub_fields": [
-                                {
-                                    "key": "field_mbf_hotspots_scenes_label",
-                                    "label": "Label",
-                                    "name": "label",
-                                    "type": "text",
-                                    "instructions": "Names the tab when there is more than one scene, e.g. \"Rooftop\", \"Warehouse\".",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "50",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "default_value": "",
-                                    "maxlength": "",
-                                    "placeholder": "",
-                                    "prepend": "",
-                                    "append": "",
-                                    "parent_repeater": "field_mbf_hotspots_scenes"
-                                },
-                                {
-                                    "key": "field_mbf_hotspots_scenes_image",
-                                    "label": "Image",
-                                    "name": "image",
-                                    "type": "image",
-                                    "instructions": "A photo or drawing. Its alt text (Media Library) should describe the whole scene. Select a spot below, then click this preview to place it.",
-                                    "required": 1,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "50",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "return_format": "id",
-                                    "preview_size": "large",
-                                    "library": "all",
-                                    "parent_repeater": "field_mbf_hotspots_scenes"
-                                },
-                                {
-                                    "key": "field_mbf_hotspots_scenes_spots",
-                                    "label": "Spots",
-                                    "name": "spots",
-                                    "type": "repeater",
-                                    "instructions": "Numbered in this order, on the image and in the list beside it.",
-                                    "required": 0,
-                                    "conditional_logic": 0,
-                                    "wrapper": {
-                                        "width": "",
-                                        "class": "",
-                                        "id": ""
-                                    },
-                                    "layout": "block",
-                                    "min": 0,
-                                    "max": 0,
-                                    "collapsed": "field_mbf_hotspots_scenes_spots_title",
-                                    "rows_per_page": 20,
-                                    "button_label": "Add spot",
-                                    "sub_fields": [
-                                        {
-                                            "key": "field_mbf_hotspots_scenes_spots_title",
-                                            "label": "Title",
-                                            "name": "title",
-                                            "type": "text",
-                                            "instructions": "",
-                                            "required": 1,
-                                            "conditional_logic": 0,
-                                            "wrapper": {
-                                                "width": "40",
-                                                "class": "",
-                                                "id": ""
-                                            },
-                                            "default_value": "",
-                                            "maxlength": "",
-                                            "placeholder": "",
-                                            "prepend": "",
-                                            "append": "",
-                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
-                                        },
-                                        {
-                                            "key": "field_mbf_hotspots_scenes_spots_x",
-                                            "label": "Across %",
-                                            "name": "x",
-                                            "type": "number",
-                                            "instructions": "Click the image to set.",
-                                            "required": 1,
-                                            "conditional_logic": 0,
-                                            "wrapper": {
-                                                "width": "15",
-                                                "class": "",
-                                                "id": ""
-                                            },
-                                            "min": 0,
-                                            "max": 100,
-                                            "step": 0.1,
-                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
-                                        },
-                                        {
-                                            "key": "field_mbf_hotspots_scenes_spots_y",
-                                            "label": "Down %",
-                                            "name": "y",
-                                            "type": "number",
-                                            "instructions": "",
-                                            "required": 1,
-                                            "conditional_logic": 0,
-                                            "wrapper": {
-                                                "width": "15",
-                                                "class": "",
-                                                "id": ""
-                                            },
-                                            "min": 0,
-                                            "max": 100,
-                                            "step": 0.1,
-                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
-                                        },
-                                        {
-                                            "key": "field_mbf_hotspots_scenes_spots_url",
-                                            "label": "Links to",
-                                            "name": "url",
-                                            "type": "page_link",
-                                            "instructions": "",
-                                            "required": 0,
-                                            "conditional_logic": 0,
-                                            "wrapper": {
-                                                "width": "30",
-                                                "class": "",
-                                                "id": ""
-                                            },
-                                            "post_type": [
-                                                "page",
-                                                "post"
-                                            ],
-                                            "taxonomy": "",
-                                            "allow_null": 1,
-                                            "allow_archives": 0,
-                                            "multiple": 0,
-                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
-                                        },
-                                        {
-                                            "key": "field_mbf_hotspots_scenes_spots_text",
-                                            "label": "Text",
-                                            "name": "text",
-                                            "type": "textarea",
-                                            "instructions": "",
-                                            "required": 0,
-                                            "conditional_logic": 0,
-                                            "wrapper": {
-                                                "width": "",
-                                                "class": "",
-                                                "id": ""
-                                            },
-                                            "rows": 2,
-                                            "new_lines": "",
-                                            "default_value": "",
-                                            "placeholder": "",
-                                            "maxlength": "",
-                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
-                                        }
-                                    ],
-                                    "parent_repeater": "field_mbf_hotspots_scenes"
-                                }
-                            ]
+                            "choices": {},
+                            "default_value": [],
+                            "return_format": "value",
+                            "allow_custom": 0,
+                            "save_custom": 0,
+                            "layout": "horizontal",
+                            "toggle": 0
                         },
                         {
                             "key": "field_mbf_hotspots_tab_section",
@@ -3448,5 +3249,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1794322695
+    "modified": 1794326147
 }

@@ -69,3 +69,43 @@ function mbf_finder_config(): array {
 		'sites'     => $sites,
 	];
 }
+
+/**
+ * One finder answer as a solution a hotspot can point at: [ title, page, label ], or null when
+ * the key isn't an answer with a page. Hotspots (Site Settings › Hotspots, blocks/hotspots.php) read the finder through
+ * this, so a spot and the finder can't disagree about what a solution is called or where it is.
+ */
+function mbf_finder_solution( string $key ): ?array {
+	static $solutions = null;
+
+	if ( null === $solutions ) {
+		$solutions = [];
+
+		foreach ( mbf_finder_config()['options'] ?? [] as $option ) {
+			if ( '' !== $option['page'] ) {
+				$solutions[ $option['key'] ] = [ 'title' => $option['title'], 'page' => $option['page'], 'label' => $option['label'] ];
+			}
+		}
+	}
+
+	return $solutions[ $key ] ?? null;
+}
+
+/*
+ * The hotspot's Solution dropdown lists the finder's answers that have a page, live: a new
+ * answer in Site Settings shows up here without touching the field group.
+ */
+add_filter(
+	'acf/load_field/key=field_mbf_site_hotspot_scenes_spots_solution',
+	static function ( array $field ): array {
+		$field['choices'] = [];
+
+		foreach ( mbf_finder_config()['options'] ?? [] as $option ) {
+			if ( '' !== $option['page'] ) {
+				$field['choices'][ $option['key'] ] = $option['label'];
+			}
+		}
+
+		return $field;
+	}
+);

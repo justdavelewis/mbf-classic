@@ -72,6 +72,9 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
 - Solution finder: Site Settings › Solution finder, read only by `mbf_finder_config()`
   (`inc/finder.php`). One set of answers per site. Keys travel as `?need=&site=`; form fields
   read them with `#query_var(need)`, and their option values must be the same keys.
+- Hotspots: Site Settings › Hotspots (heading, lead, scenes), read only by
+  `mbf_hotspots_config()` (`inc/hotspots.php`). The page section only picks scenes
+  (`show_scenes`, empty = all) plus section controls. Spots point at finder answers.
 - Enquiry form: `scripts/data/enquiry-form.json`, shared by every site. A fork changes only its
   own instances (product list, enquiry types). Fields in action text are `{{Label}}`, never IDs.
 - Scripts take field keys from `acf-json/`. The section-controls clone's reference key is

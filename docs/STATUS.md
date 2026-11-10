@@ -84,6 +84,50 @@
 
 ---
 
+## 2026-11-10 — Hotspots: set once per site, every spot a solution, popups at the markers
+
+David, in four steps: *"make the hotspot area complete ... so that each spot matches up to a
+solution, like it does on FA. Also when hovering over the spots themselves theres no
+interaction"*; then *"there should be 11 or 12 based on FA"*; then, after full-width image +
+4-column cards: *"this whole change actually seems to make the cards redundant. Maybe we could go
+back to a 2 column layout ... a 2:1 column ratio ... titles still remain ... and the number, but no
+extra text. A different card pops up on hover ... with a title, information and maybe an image"*,
+and *"this block should not be customisable in ACF, its just one thing to add in on a page"*.
+Chose: Site Settings for the data, section controls kept.
+
+- **Data: Site Settings › Hotspots** (`hotspot_heading`, `hotspot_lead`, `hotspot_scenes`), read by
+  `mbf_hotspots_config()` (`inc/hotspots.php`). The layout's fields are now only `show_scenes`
+  (checkboxes filled live from the site's scenes; empty = all) and the section controls. The
+  placer (`hotspots-admin.js`) works on Site Settings. Showing only chosen spots: a per-site
+  maybe, not built.
+- **Solutions:** each spot has a Solution select (`field_mbf_site_hotspot_scenes_spots_solution`)
+  filled live from the finder's answers with a page; it takes their title, page and answer
+  label unless the spot sets its own (`mbf_finder_solution()`).
+- **Layout:** image | list at 2:1 from 56rem; the list is numbered text links, title only, 38px
+  rows (11 = 426px beside a 449px image at 1440; .45rem padding ran 478px). Stacked, the list
+  takes 2 columns from a 30rem container, row by row, and 1 on phones (David: *"on collapse the
+  text links should be broken up into 2 columns at least and then finally into 1 on mobile"*).
+  Checked at 9 widths: side by side from 1024, 2 columns at 600–768, 1 at 480 and below; order
+  always 1, 2, 3… left to right, top to bottom.
+- **Popup card at the marker:** the linked page's featured image, title and info line, on
+  hovering the marker or hovering/focusing its link. It opens right of a spot in the left half
+  and below one in the top half, at most 50cqi wide, so it can't leave the page (checked: all
+  18 spots, 6 widths). Hoverable; Escape hides it until the pointer or focus moves (1.4.13). The
+  info line is the link's `aria-describedby`.
+- **Tried and replaced:** FA's rows beside the image (ran far below it with 11 spots), then the
+  image full width with 4-column cards and a name label at the marker (the cards duplicated the
+  popup).
+- **Placeholder data** (`build-page-types.php`, written only when unset): FA's 11 rooftop and 7
+  warehouse positions (read from FA's DB, read-only, positions and names only) on the same
+  renders, generic names; 4 spots use finder answers, the rest their own name and a placeholder
+  page. The product, service and sector placeholders get featured images, so popups show one.
+  `/_sample/`: all scenes on base and secondary, rooftop on tertiary, warehouse on primary.
+- **Verified:** 1440/1280/1200 side by side, 768/390/320 stacked, 0 overflow; marker hover ↔ link
+  both ways; link name = title, description = info line; Escape; popup hoverable with its image
+  loaded. Fingerprint vs `after-icons`: changes only on `/` and `/_sample/`; 0 overflow/errors/
+  notices on all 126 views. Both scripts re-run as no-ops. Baseline:
+  `.fingerprints/after-hotspots.json`.
+
 ## 2026-11-10 — Icons: Duotone Regular, and a bigger card tile
 
 David: *"yes go with duotone regular and the bigger tile"*, after a side-by-side of Sharp Regular

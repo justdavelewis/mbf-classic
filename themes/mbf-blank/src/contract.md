@@ -188,16 +188,23 @@ case-study.php  eyebrow, heading(req), text, metrics[value(req), label], quote, 
       .mbf-buttons
     img.mbf-case-study__image library alt
 
-hotspots.php    heading, lead, scenes[label, image(req), spots[title(req), text, url, x, y]]
-  section.mbf-hotspots > __inner > header  .mbf-hotspots__scenes[data-mbf-hotspots]
+hotspots.php    show_scenes[scene keys; empty = all]  (scenes: Site Settings › Hotspots → mbf_hotspots_config())
+  section.mbf-hotspots > __inner > header (hotspot_heading, hotspot_lead)  .mbf-hotspots__scenes[data-mbf-hotspots]
     div.mbf-hotspots__tabs[role=tablist] > button.mbf-hotspots__tab[role=tab]   built by hotspots.js
-    .mbf-hotspots__scene[data-mbf-hotspots-scene=label]
+    .mbf-hotspots__scene[data-mbf-hotspots-scene=label]      image | list at 2:1 from 56rem; stacked: list 2 cols from 30rem, 1 below
       h3|h2.h4.mbf-hotspots__label  several scenes; hidden once tabs exist
       .mbf-hotspots__media > img.mbf-hotspots__image (library alt)
         span.mbf-hotspots__marker[aria-hidden][data-mbf-spot][style=--x;--y]    not focusable
-      ol.mbf-hotspots__list > li.mbf-hotspots__item[data-mbf-spot]
-        a|span.mbf-hotspots__title  p.mbf-hotspots__text
-  · the list is the content; markers repeat it. .is-active pairs marker and entry.
+          > span.mbf-hotspots__pop.--start|--end[.--below]   on hover/pairing; Escape hides
+              img.mbf-hotspots__pop-image[alt=""] (linked page's featured image, if any)
+              .mbf-hotspots__pop-body > span.__pop-title  span.__pop-text#uid
+      ol.mbf-hotspots__list[role=list] > li.mbf-hotspots__item[data-mbf-spot]
+        a.mbf-hotspots__link[href][aria-describedby=uid] | span.mbf-hotspots__link (no page)
+          span.mbf-hotspots__n[aria-hidden]  span.mbf-hotspots__title
+  · spot: solution (finder answer key) → title, info (answer label) and page, unless the spot
+    sets its own. A spot with no title either is dropped.
+  · the list is the content; markers and popups repeat it. .is-active pairs both ways; a marker
+    click follows its link, else marks and scrolls to it.
 
 specs.php       heading, lead, groups[heading, rows[label, value]], files[title, file]
   section.mbf-specs > __inner > header  .mbf-specs__tables  .mbf-files

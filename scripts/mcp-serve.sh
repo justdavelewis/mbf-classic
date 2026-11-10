@@ -25,6 +25,9 @@ print(next(k for k, v in sites.items() if os.path.realpath(os.path.expanduser(v[
 
 socket="$HOME/Library/Application Support/Local/run/$id/mysql/mysqld.sock"
 
+# scripts/mcp-serve-log.php records each start, any signal that stops it and any fatal error in
+# $TMPDIR/mbf-mcp-serve.log, to find out why sessions lost the server (2026-11-10).
 exec wp --path="$public" \
+	--require="$content/scripts/mcp-serve-log.php" \
 	--exec="ini_set('mysqli.default_socket','$socket'); ini_set('display_errors','stderr');" \
 	mcp-adapter serve --server=mbf --user=1

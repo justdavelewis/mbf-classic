@@ -35,7 +35,7 @@
 	}
 
 	// The nav breakpoint. Keep in step with src/components/site-header.css (its one @media).
-	window.matchMedia( '(min-width: 64rem)' ).addEventListener( 'change', ( event ) => {
+	window.matchMedia( '(min-width: 75rem)' ).addEventListener( 'change', ( event ) => {
 		if ( event.matches && dialog.open ) {
 			dialog.close();
 		}

@@ -29,7 +29,7 @@ belongs in STATUS and the rule belongs here.
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
 - Render fingerprint (standards docs/08): pages in `docs/fingerprint.json` (repo root); captures
-  go in `.fingerprints/` (ignored). Baseline: `.fingerprints/baseline-layout-library.json`.
+  go in `.fingerprints/` (ignored). Baseline: `.fingerprints/baseline-page-types.json`.
 
 ## Brand tokens and contrast
 
@@ -39,7 +39,7 @@ Each fork replaces both and re-measures.
 
 ## Breakpoint
 
-Nav ↔ drawer at `64rem` (1024px), stated once in `src/components/site-header.css`; JS copy
+Nav ↔ drawer at `75rem` (1200px), stated once in `src/components/site-header.css`; JS copy
 in `assets/js/drawer.js` (closes an open drawer when widening past it).
 
 ## Token bridge
@@ -74,8 +74,9 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
   When in doubt, leave it out and note it in STATUS.
 - Build to docs/12 and its "v1.0 done when" checklist. The starter layouts are exactly the
   docs/12 set (17 since 2026-11-06) unless a decision in STATUS changes it.
-- Placeholder content and the `/_sample/` page are built by idempotent `scripts/`, never by
-  hand in wp-admin, so a fork can rebuild them.
+- Placeholder content, the `/_sample/` page and the page-type baseline are built by idempotent
+  `scripts/`, never by hand in wp-admin, so a fork can rebuild them. Run order:
+  `build-placeholder-content.php`, `build-sample-page.php`, `build-page-types.php`.
 - Nothing client-specific, and no copy of `mbf-site-standards` (it's gitignored).
 
 ## ⚠️ Deliberate divergences: do not "fix"

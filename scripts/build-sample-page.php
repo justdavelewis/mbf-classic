@@ -190,6 +190,15 @@ $mbf_tables  = [
 ];
 $mbf_is      = static fn( string $g, string ...$grounds ) => in_array( $g, $grounds, true );
 
+// A real scene shows far more than a flat fill. Only used if a site has one tagged; a fork gets the placeholder.
+$mbf_scene = static function ( string $key ) use ( $mbf_photo ): int {
+	$found = get_posts( [ 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_mbf_sample_asset', 'meta_value' => $key, 'fields' => 'ids', 'posts_per_page' => 1 ] ); // phpcs:ignore WordPress.DB.SlowDBQuery
+
+	return (int) ( $found[0] ?? 0 ) ?: $mbf_photo;
+};
+$mbf_rooftop   = $mbf_scene( 'scene-rooftop' );
+$mbf_warehouse = $mbf_scene( 'scene-warehouse' );
+
 $mbf_layouts = [
 	'hero'       => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Hero on {$g}", 'lead' => 'One lead sentence under the hero heading.', 'button_1' => $mbf_link( 'Get in touch', '/contact/' ), 'button_2' => $mbf_link( 'Our services', '/services/' ), 'badges' => $mbf_is( $g, 'base', 'tertiary' ) ? [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ] : [], 'panel' => $mbf_is( $g, 'tertiary', 'secondary' ) ? 'finder' : 'image', 'image' => $mbf_photo ],
 	'text'       => static fn( string $g ) => [ 'heading' => "Text on {$g}", 'lead' => 'base' === $g ? 'An optional lead under the heading.' : '', 'body' => '<p>Rich text with <a href="' . esc_url( home_url( '/about/' ) ) . '">a link in running text</a> and <strong>bold text</strong>.</p><ul><li>A list item</li><li>Another list item</li></ul><blockquote><p>A short quotation.</p></blockquote>' ],
@@ -204,7 +213,7 @@ $mbf_layouts = [
 	'form'       => static fn( string $g ) => [ 'heading' => "Enquiry form on {$g}", 'text' => 'The placeholder WS Form. Email and webhook actions are off outside production.', 'points' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'text' => 'We reply within one working day' ], [ 'text' => 'No obligation' ] ] : [], 'show_contact' => $mbf_is( $g, 'base', 'primary' ) ],
 	'finder'     => static fn( string $g ) => [ 'heading' => $mbf_is( $g, 'tertiary', 'primary' ) ? "Finder on {$g}" : '', 'lead' => 'Pick the closest match.' ],
 	'case_study' => static fn( string $g ) => [ 'eyebrow' => 'Case study', 'heading' => "Case study on {$g}", 'text' => 'A short summary of the job and how it went.', 'metrics' => [ [ 'value' => '37 km', 'label' => 'Of edge protection' ], [ 'value' => '12 wks', 'label' => 'Start to handover' ] ], 'quote' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short quote from the client about the job.' : '', 'name' => 'A. Person', 'role' => 'Placeholder role', 'image' => $mbf_photo, 'image_side' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read the case study', '/about/' ) ],
-	'hotspots'   => static fn( string $g ) => [ 'heading' => "Hotspots on {$g}", 'lead' => 'Tap a number, or read the list.', 'scenes' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'label' => 'Rooftop', 'image' => $mbf_photo, 'spots' => $mbf_spots ], [ 'label' => 'Warehouse', 'image' => $mbf_photo, 'spots' => array_slice( $mbf_spots, 0, 2 ) ] ] : [ [ 'label' => '', 'image' => $mbf_photo, 'spots' => $mbf_spots ] ] ],
+	'hotspots'   => static fn( string $g ) => [ 'heading' => "Hotspots on {$g}", 'lead' => 'Tap a number, or read the list.', 'scenes' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'label' => 'Rooftop', 'image' => $mbf_rooftop, 'spots' => $mbf_spots ], [ 'label' => 'Warehouse', 'image' => $mbf_warehouse, 'spots' => array_slice( $mbf_spots, 0, 2 ) ] ] : [ [ 'label' => '', 'image' => $mbf_rooftop, 'spots' => $mbf_spots ] ] ],
 	'specs'      => static fn( string $g ) => [ 'heading' => "Specifications on {$g}", 'lead' => '', 'groups' => $mbf_is( $g, 'primary' ) ? array_slice( $mbf_tables, 0, 1 ) : $mbf_tables, 'files' => $mbf_is( $g, 'base', 'secondary' ) ? array_slice( $mbf_files, 0, 1 ) : [] ],
 	'downloads'  => static fn( string $g ) => [ 'heading' => "Downloads on {$g}", 'lead' => 'Brochures and guides.', 'files' => $mbf_files ],
 	'posts'      => static fn( string $g ) => [ 'heading' => "Posts on {$g}", 'lead' => '', 'source' => 'latest', 'category' => '', 'count' => $mbf_is( $g, 'tertiary' ) ? 2 : 3, 'chosen' => [], 'link' => $mbf_link( 'All articles', '/blog/' ) ],

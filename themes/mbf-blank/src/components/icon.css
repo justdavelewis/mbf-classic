@@ -1,0 +1,20 @@
+/* --- Icons: Font Awesome Duotone Regular, from mbf_icon() (inc/helpers.php) --- */
+
+/*
+ * The duotone seam (David, 2026-11-10). The outline (primary layer) is the icon's own colour,
+ * so it keeps whatever contrast its context gives text. The fill (secondary layer) takes the
+ * section accent, faint, so icons re-colour on every ground with nothing set per site. The fill
+ * is decoration: every icon is aria-hidden beside a text label, and the outline carries the shape.
+ * Override the locals on a component (the card tile does), never Font Awesome's own variables.
+ *
+ * :where() keeps this at 0-0-0, so any component rule wins. Font Awesome reads these variables
+ * with fallbacks and doesn't set them itself, so a layered value still applies.
+ */
+:where(.fa-duotone) {
+	--icon-secondary: var(--section-accent, var(--color-primary));
+	--icon-secondary-opacity: .45;
+
+	--fa-primary-color: currentColor;
+	--fa-secondary-color: var(--icon-secondary);
+	--fa-secondary-opacity: var(--icon-secondary-opacity);
+}

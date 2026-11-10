@@ -84,6 +84,50 @@
 
 ---
 
+## 2026-11-10 — Icons: Duotone Regular, and a bigger card tile
+
+David: *"yes go with duotone regular and the bigger tile"*, after a side-by-side of Sharp Regular
+(ours, from Mantech), Regular, Duotone Regular and Sharp Solid (S&A) on base and secondary.
+Survey: Mantech uses Sharp Regular, S&A Sharp Solid and Sharp Duotone, FA no Font Awesome.
+
+- `mbf_icon()` prints `fa-duotone fa-regular` via the new `mbf_icon_style` filter (a fork switches in
+  one line). Rounded to match the starter's corners; sharp suited square-cornered brands.
+- `src/components/icon.css`: at 0-0-0, the outline is the icon's own colour, the fill is
+  `--section-accent` at 45% (`--icon-secondary`, `--icon-secondary-opacity`). The card tile sets
+  its fill to its own colour at 40%, so it stays one colour on the accent.
+- Card icon tile 52 → 64px, icon 22 → 30px: at the old size the duotone layer didn't read.
+- **Verified:** the kit serves Duotone (its font loads; no blank icons); the layers resolve on all
+  four grounds (finder: accent on each; tile: white on primary); forced colours turn both layers
+  to the system colour. Fingerprint vs `after-solution`: changes only on `/` and `/_sample/` (the
+  pages with icons), plus a 12px knock-on below the taller tile; 0 overflow/errors/notices on 126
+  views. A first capture logged a one-off network failure on `/services/@768`; it reloaded clean
+  4× and re-captured clean. Baseline: `.fingerprints/after-icons.json`.
+
+## 2026-11-10 — Solution hero: the default product header
+
+David: *"I do like the style of the product hero that mantech and FA has, its quite unique and i
+know the client likes this, so can we make that as the solution heading as a default"*.
+
+- **The hero layout's third panel, not a new layout** (docs/12: extend before adding). `panel` =
+  `gallery` adds two fields, `gallery` (ACF gallery) and `glance` (label/value repeater), and
+  renders `.mbf-hero--solution`: crumbs (first row only), photos beside eyebrow, h1, lead, mono
+  badges, the at-a-glance box and buttons. `/products/placeholder-product/` uses it, on base, as
+  Mantech's does; its next two splits swap grounds to keep the alternation.
+- **Taken from each:** Mantech's layout, ratios (1.1fr/.9fr at 60rem), sticky photo, caption scrim
+  and glance box. FA's accessibility: thumbnails as `aria-pressed` buttons and pointer-only arrows
+  (Mantech's tablist had no tab panels). Captions from the Media Library, only when set (FA dropped
+  Mantech's alt-as-caption: its captions were filenames). Mantech's photo tags and derived badges
+  (from spec rows) stay out: Mantech-specific.
+- **New:** `template-parts/gallery.php`, `assets/js/gallery.js`, `src/components/gallery.css`, the
+  `.mbf-glance` and solution rules in `hero.css`, and a `--badge-font` dial on badges.
+- `/_sample/`: the hero is a solution hero on base and secondary, the finder panel on tertiary and
+  primary. The image panel is still covered by the services, sector and listing pages.
+- **Verified:** 1440/1280/1200/768/390/320: 0 overflow, one h1, crumbs, the split at 1200, stacked
+  at 768; thumbs, arrows (wrap), counter and keyboard; contrast on base and secondary ≥ 6.6:1
+  (glance, badges, eyebrow, the selected thumb's border). Fingerprint vs `after-tokens`: changes
+  only on `/_sample/` and the product page; 0 overflow/errors/notices on all 126 views. Both
+  scripts re-run as no-ops. Baseline: `.fingerprints/after-solution.json`.
+
 ## 2026-11-10 — Card grid: content gap, at most 3 columns
 
 David: *"the default card gap in the grid is set to fluid-l, but thats too big, do we actually

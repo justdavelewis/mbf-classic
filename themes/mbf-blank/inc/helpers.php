@@ -355,13 +355,21 @@ function mbf_social_icon( string $network ): string {
  * A decorative Font Awesome icon from a stored name ("fa-helmet-safety"), or '' when icons
  * are off or the name isn't one. Filtered, because the name comes from a text field. Always
  * aria-hidden: the label beside it carries the meaning.
+ *
+ * One style for every icon: Duotone Regular (David, 2026-11-10), whose rounded corners match
+ * the starter's and whose second layer takes the section accent (src/components/icon.css).
+ * A square-cornered brand switches in one line, e.g. S&A's:
+ *   add_filter( 'mbf_icon_style', fn() => 'fa-sharp fa-solid' );
+ * The kit must serve that style (Font Awesome › Kits › Settings), or icons render blank.
  */
 function mbf_icon( string $name, string $class = '' ): string {
 	if ( ! mbf_has_icons() || ! preg_match( '/^fa-[a-z0-9-]+$/', $name ) ) {
 		return '';
 	}
 
-	return sprintf( '<i class="%s" aria-hidden="true"></i>', esc_attr( trim( "fa-sharp fa-regular {$name} {$class}" ) ) );
+	$style = (string) apply_filters( 'mbf_icon_style', 'fa-duotone fa-regular' );
+
+	return sprintf( '<i class="%s" aria-hidden="true"></i>', esc_attr( trim( "{$style} {$name} {$class}" ) ) );
 }
 
 /* --- Files ------------------------------------------------------------------------ */

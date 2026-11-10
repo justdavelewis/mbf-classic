@@ -6,6 +6,7 @@
 	--badge-border: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 45%, transparent);
 	--badge-radius: var(--radius-button);
 	--badge-size: var(--fs-sm);
+	--badge-font: inherit;
 	--badge-color: var(--section-text, var(--color-text));
 	--badge-logo-height: 3rem;
 
@@ -15,6 +16,6 @@
 	gap: var(--badges-gap);
 }
 
-.mbf-badge { padding: var(--badge-pad); border: var(--badge-border); border-radius: var(--badge-radius); font-size: var(--badge-size); font-weight: 600; color: var(--badge-color); }
+.mbf-badge { padding: var(--badge-pad); border: var(--badge-border); border-radius: var(--badge-radius); font-family: var(--badge-font); font-size: var(--badge-size); font-weight: 600; color: var(--badge-color); }
 .mbf-badge--logo { padding: 0; border: 0; }
 .mbf-badge__logo { block-size: var(--badge-logo-height); inline-size: auto; }

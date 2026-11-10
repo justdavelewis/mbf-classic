@@ -24,6 +24,7 @@ article.mbf-card
   .mbf-card__body             required; carries the padding
     .mbf-card__head           only with a tag or icon; one subgrid row, holds the title
       span.mbf-card__icon-tile > i.mbf-card__icon[aria-hidden]  only with no image and icons on
+                                (every mbf_icon(): i.fa-duotone.fa-regular, style via mbf_icon_style)
       span.mbf-card__tag      read before the title
     h{level}.mbf-card__title  h2 under an archive h1, h3 under a section h2
       a.mbf-card__hit         title text ONLY — the one link, stretched by ::before
@@ -103,7 +104,7 @@ enquiry-form.php             ($args: form_id)
 ## Layouts (`template-parts/blocks/`)
 
 ```
-hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], panel(image|finder), image, background_image, position
+hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], panel(image|finder|gallery), image, gallery[ids], glance[label,value], background_image, position
   section.mbf-hero[.mbf-hero--media][.mbf-hero--photo]
     img.mbf-hero__photo[alt=""]   dark grounds only, under a veil (::before, --hero-veil)
   __inner > .mbf-hero__grid
@@ -112,6 +113,19 @@ hero.php        eyebrow, heading(req), lead, button_1, button_2, badges[text], p
     | .mbf-finder--panel      panel=finder, on a light ground, when the finder has options
     | .mbf-finder--glass      panel=finder, on a dark ground (mbf_is_dark_ground())
   · h1 only when position = 1 (page.php then skips page-hero)
+  panel=gallery with photos → the solution hero instead:
+  section.mbf-hero.mbf-hero--solution > __inner
+    nav.mbf-crumbs            only when position = 1
+    .mbf-hero__grid > .mbf-gallery (gallery.php)
+                      .mbf-hero__text > p.mbf-eyebrow  h1|h2.h1.mbf-hero__title#id  p.lead  .mbf-badges (mono)
+                                        dl.mbf-glance > .mbf-glance__row > dt.__label dd.__value   .mbf-buttons
+
+gallery.php (template-parts/; $args: ids, eager, label)   JS: assets/js/gallery.js
+  .mbf-gallery[data-mbf-gallery when 2+] > figure.mbf-gallery__main
+    img.mbf-gallery__image.is-on (first; others aria-hidden="true", lazy)
+    p.mbf-gallery__count[aria-live=polite]   button.mbf-gallery__nav--prev|next[tabindex=-1][aria-hidden]
+    figcaption.mbf-gallery__caption          only when a photo has a Media Library caption
+  ul.mbf-gallery__thumbs > li > button.mbf-gallery__thumb[aria-pressed]   2+ photos
 
 text.php        heading, lead, body
   section.mbf-text > __inner > header.mbf-section-heading  .prose

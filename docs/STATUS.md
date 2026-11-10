@@ -84,6 +84,48 @@
 
 ---
 
+## 2026-11-10 — MCP adapter: proof of concept, local and read only
+
+David: *"I want to introduce this to this build"* (the WordPress MCP Adapter), *"Local only"*,
+*"Read only"*, and *"This is just to make sure it works but eventually i think we could set it
+up the complete way"*.
+
+- **`mu-plugins/mbf-mcp.php`** registers three read-only abilities (`mbf/get-site-settings`,
+  `mbf/get-page-sections`, `mbf/check-contrast`) and an `mbf` server that exposes only those.
+  It does nothing outside a local or development environment, and deploys copy the theme only.
+- **The adapter's default server is off.** It serves every ability marked public, and WS Form
+  1.12.19 marks 53 of its own public, including reading submissions and deleting forms.
+- **No HTTP transport**: STDIO over WP-CLI only. `/wp-json/mcp/…` returns 404.
+- **Verified** by speaking MCP over STDIO: 3 tools listed, each returns real data, and WS Form's
+  submissions and the adapter's generic execute tool come back "Tool not found".
+
+**The article's setup, run as written (same day, then fully undone).** David: *"run the as-is
+test here"* (not on FA: its local copy holds 131 real Woo orders and 89 public abilities,
+including `woocommerce/orders-query` and `order-update-status`).
+- Default server + HTTP through `@automattic/mcp-wordpress-remote` (0.5.5) + an application
+  password: **works**, once Node trusts Local's self-signed certificate:
+  `NODE_EXTRA_CA_CERTS=~/Library/Application Support/Local/run/router/nginx/certs/<site>.local.crt`.
+  Without it: `DEPTH_ZERO_SELF_SIGNED_CERT`. Don't turn TLS checking off instead.
+- An agent then saw and could run 56 abilities: core's 3 and all 53 of WS Form's.
+- The WP-CLI route as written also works, but WP-CLI's PHP 8.4 `Deprecated` line lands on stdout,
+  inside the protocol stream. `display_errors=stderr` (as in `scripts/mcp-serve.sh`) fixes it.
+- Without credentials the HTTP endpoint answers 401.
+- Undone: test password revoked, the temporary filter removed, `mbf-mcp.php` restored
+  (byte-identical), both endpoints 404 again, the `mbf` server back.
+
+**Set up on a machine** (the plugin isn't in the repo):
+```
+wp plugin install https://github.com/WordPress/mcp-adapter/releases/download/v0.7.1/mcp-adapter.zip --activate
+claude mcp add mbf-local -- "$PWD/scripts/mcp-serve.sh"     # from wp-content/
+```
+
+**Later, for "the complete way" (not built):** more read abilities (finder, menus, layouts list);
+deciding whether writes go through MCP or stay as dry/force scripts; staging over HTTP with a
+limited user and application password; whether the adapter belongs in the standards; pinning the
+plugin in a fork script. Live stays out.
+
+---
+
 ## 2026-11-09 — End of day: where things stand
 
 **Three stacked PRs, all open. Merge in this order:** #4 (layout library), #5 (home page and page

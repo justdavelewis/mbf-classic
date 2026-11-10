@@ -8,6 +8,26 @@
 
 ## Outstanding
 
+### Next up (after v1.1.0, tagged 2026-11-10)
+- [ ] **Editor check** (v1.1 sweep finding 2): open a page with sections in the block editor and
+  confirm the fonts and presets match the front end. Last verified 2026-11-06, before Archivo.
+- [ ] **VoiceOver pass** (finding 3): the sweep checked the accessibility tree, not a real reader.
+- [ ] **Fork in one command:** `scripts/fork-site.php` (dry/force): rename slug, `mbf_` prefix and
+  text domain; swap brand slots and fonts; remove `/_sample/`, placeholder pages and Site
+  Settings placeholders; leave a checklist in the new STATUS.
+- [ ] **CI on push:** build, `php -l`, WPCS, `verify-tokens`; the render fingerprint later (needs a
+  throwaway WordPress: wp-env or Playground).
+- [ ] **Phase 2 of the default look:** CTA band, stats, steps, case study, specs/downloads, form,
+  hero texture, section nav.
+- [ ] **Client handover:** layout descriptions/thumbnails in the editor, an in-admin editing guide
+  (D1 left `admin-help` out; revisit now the sections have settled).
+- [ ] **Form page weight:** every page with the enquiry form loads 23 scripts (jQuery UI
+  sortable/mouse, touch-punch, intl-tel-input, dropzone…). See what WS Form lets us drop.
+- [ ] **Branch `mcp-claude-md`:** one unmerged commit, local only, not ours: David to keep, merge
+  or delete.
+- [ ] **MCP drops:** if `mbf-local` disconnects again, read `$TMPDIR/mbf-mcp-serve.log` ("stopped" =
+  the client closed it; "start" with nothing after = the process was killed).
+
 ### DECISION FIRST (don't build on these)
 - (none open)
 - Q2 **Resolved 2026-11-06:** both in the starter (David: *"yes do both"*). See the dated entry.
@@ -87,7 +107,7 @@
 ## 2026-11-10 — v1.1 sweep (docs/08 + docs/12 "v1.0 done when")
 
 David: *"yes start the v1.0 sweep, i think we've done a decent amount since 1.0, is this worth
-updating to a 1.1"*. v1.0 was tagged 2026-11-06 (local tag, never pushed). Everything since
+updating to a 1.1"*. v1.0 was tagged 2026-11-06 (pushed since; on GitHub by 2026-11-10). Everything since
 (layout library, page types, finder glass, shared form, MCP, conventions, polished look,
 solution hero, Duotone icons, hotspots) → **1.1.0** (`style.css`, `package.json` and the lockfile's
 root entries; the lockfile had never left 0.1.0), tagged on `main` once #11 and #12 merge.
@@ -572,7 +592,8 @@ pointing at them.
 - Global `~/.claude/CLAUDE.md`: no import; read the standards in an MBF project that doesn't
   import them yet (outside this repo; standards §9 now holds without exception).
 - Branches `feature/style-settings` and `release/v1.0` deleted locally and on GitHub (both
-  fully merged into `main`). **The `v1.0` tag is local only: never pushed.**
+  fully merged into `main`). The `v1.0` tag was local only at the time; it's on GitHub as of
+  2026-11-10 (pushed since, alongside `v1.1.0`).
 - Standards: docs/03 (site-header row), docs/05 (Site Settings + two menu locations),
   CLAUDE.md §5, CHANGELOG.
 

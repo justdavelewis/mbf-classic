@@ -1,0 +1,22 @@
+/* --- Specifications (template-parts/blocks/specs.php) --- */
+.mbf-specs {
+	/* Dials (03) */
+	--specs-gap: var(--layout-gap);
+	--specs-tile: 24rem;
+	--specs-divider: 1px solid color-mix(in oklch, var(--section-text, var(--color-text)) 25%, transparent);  /* decorative */
+	--specs-cell-pad: var(--space-s);
+	--specs-label-color: var(--section-heading, var(--color-heading));
+	--specs-caption-size: var(--fs-h4);
+}
+
+.mbf-specs__tables {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(min(var(--specs-tile), 100%), 1fr));
+	gap: var(--specs-gap);
+	align-items: start;
+}
+
+.mbf-specs__table { inline-size: 100%; border-collapse: collapse; }
+.mbf-specs__caption { padding-block-end: var(--specs-cell-pad); font-size: var(--specs-caption-size); font-weight: 700; text-align: start; color: var(--section-heading, var(--color-heading)); }
+.mbf-specs__table :is(th, td) { padding-block: var(--specs-cell-pad); border-block-end: var(--specs-divider); text-align: start; vertical-align: top; overflow-wrap: anywhere; }
+.mbf-specs__table th { padding-inline-end: var(--specs-cell-pad); font-weight: 600; color: var(--specs-label-color); }

@@ -350,3 +350,34 @@ function mbf_social_icon( string $network ): string {
 
 	return isset( $icons[ $network ] ) ? 'fa-brands ' . $icons[ $network ] : '';
 }
+
+/**
+ * A decorative Font Awesome icon from a stored name ("fa-helmet-safety"), or '' when icons
+ * are off or the name isn't one. Filtered, because the name comes from a text field. Always
+ * aria-hidden: the label beside it carries the meaning.
+ */
+function mbf_icon( string $name, string $class = '' ): string {
+	if ( ! mbf_has_icons() || ! preg_match( '/^fa-[a-z0-9-]+$/', $name ) ) {
+		return '';
+	}
+
+	return sprintf( '<i class="%s" aria-hidden="true"></i>', esc_attr( trim( "fa-sharp fa-regular {$name} {$class}" ) ) );
+}
+
+/* --- Files ------------------------------------------------------------------------ */
+
+/**
+ * "PDF, 1.2 MB" for an attachment: said out loud before the visitor commits to a download.
+ */
+function mbf_file_meta( int $id ): string {
+	$path = get_attached_file( $id );
+
+	if ( ! $path ) {
+		return '';
+	}
+
+	$type = strtoupper( (string) pathinfo( $path, PATHINFO_EXTENSION ) );
+	$size = file_exists( $path ) ? size_format( (int) filesize( $path ), 1 ) : '';
+
+	return implode( ', ', array_filter( [ $type, (string) $size ] ) );
+}

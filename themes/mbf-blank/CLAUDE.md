@@ -29,7 +29,7 @@ belongs in STATUS and the rule belongs here.
 - `mbf-css` version: not yet. `src/tokens.css` is the seed (docs/14 moves it out later)
 - DB table prefix: `wp_`
 - Render fingerprint (standards docs/08): pages in `docs/fingerprint.json` (repo root); captures
-  go in `.fingerprints/` (ignored). Baseline: `.fingerprints/baseline-2026-11-06.json`.
+  go in `.fingerprints/` (ignored). Baseline: `.fingerprints/baseline-layout-library.json`.
 
 ## Brand tokens and contrast
 
@@ -61,6 +61,9 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
   `mbf_contrast_pairs()`, or the save check won't cover it.
 - Schema: `inc/schema.php` prints the ONE business node from Site Settings, and goes
   silent when an SEO plugin is active (`mbf_print_business_schema` filter to override).
+- Solution finder: Site Settings › Solution finder, read only by `mbf_finder_config()`
+  (`inc/finder.php`). One set of answers per site. Keys travel as `?need=&site=`; form fields
+  read them with `#query_var("need")`, and their option values must be the same keys.
 - Scripts take field keys from `acf-json/`. The section-controls clone's reference key is
   composite (`field_mbf_{layout}_controls_field_mbf_section_ground`); write by field name
   with `update_field()`, or read that composite from the JSON.
@@ -70,7 +73,7 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
 - **Everything here propagates to every fork.** Add only what every classic site needs.
   When in doubt, leave it out and note it in STATUS.
 - Build to docs/12 and its "v1.0 done when" checklist. The starter layouts are exactly the
-  docs/12 set unless a decision in STATUS changes it.
+  docs/12 set (17 since 2026-11-06) unless a decision in STATUS changes it.
 - Placeholder content and the `/_sample/` page are built by idempotent `scripts/`, never by
   hand in wp-admin, so a fork can rebuild them.
 - Nothing client-specific, and no copy of `mbf-site-standards` (it's gitignored).

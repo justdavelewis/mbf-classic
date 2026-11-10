@@ -41,6 +41,15 @@ function mbf_enqueue(): void {
 }
 add_action( 'wp_enqueue_scripts', 'mbf_enqueue' );
 
+/**
+ * The hotspot placer: click an image in the editor to set a spot's position. ACF admin
+ * screens only. The front end never loads it.
+ */
+function mbf_enqueue_acf_admin(): void {
+	mbf_enqueue_script( 'mbf-hotspots-admin', 'assets/js/hotspots-admin.js' );
+}
+add_action( 'acf/input/admin_enqueue_scripts', 'mbf_enqueue_acf_admin' );
+
 function mbf_enqueue_script( string $handle, string $path ): void {
 	wp_enqueue_script(
 		$handle,

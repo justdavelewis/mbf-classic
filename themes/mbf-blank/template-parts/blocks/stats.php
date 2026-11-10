@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_a     = wp_parse_args( $args, [ 'heading' => '', 'items' => [] ] );
+$mbf_a     = wp_parse_args( $args, [ 'heading' => '', 'items' => [], 'badges' => [] ] );
 $mbf_items = array_filter( mbf_rows( $mbf_a['items'] ), static fn( $item ) => '' !== (string) ( $item['value'] ?? '' ) );
 
 if ( ! $mbf_items ) {
@@ -30,5 +30,6 @@ $mbf_id = '' !== (string) $mbf_a['heading'] ? mbf_section_id( $mbf_a['heading'] 
 				</li>
 			<?php endforeach; ?>
 		</ul>
+		<?php get_template_part( 'template-parts/badges', null, [ 'items' => $mbf_a['badges'] ] ); ?>
 	</div>
 </section>

@@ -82,6 +82,32 @@ foreach ( $mbf_assets as $mbf_key => [ $mbf_w, $mbf_h, $mbf_rgb, $mbf_alt ] ) {
 	$mbf_ids[ $mbf_key ] = (int) $mbf_id;
 }
 
+// A placeholder PDF for the download layouts: the smallest valid file, written here so the repo carries no binaries.
+$mbf_pdf = get_posts( [ 'post_type' => 'attachment', 'post_status' => 'inherit', 'meta_key' => '_mbf_sample_asset', 'meta_value' => 'file', 'fields' => 'ids', 'posts_per_page' => 1 ] ); // phpcs:ignore WordPress.DB.SlowDBQuery
+$mbf_ids['file'] = $mbf_pdf ? (int) $mbf_pdf[0] : 0;
+
+if ( ! $mbf_ids['file'] ) {
+	$mbf_log( 'import placeholder PDF' );
+
+	if ( $mbf_force ) {
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$mbf_tmp = wp_tempnam( 'mbf-sample-file.pdf' );
+		file_put_contents( $mbf_tmp, "%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]>>endobj\ntrailer<</Root 1 0 R>>\n%%EOF\n" );
+
+		$mbf_id = media_handle_sideload( [ 'name' => 'mbf-sample-file.pdf', 'tmp_name' => $mbf_tmp ], 0, 'Placeholder document' );
+
+		if ( is_wp_error( $mbf_id ) ) {
+			WP_CLI::error( 'PDF: ' . $mbf_id->get_error_message() );
+		}
+
+		update_post_meta( $mbf_id, '_mbf_sample_asset', 'file' );
+		$mbf_ids['file'] = (int) $mbf_id;
+	}
+}
+
 // --- 2. Placeholder enquiry form, from WS Form's own "Contact Us" template --------------
 global $wpdb;
 
@@ -130,7 +156,10 @@ if ( ! $mbf_form_id || (int) get_field( 'field_mbf_site_form_enquiry', 'option' 
 $mbf_grounds = [ 'base', 'tertiary', 'secondary', 'primary' ];
 $mbf_photo   = $mbf_ids['photo'];
 $mbf_link    = static fn( string $title, string $path ) => [ 'title' => $title, 'url' => home_url( $path ), 'target' => '' ];
-$mbf_card    = static fn( string $title, string $path, bool $image = true, string $text = 'A short placeholder description.' ) => [
+$mbf_page_id_of = static fn( string $path ) => (int) url_to_postid( home_url( $path ) );
+$mbf_card    = static fn( string $title, string $path, bool $image = true, string $text = 'A short placeholder description.', string $tag = '', string $icon = '' ) => [
+	'tag'   => $tag,
+	'icon'  => $icon,
 	'title' => $title,
 	'text'  => $text,
 	'url'   => '' !== $path ? (int) url_to_postid( home_url( $path ) ) : '',
@@ -139,26 +168,46 @@ $mbf_card    = static fn( string $title, string $path, bool $image = true, strin
 
 // Card counts per ground exercise the count-aware grid: 3 (auto-fill), 2 and 4 (pairs), 1 (lone).
 $mbf_cards = [
-	'base'      => [ $mbf_card( 'Inspection', '/services/inspection/' ), $mbf_card( 'Maintenance', '/services/maintenance/', true, 'A longer placeholder description that wraps onto more lines, so the subgrid rows can be seen aligning across the row.' ), $mbf_card( 'About us', '/about/', false ) ],
-	'tertiary'  => [ $mbf_card( 'Services', '/services/' ), $mbf_card( 'Contact', '/contact/' ) ],
+	'base'      => [ $mbf_card( 'Inspection', '/services/inspection/' ), $mbf_card( 'Maintenance', '/services/maintenance/', true, 'A longer placeholder description that wraps onto more lines, so the subgrid rows can be seen aligning across the row.' ), $mbf_card( 'About us', '/about/', false, 'No image, so its icon shows.', '6 systems', 'fa-helmet-safety' ) ],
+	'tertiary'  => [ $mbf_card( 'Services', '/services/', true, 'A short placeholder description.', 'EN 795' ), $mbf_card( 'Contact', '/contact/' ) ],
 	'secondary' => [ $mbf_card( 'Inspection', '/services/inspection/' ), $mbf_card( 'Maintenance', '/services/maintenance/' ), $mbf_card( 'About us', '/about/', false ), $mbf_card( 'Not linked', '', false, 'No URL: no link, no CTA, no lift.' ) ],
 	'primary'   => [ $mbf_card( 'A single card', '/about/' ) ],
 ];
 
 $mbf_rows = [];
 
+// Grounds exercise the optional fields: some rows carry them, some don't, so both shapes render.
+$mbf_ticks   = [ [ 'text' => 'A first ticked point' ], [ 'text' => 'A second, longer ticked point that wraps onto another line at narrow widths' ] ];
+$mbf_spots   = [
+	[ 'title' => 'A linked spot', 'text' => 'Short text about this spot.', 'url' => $mbf_page_id_of( '/services/inspection/' ), 'x' => 22, 'y' => 30 ],
+	[ 'title' => 'A spot with no link', 'text' => 'Another short description.', 'url' => '', 'x' => 64, 'y' => 48 ],
+	[ 'title' => 'At the very edge', 'text' => 'Placed at 100% so the clamp can be seen.', 'url' => '', 'x' => 100, 'y' => 100 ],
+];
+$mbf_files   = [ [ 'title' => 'Placeholder data sheet', 'file' => $mbf_ids['file'], 'note' => 'Updated this year', 'cover' => '' ], [ 'title' => 'Placeholder guide with a cover', 'file' => $mbf_ids['file'], 'note' => '', 'cover' => $mbf_photo ] ];
+$mbf_tables  = [
+	[ 'heading' => 'Dimensions', 'rows' => [ [ 'label' => 'Height', 'value' => '1,100 mm' ], [ 'label' => 'Bay width', 'value' => '2,500 mm' ] ] ],
+	[ 'heading' => 'Compliance', 'rows' => [ [ 'label' => 'Standard', 'value' => 'Placeholder standard' ], [ 'label' => 'Finish', 'value' => 'Galvanised' ] ] ],
+];
+$mbf_is      = static fn( string $g, string ...$grounds ) => in_array( $g, $grounds, true );
+
 $mbf_layouts = [
-	'hero'     => static fn( string $g ) => [ 'heading' => "Hero on {$g}", 'lead' => 'One lead sentence under the hero heading.', 'button_1' => $mbf_link( 'Get in touch', '/contact/' ), 'button_2' => $mbf_link( 'Our services', '/services/' ), 'image' => $mbf_photo ],
-	'text'     => static fn( string $g ) => [ 'heading' => "Text on {$g}", 'body' => '<p>Rich text with <a href="' . esc_url( home_url( '/about/' ) ) . '">a link in running text</a> and <strong>bold text</strong>.</p><ul><li>A list item</li><li>Another list item</li></ul><blockquote><p>A short quotation.</p></blockquote>' ],
-	'split'    => static fn( string $g ) => [ 'heading' => "Split on {$g}", 'body' => '<p>Text beside an image. Alternate rows put the image first.</p>', 'image' => $mbf_photo, 'image_side' => in_array( $g, [ 'tertiary', 'primary' ], true ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read more', '/about/' ) ],
-	'cards'    => static fn( string $g ) => [ 'heading' => "Cards on {$g}", 'lead' => count( $mbf_cards[ $g ] ) . ' cards.', 'cards' => $mbf_cards[ $g ] ],
-	'cta_band' => static fn( string $g ) => [ 'heading' => "CTA band on {$g}", 'text' => 'No second button set, so the Site Settings phone stands in.', 'button_1' => $mbf_link( 'Contact us', '/contact/' ), 'button_2' => null ],
-	'faq'      => static fn( string $g ) => [ 'heading' => "FAQ on {$g}", 'items' => [ [ 'question' => 'A first placeholder question?', 'answer' => '<p>A placeholder answer.</p>' ], [ 'question' => 'A second, longer placeholder question that wraps at narrow widths?', 'answer' => '<p>Another answer, with <a href="' . esc_url( home_url( '/contact/' ) ) . '">a link</a>.</p>' ] ] ],
-	'stats'    => static fn( string $g ) => [ 'heading' => "Stats on {$g}", 'items' => [ [ 'value' => '25+', 'label' => 'Years' ], [ 'value' => '1,200', 'label' => 'Projects' ], [ 'value' => '98%', 'label' => 'Repeat clients' ], [ 'value' => '24/7', 'label' => 'Support' ] ] ],
-	'quote'    => static fn( string $g ) => [ 'quote' => "A short placeholder testimonial, on {$g}.", 'name' => 'A. Person', 'role' => 'Placeholder role' ],
-	'steps'    => static fn( string $g ) => [ 'heading' => "Steps on {$g}", 'lead' => 'How it works.', 'items' => [ [ 'title' => 'Call', 'text' => 'Tell us what you need.' ], [ 'title' => 'Survey', 'text' => 'We visit the site.' ], [ 'title' => 'Deliver', 'text' => 'We do the work.' ] ] ],
-	'logos'    => static fn( string $g ) => [ 'heading' => "Logos on {$g}", 'logos' => [ $mbf_ids['logo-1'], $mbf_ids['logo-2'], $mbf_ids['logo-3'] ] ],
-	'form'     => static fn( string $g ) => [ 'heading' => "Enquiry form on {$g}", 'text' => 'The placeholder WS Form. Email and webhook actions are off outside production.' ],
+	'hero'       => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Hero on {$g}", 'lead' => 'One lead sentence under the hero heading.', 'button_1' => $mbf_link( 'Get in touch', '/contact/' ), 'button_2' => $mbf_link( 'Our services', '/services/' ), 'badges' => $mbf_is( $g, 'base', 'tertiary' ) ? [ [ 'text' => 'EN 795' ], [ 'text' => 'ISO 9001' ] ] : [], 'panel' => $mbf_is( $g, 'tertiary', 'secondary' ) ? 'finder' : 'image', 'image' => $mbf_photo ],
+	'text'       => static fn( string $g ) => [ 'heading' => "Text on {$g}", 'lead' => 'base' === $g ? 'An optional lead under the heading.' : '', 'body' => '<p>Rich text with <a href="' . esc_url( home_url( '/about/' ) ) . '">a link in running text</a> and <strong>bold text</strong>.</p><ul><li>A list item</li><li>Another list item</li></ul><blockquote><p>A short quotation.</p></blockquote>' ],
+	'split'      => static fn( string $g ) => [ 'eyebrow' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short eyebrow' : '', 'heading' => "Split on {$g}", 'body' => '<p>Text beside an image. Alternate rows put the image first.</p>', 'points' => $mbf_is( $g, 'base', 'secondary' ) ? $mbf_ticks : [], 'image' => $mbf_photo, 'image_side' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read more', '/about/' ), 'button_2' => $mbf_is( $g, 'secondary' ) ? $mbf_link( 'Contact us', '/contact/' ) : null ],
+	'cards'      => static fn( string $g ) => [ 'heading' => "Cards on {$g}", 'lead' => count( $mbf_cards[ $g ] ) . ' cards.', 'link' => $mbf_is( $g, 'base', 'secondary' ) ? $mbf_link( 'All services', '/services/' ) : null, 'cards' => $mbf_cards[ $g ] ],
+	'cta_band'   => static fn( string $g ) => [ 'eyebrow' => 'primary' === $g ? 'A short eyebrow' : '', 'heading' => "CTA band on {$g}", 'text' => 'No second button set, so the Site Settings phone stands in.', 'button_1' => $mbf_link( 'Contact us', '/contact/' ), 'button_2' => null ],
+	'faq'        => static fn( string $g ) => [ 'heading' => "FAQ on {$g}", 'lead' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'An optional lead.' : '', 'items' => [ [ 'question' => 'A first placeholder question?', 'answer' => '<p>A placeholder answer.</p>' ], [ 'question' => 'A second, longer placeholder question that wraps at narrow widths?', 'answer' => '<p>Another answer, with <a href="' . esc_url( home_url( '/contact/' ) ) . '">a link</a>.</p>' ] ], 'aside_heading' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'Still have a question?' : '', 'aside_text' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'A short line of text in the side card.' : '', 'aside_button' => $mbf_is( $g, 'tertiary', 'primary' ) ? $mbf_link( 'Contact us', '/contact/' ) : null ],
+	'stats'      => static fn( string $g ) => [ 'heading' => "Stats on {$g}", 'items' => [ [ 'value' => '25+', 'label' => 'Years' ], [ 'value' => '1,200', 'label' => 'Projects' ], [ 'value' => '98%', 'label' => 'Repeat clients' ], [ 'value' => '24/7', 'label' => 'Support' ] ], 'badges' => $mbf_is( $g, 'tertiary', 'secondary' ) ? [ [ 'name' => 'Placeholder accreditation', 'logo' => '' ], [ 'name' => 'Placeholder Organisation One', 'logo' => $mbf_ids['logo-1'] ] ] : [] ],
+	'quote'      => static fn( string $g ) => [ 'quote' => "A short placeholder testimonial, on {$g}.", 'name' => 'A. Person', 'role' => 'Placeholder role' ],
+	'steps'      => static fn( string $g ) => [ 'heading' => "Steps on {$g}", 'lead' => 'How it works.', 'items' => [ [ 'title' => 'Call', 'text' => 'Tell us what you need.', 'tag' => '' ], [ 'title' => 'Survey', 'text' => 'We visit the site.', 'tag' => $mbf_is( $g, 'base', 'secondary' ) ? 'Free' : '' ], [ 'title' => 'Deliver', 'text' => 'We do the work.', 'tag' => '' ] ], 'button_1' => $mbf_is( $g, 'base', 'secondary' ) ? $mbf_link( 'Book a survey', '/contact/' ) : null ],
+	'logos'      => static fn( string $g ) => [ 'heading' => "Logos on {$g}", 'logos' => [ $mbf_ids['logo-1'], $mbf_ids['logo-2'], $mbf_ids['logo-3'] ] ],
+	'form'       => static fn( string $g ) => [ 'heading' => "Enquiry form on {$g}", 'text' => 'The placeholder WS Form. Email and webhook actions are off outside production.', 'points' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'text' => 'We reply within one working day' ], [ 'text' => 'No obligation' ] ] : [], 'show_contact' => $mbf_is( $g, 'base', 'primary' ) ],
+	'finder'     => static fn( string $g ) => [ 'heading' => $mbf_is( $g, 'tertiary', 'primary' ) ? "Finder on {$g}" : '', 'lead' => 'Pick the closest match.' ],
+	'case_study' => static fn( string $g ) => [ 'eyebrow' => 'Case study', 'heading' => "Case study on {$g}", 'text' => 'A short summary of the job and how it went.', 'metrics' => [ [ 'value' => '37 km', 'label' => 'Of edge protection' ], [ 'value' => '12 wks', 'label' => 'Start to handover' ] ], 'quote' => $mbf_is( $g, 'base', 'secondary' ) ? 'A short quote from the client about the job.' : '', 'name' => 'A. Person', 'role' => 'Placeholder role', 'image' => $mbf_photo, 'image_side' => $mbf_is( $g, 'tertiary', 'primary' ) ? 'start' : 'end', 'button_1' => $mbf_link( 'Read the case study', '/about/' ) ],
+	'hotspots'   => static fn( string $g ) => [ 'heading' => "Hotspots on {$g}", 'lead' => 'Tap a number, or read the list.', 'scenes' => $mbf_is( $g, 'base', 'secondary' ) ? [ [ 'label' => 'Rooftop', 'image' => $mbf_photo, 'spots' => $mbf_spots ], [ 'label' => 'Warehouse', 'image' => $mbf_photo, 'spots' => array_slice( $mbf_spots, 0, 2 ) ] ] : [ [ 'label' => '', 'image' => $mbf_photo, 'spots' => $mbf_spots ] ] ],
+	'specs'      => static fn( string $g ) => [ 'heading' => "Specifications on {$g}", 'lead' => '', 'groups' => $mbf_is( $g, 'primary' ) ? array_slice( $mbf_tables, 0, 1 ) : $mbf_tables, 'files' => $mbf_is( $g, 'base', 'secondary' ) ? array_slice( $mbf_files, 0, 1 ) : [] ],
+	'downloads'  => static fn( string $g ) => [ 'heading' => "Downloads on {$g}", 'lead' => 'Brochures and guides.', 'files' => $mbf_files ],
+	'posts'      => static fn( string $g ) => [ 'heading' => "Posts on {$g}", 'lead' => '', 'source' => 'latest', 'category' => '', 'count' => $mbf_is( $g, 'tertiary' ) ? 2 : 3, 'chosen' => [], 'link' => $mbf_link( 'All articles', '/blog/' ) ],
 ];
 
 foreach ( $mbf_layouts as $mbf_layout => $mbf_content ) {

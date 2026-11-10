@@ -8,3 +8,5 @@
 	gap: var(--section-heading-gap);
 	max-inline-size: var(--section-heading-measure);
 }
+
+.mbf-section-heading__link { justify-self: start; font-weight: 600; color: var(--section-link, var(--color-primary)); }

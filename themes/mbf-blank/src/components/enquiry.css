@@ -3,9 +3,13 @@
 	/* Dials (03). The 56rem split point can't be one: custom properties don't work in @container. */
 	--enquiry-gap: var(--layout-gap);
 	--enquiry-columns: minmax(0, 2fr) minmax(0, 3fr);   /* intro | form, once split */
+	--enquiry-intro-gap: var(--content-gap);
 }
 
 .mbf-enquiry__grid { display: grid; gap: var(--enquiry-gap); }
+.mbf-enquiry__intro { display: grid; gap: var(--enquiry-intro-gap); align-content: start; }
+.mbf-enquiry__contact { display: grid; gap: var(--space-xs); font-weight: 600; }
+.mbf-enquiry__contact a { display: inline-block; color: var(--section-link, var(--color-primary)); }  /* standalone link: ≥24px (2.5.8) */
 
 @container (min-width: 56rem) {
 	.mbf-enquiry__grid { grid-template-columns: var(--enquiry-columns); align-items: start; }

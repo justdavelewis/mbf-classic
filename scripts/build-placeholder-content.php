@@ -1,7 +1,7 @@
 <?php
 /**
  * Placeholder pages, posts, the Primary and Footer menus and Site Settings (NAP, header
- * button) for the mbf-blank starter, so the header, drawer, dropdowns, footer, prose, blog
+ * button, solution finder) for the mbf-blank starter, so the header, drawer, dropdowns, footer, prose, blog
  * index and pagination have something real to render. A fork deletes or replaces this content; it isn't a client
  * site's content. Site Settings fills empty fields only, so it never overwrites real ones.
  *
@@ -180,6 +180,24 @@ $mbf_settings = [
 	'address'      => "1 Placeholder Street\nPlaceholder Town\nAB1 2CD",
 	'legal'        => 'Registered in England and Wales. Company no. 00000000.',
 	'header_cta'   => $mbf_contact ? [ 'title' => 'Get in touch', 'url' => (string) get_permalink( $mbf_contact ), 'target' => '' ] : null,
+
+	// The finder: sector wording, because every client so far works at height, but no client's.
+	'finder_eyebrow'    => 'Find your solution',
+	'finder_question'   => "Where's the risk on your site?",
+	'finder_options'    => $mbf_contact ? [
+		[ 'key' => 'roof-edge', 'label' => 'Roof edge or perimeter', 'icon' => 'fa-house-chimney', 'page' => $mbf_svc_a, 'title' => 'Placeholder roof edge system', 'points' => [ [ 'text' => 'A first reason it suits' ], [ 'text' => 'A second reason it suits' ] ] ],
+		[ 'key' => 'fragile-roof', 'label' => 'Fragile roof or skylights', 'icon' => 'fa-table-cells-large', 'page' => $mbf_svc_b, 'title' => 'Placeholder fragile roof system', 'points' => [ [ 'text' => 'A first reason it suits' ] ] ],
+		[ 'key' => 'access', 'label' => 'Ladders and access points', 'icon' => 'fa-stairs', 'page' => $mbf_services, 'title' => '', 'points' => [] ],
+		[ 'key' => 'not-sure', 'label' => 'Not sure yet', 'icon' => 'fa-circle-question', 'page' => '', 'title' => '', 'points' => [] ],
+	] : null,
+	'finder_question_2' => 'What kind of site is it?',
+	'finder_sites'      => [
+		[ 'key' => 'commercial', 'label' => 'Commercial or office', 'phrase' => 'a commercial building' ],
+		[ 'key' => 'industrial', 'label' => 'Industrial or warehouse', 'phrase' => 'a warehouse' ],
+		[ 'key' => 'public', 'label' => 'School or public building', 'phrase' => 'a public building' ],
+	],
+	'finder_button'     => 'Book a free site survey',
+	'finder_target'     => $mbf_contact ?: null,
 ];
 
 foreach ( $mbf_settings as $mbf_name => $mbf_value ) {
@@ -187,8 +205,9 @@ foreach ( $mbf_settings as $mbf_name => $mbf_value ) {
 		WP_CLI::error( "No field named \"{$mbf_name}\" in acf-json/group_mbf_site_settings.json." );
 	}
 
-	// empty(), not a string cast: a link field returns an array (cast, it read as "Array" and a notice).
-	if ( null === $mbf_value || ! empty( get_field( $mbf_keys[ $mbf_name ], 'option' ) ) ) {
+	// What's stored, not get_field() by key: that hands back the field's default, which reads as
+	// already set, while mbf_setting() by name gets nothing until the value is really saved.
+	if ( null === $mbf_value || ! empty( get_option( "options_{$mbf_name}" ) ) ) {
 		continue;
 	}
 

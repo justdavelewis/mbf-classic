@@ -44,6 +44,25 @@
                             "endpoint": 0
                         },
                         {
+                            "key": "field_mbf_hero_eyebrow",
+                            "label": "Eyebrow",
+                            "name": "eyebrow",
+                            "type": "text",
+                            "instructions": "A short label above the heading. Optional.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_mbf_hero_heading",
                             "label": "Heading",
                             "name": "heading",
@@ -104,13 +123,88 @@
                             "return_format": "array"
                         },
                         {
+                            "key": "field_mbf_hero_badges",
+                            "label": "Badges",
+                            "name": "badges",
+                            "type": "repeater",
+                            "instructions": "Proof marks under the buttons, e.g. a standard (EN 795) or an accreditation.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add badge",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_hero_badges_text",
+                                    "label": "Text",
+                                    "name": "text",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_hero_badges"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_hero_panel",
+                            "label": "Beside the text",
+                            "name": "panel",
+                            "type": "select",
+                            "instructions": "The solution finder is set up once, in Site Settings › Solution finder.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "choices": {
+                                "image": "Image",
+                                "finder": "Solution finder"
+                            },
+                            "default_value": "image"
+                        },
+                        {
                             "key": "field_mbf_hero_image",
                             "label": "Image",
                             "name": "image",
                             "type": "image",
                             "instructions": "",
                             "required": 0,
-                            "conditional_logic": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_hero_panel",
+                                        "operator": "==",
+                                        "value": "image"
+                                    }
+                                ]
+                            ],
                             "wrapper": {
                                 "width": "",
                                 "class": "",
@@ -198,6 +292,25 @@
                             }
                         },
                         {
+                            "key": "field_mbf_text_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
                             "key": "field_mbf_text_body",
                             "label": "Body",
                             "name": "body",
@@ -279,6 +392,25 @@
                             "endpoint": 0
                         },
                         {
+                            "key": "field_mbf_split_eyebrow",
+                            "label": "Eyebrow",
+                            "name": "eyebrow",
+                            "type": "text",
+                            "instructions": "A short label above the heading. Optional.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
                             "key": "field_mbf_split_heading",
                             "label": "Heading",
                             "name": "heading",
@@ -309,6 +441,48 @@
                             "toolbar": "basic",
                             "media_upload": 0,
                             "delay": 1
+                        },
+                        {
+                            "key": "field_mbf_split_points",
+                            "label": "Ticked points",
+                            "name": "points",
+                            "type": "repeater",
+                            "instructions": "Short lines, shown as a ticked list.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add point",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_split_points_text",
+                                    "label": "Text",
+                                    "name": "text",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_split_points"
+                                }
+                            ]
                         },
                         {
                             "key": "field_mbf_split_image",
@@ -358,6 +532,21 @@
                             "name": "button_1",
                             "type": "link",
                             "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
+                        },
+                        {
+                            "key": "field_mbf_split_button_2",
+                            "label": "Second button",
+                            "name": "button_2",
+                            "type": "link",
+                            "instructions": "Leave empty for no button.",
                             "required": 0,
                             "conditional_logic": 0,
                             "wrapper": {
@@ -461,6 +650,21 @@
                             "new_lines": ""
                         },
                         {
+                            "key": "field_mbf_cards_link",
+                            "label": "Section link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "A link under the heading, e.g. \"All solutions\".",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
+                        },
+                        {
                             "key": "field_mbf_cards_cards",
                             "label": "Cards",
                             "name": "cards",
@@ -480,6 +684,26 @@
                             "collapsed": "",
                             "rows_per_page": 20,
                             "sub_fields": [
+                                {
+                                    "key": "field_mbf_cards_card_tag",
+                                    "label": "Tag",
+                                    "name": "tag",
+                                    "type": "text",
+                                    "instructions": "A small label above the title, e.g. \"6 systems\" or \"EN 795\".",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_cards_cards"
+                                },
                                 {
                                     "key": "field_mbf_cards_card_title",
                                     "label": "Title",
@@ -552,6 +776,26 @@
                                     "preview_size": "medium",
                                     "library": "all",
                                     "parent_repeater": "field_mbf_cards_cards"
+                                },
+                                {
+                                    "key": "field_mbf_cards_card_icon",
+                                    "label": "Icon",
+                                    "name": "icon",
+                                    "type": "text",
+                                    "instructions": "A Font Awesome name, e.g. fa-helmet-safety. Shown when there is no image.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_cards_cards"
                                 }
                             ]
                         },
@@ -617,6 +861,25 @@
                             },
                             "placement": "top",
                             "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_cta_band_eyebrow",
+                            "label": "Eyebrow",
+                            "name": "eyebrow",
+                            "type": "text",
+                            "instructions": "A short label above the heading. Optional.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
                         },
                         {
                             "key": "field_mbf_cta_band_heading",
@@ -756,6 +1019,25 @@
                             }
                         },
                         {
+                            "key": "field_mbf_faq_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
                             "key": "field_mbf_faq_items",
                             "label": "Questions",
                             "name": "items",
@@ -810,6 +1092,59 @@
                                     "parent_repeater": "field_mbf_faq_items"
                                 }
                             ]
+                        },
+                        {
+                            "key": "field_mbf_faq_aside_heading",
+                            "label": "Side card heading",
+                            "name": "aside_heading",
+                            "type": "text",
+                            "instructions": "Optional card beside the questions, e.g. \"Still have a question?\". Leave empty for none.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_faq_aside_text",
+                            "label": "Side card text",
+                            "name": "aside_text",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_faq_aside_button",
+                            "label": "Side card button",
+                            "name": "aside_button",
+                            "type": "link",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
                         },
                         {
                             "key": "field_mbf_faq_tab_section",
@@ -938,6 +1273,66 @@
                                         "id": ""
                                     },
                                     "parent_repeater": "field_mbf_stats_items"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_stats_badges",
+                            "label": "Accreditations",
+                            "name": "badges",
+                            "type": "repeater",
+                            "instructions": "A row of accreditations under the figures (a trust bar).",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add accreditation",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_stats_badges_name",
+                                    "label": "Name",
+                                    "name": "name",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_stats_badges"
+                                },
+                                {
+                                    "key": "field_mbf_stats_badges_logo",
+                                    "label": "Logo",
+                                    "name": "logo",
+                                    "type": "image",
+                                    "instructions": "Optional. The name is its alt text.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "preview_size": "medium",
+                                    "library": "all",
+                                    "parent_repeater": "field_mbf_stats_badges"
                                 }
                             ]
                         },
@@ -1192,8 +1587,43 @@
                                     "rows": 3,
                                     "new_lines": "",
                                     "parent_repeater": "field_mbf_steps_items"
+                                },
+                                {
+                                    "key": "field_mbf_steps_item_tag",
+                                    "label": "Tag",
+                                    "name": "tag",
+                                    "type": "text",
+                                    "instructions": "A small label, e.g. \"Free\".",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_steps_items"
                                 }
                             ]
+                        },
+                        {
+                            "key": "field_mbf_steps_button_1",
+                            "label": "Button",
+                            "name": "button_1",
+                            "type": "link",
+                            "instructions": "Leave empty for no button.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
                         },
                         {
                             "key": "field_mbf_steps_tab_section",
@@ -1384,6 +1814,65 @@
                             "new_lines": ""
                         },
                         {
+                            "key": "field_mbf_form_points",
+                            "label": "Reassurance points",
+                            "name": "points",
+                            "type": "repeater",
+                            "instructions": "Short lines beside the form, e.g. \"We reply within one working day\".",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add point",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_form_points_text",
+                                    "label": "Text",
+                                    "name": "text",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_form_points"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_form_show_contact",
+                            "label": "Show phone and email",
+                            "name": "show_contact",
+                            "type": "true_false",
+                            "instructions": "From Site Settings › Contact.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": 1,
+                            "ui": 1,
+                            "message": ""
+                        },
+                        {
                             "key": "field_mbf_form_tab_section",
                             "label": "Section",
                             "name": "",
@@ -1401,6 +1890,1399 @@
                         },
                         {
                             "key": "field_mbf_form_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_finder": {
+                    "key": "layout_mbf_finder",
+                    "name": "finder",
+                    "label": "Solution finder",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_finder_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_finder_message",
+                            "label": "Where the answers come from",
+                            "name": "",
+                            "type": "message",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "The questions, options and recommendations are set once, in <strong>Site Settings › Solution finder</strong>, so this row and the hero panel always agree.",
+                            "new_lines": "wpautop",
+                            "esc_html": 0
+                        },
+                        {
+                            "key": "field_mbf_finder_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "Leave empty to use the first question as the heading.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_finder_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_finder_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_finder_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_case_study": {
+                    "key": "layout_mbf_case_study",
+                    "name": "case_study",
+                    "label": "Case study",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_case_study_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_case_study_eyebrow",
+                            "label": "Eyebrow",
+                            "name": "eyebrow",
+                            "type": "text",
+                            "instructions": "A short label above the heading. Optional.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_text",
+                            "label": "Text",
+                            "name": "text",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 3,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_metrics",
+                            "label": "Results",
+                            "name": "metrics",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add result",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_case_study_metrics_value",
+                                    "label": "Figure",
+                                    "name": "value",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "40",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_case_study_metrics"
+                                },
+                                {
+                                    "key": "field_mbf_case_study_metrics_label",
+                                    "label": "Label",
+                                    "name": "label",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "60",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_case_study_metrics"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_case_study_quote",
+                            "label": "Quote",
+                            "name": "quote",
+                            "type": "textarea",
+                            "instructions": "Optional client quote.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 3,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_name",
+                            "label": "Quote by",
+                            "name": "name",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_role",
+                            "label": "Role / company",
+                            "name": "role",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_case_study_image",
+                            "label": "Image",
+                            "name": "image",
+                            "type": "image",
+                            "instructions": "Alt text comes from the Media Library.",
+                            "required": 1,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "id",
+                            "preview_size": "medium",
+                            "library": "all"
+                        },
+                        {
+                            "key": "field_mbf_case_study_image_side",
+                            "label": "Image side",
+                            "name": "image_side",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "choices": {
+                                "end": "After the text",
+                                "start": "Before the text"
+                            },
+                            "default_value": "end"
+                        },
+                        {
+                            "key": "field_mbf_case_study_button_1",
+                            "label": "Button",
+                            "name": "button_1",
+                            "type": "link",
+                            "instructions": "Usually the full case study.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
+                        },
+                        {
+                            "key": "field_mbf_case_study_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_case_study_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_hotspots": {
+                    "key": "layout_mbf_hotspots",
+                    "name": "hotspots",
+                    "label": "Hotspots",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_hotspots_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_hotspots_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_hotspots_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_hotspots_scenes",
+                            "label": "Scenes",
+                            "name": "scenes",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "block",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "field_mbf_hotspots_scenes_label",
+                            "rows_per_page": 20,
+                            "button_label": "Add scene",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_hotspots_scenes_label",
+                                    "label": "Label",
+                                    "name": "label",
+                                    "type": "text",
+                                    "instructions": "Names the tab when there is more than one scene, e.g. \"Rooftop\", \"Warehouse\".",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_hotspots_scenes"
+                                },
+                                {
+                                    "key": "field_mbf_hotspots_scenes_image",
+                                    "label": "Image",
+                                    "name": "image",
+                                    "type": "image",
+                                    "instructions": "A photo or drawing. Its alt text (Media Library) should describe the whole scene. Select a spot below, then click this preview to place it.",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "preview_size": "large",
+                                    "library": "all",
+                                    "parent_repeater": "field_mbf_hotspots_scenes"
+                                },
+                                {
+                                    "key": "field_mbf_hotspots_scenes_spots",
+                                    "label": "Spots",
+                                    "name": "spots",
+                                    "type": "repeater",
+                                    "instructions": "Numbered in this order, on the image and in the list beside it.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "layout": "block",
+                                    "min": 0,
+                                    "max": 0,
+                                    "collapsed": "field_mbf_hotspots_scenes_spots_title",
+                                    "rows_per_page": 20,
+                                    "button_label": "Add spot",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_mbf_hotspots_scenes_spots_title",
+                                            "label": "Title",
+                                            "name": "title",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 1,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "40",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
+                                        },
+                                        {
+                                            "key": "field_mbf_hotspots_scenes_spots_x",
+                                            "label": "Across %",
+                                            "name": "x",
+                                            "type": "number",
+                                            "instructions": "Click the image to set.",
+                                            "required": 1,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "15",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "min": 0,
+                                            "max": 100,
+                                            "step": 0.1,
+                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
+                                        },
+                                        {
+                                            "key": "field_mbf_hotspots_scenes_spots_y",
+                                            "label": "Down %",
+                                            "name": "y",
+                                            "type": "number",
+                                            "instructions": "",
+                                            "required": 1,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "15",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "min": 0,
+                                            "max": 100,
+                                            "step": 0.1,
+                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
+                                        },
+                                        {
+                                            "key": "field_mbf_hotspots_scenes_spots_url",
+                                            "label": "Links to",
+                                            "name": "url",
+                                            "type": "page_link",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "30",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "post_type": [
+                                                "page",
+                                                "post"
+                                            ],
+                                            "taxonomy": "",
+                                            "allow_null": 1,
+                                            "allow_archives": 0,
+                                            "multiple": 0,
+                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
+                                        },
+                                        {
+                                            "key": "field_mbf_hotspots_scenes_spots_text",
+                                            "label": "Text",
+                                            "name": "text",
+                                            "type": "textarea",
+                                            "instructions": "",
+                                            "required": 0,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "rows": 2,
+                                            "new_lines": "",
+                                            "default_value": "",
+                                            "placeholder": "",
+                                            "maxlength": "",
+                                            "parent_repeater": "field_mbf_hotspots_scenes_spots"
+                                        }
+                                    ],
+                                    "parent_repeater": "field_mbf_hotspots_scenes"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_hotspots_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_hotspots_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_specs": {
+                    "key": "layout_mbf_specs",
+                    "name": "specs",
+                    "label": "Specifications",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_specs_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_specs_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_specs_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_specs_groups",
+                            "label": "Tables",
+                            "name": "groups",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "block",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add table",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_specs_groups_heading",
+                                    "label": "Table heading",
+                                    "name": "heading",
+                                    "type": "text",
+                                    "instructions": "E.g. \"Dimensions\". Optional for a single table.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_specs_groups"
+                                },
+                                {
+                                    "key": "field_mbf_specs_groups_rows",
+                                    "label": "Rows",
+                                    "name": "rows",
+                                    "type": "repeater",
+                                    "instructions": "",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "layout": "table",
+                                    "min": 0,
+                                    "max": 0,
+                                    "collapsed": "",
+                                    "rows_per_page": 20,
+                                    "button_label": "Add row",
+                                    "sub_fields": [
+                                        {
+                                            "key": "field_mbf_specs_groups_rows_label",
+                                            "label": "Label",
+                                            "name": "label",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 1,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "50",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "parent_repeater": "field_mbf_specs_groups_rows"
+                                        },
+                                        {
+                                            "key": "field_mbf_specs_groups_rows_value",
+                                            "label": "Value",
+                                            "name": "value",
+                                            "type": "text",
+                                            "instructions": "",
+                                            "required": 1,
+                                            "conditional_logic": 0,
+                                            "wrapper": {
+                                                "width": "50",
+                                                "class": "",
+                                                "id": ""
+                                            },
+                                            "default_value": "",
+                                            "maxlength": "",
+                                            "placeholder": "",
+                                            "prepend": "",
+                                            "append": "",
+                                            "parent_repeater": "field_mbf_specs_groups_rows"
+                                        }
+                                    ],
+                                    "parent_repeater": "field_mbf_specs_groups"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_specs_files",
+                            "label": "Downloads",
+                            "name": "files",
+                            "type": "repeater",
+                            "instructions": "Data sheets, drawings, certificates.",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "table",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add download",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_specs_files_title",
+                                    "label": "Title",
+                                    "name": "title",
+                                    "type": "text",
+                                    "instructions": "E.g. \"Installation guide\".",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_specs_files"
+                                },
+                                {
+                                    "key": "field_mbf_specs_files_file",
+                                    "label": "File",
+                                    "name": "file",
+                                    "type": "file",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "library": "all",
+                                    "mime_types": "",
+                                    "parent_repeater": "field_mbf_specs_files"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_specs_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_specs_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_downloads": {
+                    "key": "layout_mbf_downloads",
+                    "name": "downloads",
+                    "label": "Downloads",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_downloads_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_downloads_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_downloads_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_downloads_files",
+                            "label": "Files",
+                            "name": "files",
+                            "type": "repeater",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "layout": "block",
+                            "min": 0,
+                            "max": 0,
+                            "collapsed": "",
+                            "rows_per_page": 20,
+                            "button_label": "Add file",
+                            "sub_fields": [
+                                {
+                                    "key": "field_mbf_downloads_files_title",
+                                    "label": "Title",
+                                    "name": "title",
+                                    "type": "text",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_downloads_files"
+                                },
+                                {
+                                    "key": "field_mbf_downloads_files_file",
+                                    "label": "File",
+                                    "name": "file",
+                                    "type": "file",
+                                    "instructions": "",
+                                    "required": 1,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "library": "all",
+                                    "mime_types": "",
+                                    "parent_repeater": "field_mbf_downloads_files"
+                                },
+                                {
+                                    "key": "field_mbf_downloads_files_note",
+                                    "label": "Note",
+                                    "name": "note",
+                                    "type": "text",
+                                    "instructions": "One line, e.g. \"Updated March 2026\".",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "default_value": "",
+                                    "maxlength": "",
+                                    "placeholder": "",
+                                    "prepend": "",
+                                    "append": "",
+                                    "parent_repeater": "field_mbf_downloads_files"
+                                },
+                                {
+                                    "key": "field_mbf_downloads_files_cover",
+                                    "label": "Cover image",
+                                    "name": "cover",
+                                    "type": "image",
+                                    "instructions": "Optional. Decorative.",
+                                    "required": 0,
+                                    "conditional_logic": 0,
+                                    "wrapper": {
+                                        "width": "50",
+                                        "class": "",
+                                        "id": ""
+                                    },
+                                    "return_format": "id",
+                                    "preview_size": "medium",
+                                    "library": "all",
+                                    "parent_repeater": "field_mbf_downloads_files"
+                                }
+                            ]
+                        },
+                        {
+                            "key": "field_mbf_downloads_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_downloads_controls",
+                            "label": "Section controls",
+                            "name": "controls",
+                            "type": "clone",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "clone": [
+                                "group_mbf_section_controls"
+                            ],
+                            "display": "seamless",
+                            "layout": "block",
+                            "prefix_label": 0,
+                            "prefix_name": 0
+                        }
+                    ]
+                },
+                "layout_mbf_posts": {
+                    "key": "layout_mbf_posts",
+                    "name": "posts",
+                    "label": "Posts",
+                    "display": "block",
+                    "min": "",
+                    "max": "",
+                    "sub_fields": [
+                        {
+                            "key": "field_mbf_posts_tab_content",
+                            "label": "Content",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_posts_heading",
+                            "label": "Heading",
+                            "name": "heading",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_mbf_posts_lead",
+                            "label": "Lead",
+                            "name": "lead",
+                            "type": "textarea",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "rows": 2,
+                            "new_lines": "",
+                            "default_value": "",
+                            "placeholder": "",
+                            "maxlength": ""
+                        },
+                        {
+                            "key": "field_mbf_posts_source",
+                            "label": "Show",
+                            "name": "source",
+                            "type": "select",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "value",
+                            "multiple": 0,
+                            "allow_null": 0,
+                            "ui": 0,
+                            "ajax": 0,
+                            "placeholder": "",
+                            "choices": {
+                                "latest": "The latest posts",
+                                "chosen": "Posts I choose"
+                            },
+                            "default_value": "latest"
+                        },
+                        {
+                            "key": "field_mbf_posts_category",
+                            "label": "From category",
+                            "name": "category",
+                            "type": "taxonomy",
+                            "instructions": "Leave empty for all.",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_posts_source",
+                                        "operator": "==",
+                                        "value": "latest"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "taxonomy": "category",
+                            "field_type": "select",
+                            "allow_null": 1,
+                            "add_term": 0,
+                            "save_terms": 0,
+                            "load_terms": 0,
+                            "return_format": "id",
+                            "multiple": 0
+                        },
+                        {
+                            "key": "field_mbf_posts_count",
+                            "label": "How many",
+                            "name": "count",
+                            "type": "number",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_posts_source",
+                                        "operator": "==",
+                                        "value": "latest"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "25",
+                                "class": "",
+                                "id": ""
+                            },
+                            "min": 1,
+                            "max": 12,
+                            "step": 1,
+                            "default_value": 3
+                        },
+                        {
+                            "key": "field_mbf_posts_chosen",
+                            "label": "Posts",
+                            "name": "chosen",
+                            "type": "relationship",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": [
+                                [
+                                    {
+                                        "field": "field_mbf_posts_source",
+                                        "operator": "==",
+                                        "value": "chosen"
+                                    }
+                                ]
+                            ],
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "post_type": [
+                                "post"
+                            ],
+                            "taxonomy": "",
+                            "filters": [
+                                "search",
+                                "taxonomy"
+                            ],
+                            "return_format": "id",
+                            "min": "",
+                            "max": 6,
+                            "elements": ""
+                        },
+                        {
+                            "key": "field_mbf_posts_link",
+                            "label": "Section link",
+                            "name": "link",
+                            "type": "link",
+                            "instructions": "A link under the heading, e.g. \"All articles\".",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array"
+                        },
+                        {
+                            "key": "field_mbf_posts_tab_section",
+                            "label": "Section",
+                            "name": "",
+                            "type": "tab",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "placement": "top",
+                            "endpoint": 0
+                        },
+                        {
+                            "key": "field_mbf_posts_controls",
                             "label": "Section controls",
                             "name": "controls",
                             "type": "clone",
@@ -1443,5 +3325,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1793893355
+    "modified": 1793980332
 }

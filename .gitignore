@@ -1,6 +1,7 @@
-# Whitelist .gitignore for a repo rooted at wp-content/ (as on Skyway; standard is
-# app/public/, see the theme CLAUDE.md divergences). Ignore everything, then admit only
-# what this repo owns.
+# Whitelist .gitignore for a repo rooted at wp-content/ (docs/09).
+# Ignore everything, then admit only what this repo owns.
+# A fork that deploys also admits /.github/ and /wp-cli.yml (the starter has neither), and
+# keeps this file in step with the rsync --exclude list in .github/workflows/deploy.yml.
 /*
 !/.gitignore
 !/.gitattributes

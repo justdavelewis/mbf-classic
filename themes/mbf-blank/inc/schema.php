@@ -63,10 +63,11 @@ function mbf_print_business_schema(): void {
 		return;
 	}
 
+	// Core's script tag printer, so `wp_inline_script_attributes` (a CSP nonce) applies here too.
 	// JSON_HEX_TAG: a "</script>" inside any value can't close the tag early.
-	printf(
-		"<script type=\"application/ld+json\">%s</script>\n",
-		wp_json_encode( mbf_business_schema(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG )
+	wp_print_inline_script_tag(
+		(string) wp_json_encode( mbf_business_schema(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG ),
+		[ 'type' => 'application/ld+json' ]
 	);
 }
 add_action( 'wp_head', 'mbf_print_business_schema' );

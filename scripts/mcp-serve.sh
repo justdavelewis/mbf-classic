@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Starts this site's MCP server over STDIO, for an MCP client such as Claude Code:
 #
-#   claude mcp add mbf-local -- "/absolute/path/to/wp-content/scripts/mcp-serve.sh"
+#   claude mcp add <site>-local -- "/absolute/path/to/wp-content/scripts/mcp-serve.sh"
+#
+# Name it after the site (here: mbf-classic-local), so two sites' servers can't be mixed up
+# (standards docs/17).
 #
 # Local development only. Needs WP-CLI, the MCP Adapter plugin and mu-plugins/mbf-mcp.php
 # (see docs/STATUS.md). Local by Flywheel runs MySQL on a per-site socket, so this finds the

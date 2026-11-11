@@ -27,11 +27,6 @@
    ========================================================================= */
 
 @theme static {
-  /* Tailwind's default palette off (red-500, slate-900…): colours are role slots only (§1).
-     Without this, a stray `text-red-500` in a template still compiled (2026-11-06, Q3).
-     Not a token: it removes a namespace, and the slots below re-add ours. */
-  --color-*: initial;
-
   /* --- colour: 7 slots ------------------------------------------------------ */
   --color-primary:   var(--wp--preset--color--primary);  /* main brand. #fff on it 6.62:1 · on base 6.62:1 */
   --color-secondary: var(--wp--preset--color--secondary);  /* second brand / dark ground. #fff on it 16.9:1 */

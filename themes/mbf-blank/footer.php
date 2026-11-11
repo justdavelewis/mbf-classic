@@ -15,7 +15,7 @@ $mbf_phone   = (string) mbf_setting( 'phone' );
 $mbf_email   = (string) mbf_setting( 'email' );
 $mbf_address = (string) mbf_setting( 'address' );
 $mbf_legal   = (string) mbf_setting( 'legal' );
-$mbf_links   = mbf_menu_tree( 'footer' );
+$mbf_links   = mbf_menu( 'footer', 'mbf-footer', [ 'depth' => 1, 'list_class' => 'mbf-footer__menu', 'link_class' => 'mbf-footer__link mbf-footer__menu-link' ] );
 ?>
 </main>
 
@@ -53,11 +53,7 @@ $mbf_links   = mbf_menu_tree( 'footer' );
 			<?php endif; ?>
 			<?php if ( $mbf_links ) : ?>
 				<nav class="mbf-footer__nav" aria-label="<?php esc_attr_e( 'Legal', 'mbf-blank' ); ?>">
-					<ul class="mbf-footer__menu" role="list">
-						<?php foreach ( $mbf_links as $mbf_link ) : ?>
-							<li><?php mbf_the_menu_link( $mbf_link, 'mbf-footer__link mbf-footer__menu-link' ); ?></li>
-						<?php endforeach; ?>
-					</ul>
+					<?php echo $mbf_links; // phpcs:ignore WordPress.Security.EscapeOutput -- wp_nav_menu() ?>
 				</nav>
 			<?php endif; ?>
 		</div>

@@ -1,7 +1,7 @@
 <?php
 /**
- * Shared helpers. Phase 1: the menu tree and its one renderer, used by both the inline
- * nav and the drawer so the two can never disagree about what the menu contains.
+ * Shared helpers. Menus first: wp_nav_menu() with one walker, used by the inline nav, the
+ * drawer and the footer, so core owns what a menu contains and which item is current.
  *
  * @package mbf-blank
  */
@@ -10,128 +10,111 @@ declare( strict_types=1 );
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * A menu location as a two-level tree: [ label, url, current, children[] ].
- *
- * Two levels only. A third level would be a dropdown inside a dropdown, which the
- * nav doesn't support, so grandchildren are dropped rather than rendered badly.
- *
- * @return array<int, array{label: string, url: string, current: bool, children: array}>
- */
-function mbf_menu_tree( string $location ): array {
-	$locations = get_nav_menu_locations();
+/* --- Menus ------------------------------------------------------------------------- */
 
-	if ( empty( $locations[ $location ] ) ) {
-		return [];
+/**
+ * A menu location as BEM markup under $block (`mbf-nav`, `mbf-drawer`, `mbf-footer`), or ''
+ * when the location is unassigned or its menu is empty.
+ *
+ * wp_nav_menu() does the work (standards 05, core first): core picks the items, marks the
+ * current one, and runs every menu filter (`wp_nav_menu_objects`, `nav_menu_link_attributes`,
+ * `nav_menu_item_title`…), so a plugin that adds or changes items is honoured. Until
+ * 2026-11-11 a hand-built tree from wp_get_nav_menu_items() did this and re-derived
+ * "current" itself, which skipped all of them and ignored an item's "open in a new tab".
+ *
+ * @param array{group?: string, depth?: int, list_class?: string, link_class?: string} $o
+ *        group: shared `name` on the <details>, so only one opens at a time. Empty in the
+ *        drawer, where several open at once is useful. depth: 2 at most; a third level
+ *        would be a dropdown inside a dropdown, which the nav doesn't support.
+ */
+function mbf_menu( string $location, string $block, array $o = [] ): string {
+	$o += [ 'group' => '', 'depth' => 2, 'list_class' => "{$block}__list", 'link_class' => "{$block}__link" ];
+
+	return (string) wp_nav_menu(
+		[
+			'theme_location' => $location,
+			'container'      => false,
+			'menu_class'     => $o['list_class'],
+			// No id (core's default wrap has one): the primary menu prints twice, in the nav and the drawer.
+			'items_wrap'     => '<ul class="%2$s" role="list">%3$s</ul>',
+			'depth'          => min( 2, (int) $o['depth'] ),
+			'fallback_cb'    => false,   // unassigned = not rendered (05), never a list of every page
+			'echo'           => false,
+			'walker'         => new Mbf_Nav_Walker( $block, (string) $o['group'], (string) $o['link_class'] ),
+		]
+	);
+}
+
+/**
+ * The markup wp_nav_menu() can't produce with filters alone. A walker, because a parent
+ * with children becomes <details>/<summary>: keyboard-operable and announced as
+ * expanded/collapsed natively, with no ARIA to maintain. The summary isn't a link, so a
+ * parent with its own URL is repeated as the first sub-item ("Services overview").
+ */
+class Mbf_Nav_Walker extends Walker_Nav_Menu {
+
+	/** The "overview" <li> for the parent being opened, printed first in its sub-list. */
+	private string $overview = '';
+
+	public function __construct( private string $block, private string $group = '', private string $link_class = '' ) {}
+
+	public function start_lvl( &$output, $depth = 0, $args = null ) {
+		$output .= sprintf( '<ul class="%s" role="list">%s', esc_attr( "{$this->block}__sublist" ), $this->overview );
+
+		$this->overview = '';
 	}
 
-	$items    = wp_get_nav_menu_items( $locations[ $location ] ) ?: [];
-	$tree     = [];
-	$children = [];
+	// Closes the <details> start_el() opened: a parent with children always gets a sub-list at depth 2.
+	public function end_lvl( &$output, $depth = 0, $args = null ) {
+		$output .= '</ul></details>';
+	}
 
-	foreach ( $items as $item ) {
-		$node = [
-			'label'    => (string) $item->title,
-			'url'      => (string) $item->url,
-			'current'  => mbf_menu_item_is_current( $item ),
-			'children' => [],
+	public function start_el( &$output, $data_object, $depth = 0, $args = null, $current_object_id = 0 ) {
+		$item  = $data_object;
+		$title = (string) apply_filters( 'nav_menu_item_title', $item->title, $item, $args, $depth );
+		$url   = (string) $item->url;
+
+		$output .= 0 === $depth ? sprintf( '<li class="%s">', esc_attr( "{$this->block}__item" ) ) : '<li>';
+
+		if ( 0 === $depth && $this->has_children && 1 !== (int) ( $args->depth ?? 0 ) ) {
+			$output .= sprintf(
+				'<details class="%1$s"%2$s><summary class="%3$s">%4$s<span class="mbf-chevron" aria-hidden="true"></span></summary>',
+				esc_attr( "{$this->block}__group" ),
+				'' !== $this->group ? ' name="' . esc_attr( $this->group ) . '"' : '',
+				esc_attr( "{$this->block}__link {$this->block}__summary" ),
+				esc_html( $title )
+			);
+
+			if ( '' !== $url && '#' !== $url ) {
+				/* translators: %s: menu item label, e.g. "Services". */
+				$this->overview = '<li>' . $this->link( $item, sprintf( __( '%s overview', 'mbf-blank' ), $title ), $args, 1 ) . '</li>';
+			}
+
+			return;
+		}
+
+		$output .= $this->link( $item, $title, $args, $depth );
+	}
+
+	public function end_el( &$output, $data_object, $depth = 0, $args = null ) {
+		$output .= '</li>';
+	}
+
+	/**
+	 * One <a>, with the attributes core's own walker gives a menu link, through the same filter.
+	 */
+	private function link( WP_Post $item, string $label, mixed $args, int $depth ): string {
+		$atts = [
+			'class'        => 0 === $depth ? $this->link_class : "{$this->block}__sublink",
+			'href'         => (string) $item->url,
+			'aria-current' => $item->current ? 'page' : '',
+			'target'       => (string) $item->target,
+			'rel'          => '_blank' === $item->target && '' === (string) $item->xfn ? 'noopener' : (string) $item->xfn,
+			'title'        => (string) $item->attr_title,
 		];
 
-		$parent = (int) $item->menu_item_parent;
-
-		if ( $parent ) {
-			$children[ $parent ][] = $node;
-		} else {
-			$tree[ (int) $item->ID ] = $node;
-		}
+		return '<a' . $this->build_atts( apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth ) ) . '>' . esc_html( $label ) . '</a>';
 	}
-
-	foreach ( $children as $parent => $nodes ) {
-		if ( isset( $tree[ $parent ] ) ) {
-			$tree[ $parent ]['children'] = $nodes;
-		}
-	}
-
-	return array_values( $tree );
-}
-
-/**
- * Whether a menu item points at the page being viewed (for aria-current).
- */
-function mbf_menu_item_is_current( WP_Post $item ): bool {
-	$object_id = (int) $item->object_id;
-
-	return match ( $item->type ) {
-		// is_home(): the posts page (page_for_posts) is a page item but not is_singular().
-		'post_type'         => ( is_singular() || is_home() ) && $object_id === get_queried_object_id(),
-		'taxonomy'          => ( is_category() || is_tag() || is_tax() ) && $object_id === get_queried_object_id(),
-		'post_type_archive' => is_post_type_archive( $item->object ),
-		default             => untrailingslashit( (string) $item->url ) === untrailingslashit( home_url( $GLOBALS['wp']->request ?? '' ) ),
-	};
-}
-
-/**
- * Prints a menu tree as BEM markup under $block (`mbf-nav` or `mbf-drawer`).
- *
- * A parent with children becomes <details>/<summary>: keyboard-operable and announced
- * as expanded/collapsed natively, with no ARIA to maintain. The summary isn't a link,
- * so a parent with its own URL is repeated as the first sub-item.
- *
- * @param string $group_name Shared `name` on the <details>, so only one opens at a time.
- *                           Empty in the drawer, where several open at once is useful.
- */
-function mbf_the_menu( array $tree, string $block, string $group_name = '' ): void {
-	if ( ! $tree ) {
-		return;
-	}
-	?>
-	<ul class="<?php echo esc_attr( "{$block}__list" ); ?>" role="list">
-		<?php foreach ( $tree as $item ) : ?>
-			<li class="<?php echo esc_attr( "{$block}__item" ); ?>">
-				<?php if ( $item['children'] ) : ?>
-					<details class="<?php echo esc_attr( "{$block}__group" ); ?>"<?php echo $group_name ? ' name="' . esc_attr( $group_name ) . '"' : ''; ?>>
-						<summary class="<?php echo esc_attr( "{$block}__link {$block}__summary" ); ?>">
-							<?php echo esc_html( $item['label'] ); ?>
-							<span class="mbf-chevron" aria-hidden="true"></span>
-						</summary>
-						<ul class="<?php echo esc_attr( "{$block}__sublist" ); ?>" role="list">
-							<?php if ( '' !== $item['url'] && '#' !== $item['url'] ) : ?>
-								<li>
-									<?php
-									mbf_the_menu_link(
-										[
-											'url'     => $item['url'],
-											'current' => $item['current'],
-											/* translators: %s: menu item label, e.g. "Services". */
-											'label'   => sprintf( __( '%s overview', 'mbf-blank' ), $item['label'] ),
-										],
-										"{$block}__sublink"
-									);
-									?>
-								</li>
-							<?php endif; ?>
-							<?php foreach ( $item['children'] as $child ) : ?>
-								<li><?php mbf_the_menu_link( $child, "{$block}__sublink" ); ?></li>
-							<?php endforeach; ?>
-						</ul>
-					</details>
-				<?php else : ?>
-					<?php mbf_the_menu_link( $item, "{$block}__link" ); ?>
-				<?php endif; ?>
-			</li>
-		<?php endforeach; ?>
-	</ul>
-	<?php
-}
-
-function mbf_the_menu_link( array $item, string $class ): void {
-	printf(
-		'<a class="%1$s" href="%2$s"%3$s>%4$s</a>',
-		esc_attr( $class ),
-		esc_url( $item['url'] ),
-		$item['current'] ? ' aria-current="page"' : '',
-		esc_html( $item['label'] )
-	);
 }
 
 /* --- Sections ---------------------------------------------------------------------- */

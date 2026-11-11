@@ -22,6 +22,11 @@ belongs in STATUS and the rule belongs here.
   all three.
 - Environments: local `https://mbf-classic.local` only. No staging or live: a starter
   never deploys, so no `deploy.yml` and no `@staging`/`@live` aliases.
+- Repo: rooted at `wp-content/` (docs/09). A fork that deploys adds `wp-cli.yml`
+  (`path: ..`) and `.github/workflows/deploy.yml` here, and its rsync sends
+  `themes/<slug>/` only, with the template's excludes.
+- MCP (docs/17): `mu-plugins/mbf-mcp.php`, local and read only, three abilities, started by
+  `scripts/mcp-serve.sh`. Register it per machine under the site's name.
 - PHP: 8.4.x (docs/09). Local serves 8.4.27 (`X-Powered-By`, 2026-11-06).
 - WordPress: 7.1.4 (2026-11-05)
 - Plugins: ACF Pro 6.8.10 · WS Form Pro 1.12.16 (both active, licensed) · Woo:
@@ -94,9 +99,5 @@ Font-size slugs are kebab-cased by WordPress: slug `h2` → `--wp--preset--font-
 
 ## ⚠️ Deliberate divergences: do not "fix"
 
-- **Git is rooted at `wp-content/`, not `app/public/`** (2026-11-05, David: *"make the repo
-  in the wp-content folder like the skyway site is for consistency"*). So `docs/`,
-  `scripts/` and `.vscode/` live in `wp-content/`, and the `.gitignore` paths have no
-  `/wp-content/` prefix. A fork that deploys adds `wp-cli.yml` here too, and its
-  `deploy.yml` rsyncs from this root. TODO: agree with Andonette whether docs/09 should
-  change to match.
+- None. (Git at `wp-content/` was listed here until 2026-11-11; it's now the standard,
+  docs/09.)

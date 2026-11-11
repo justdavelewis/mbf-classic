@@ -23,16 +23,21 @@
   (D1 left `admin-help` out; revisit now the sections have settled).
 - [ ] **Form page weight:** every page with the enquiry form loads 23 scripts (jQuery UI
   sortable/mouse, touch-punch, intl-tel-input, dropzone…). See what WS Form lets us drop.
-- [ ] **Branch `mcp-claude-md`:** one unmerged commit, local only, not ours: David to keep, merge
-  or delete.
+- [x] **Branch `mcp-claude-md`:** gone by 2026-11-11 (not in `git branch -a`, local or origin).
 - [ ] **MCP drops:** if `mbf-local` disconnects again, read `$TMPDIR/mbf-mcp-serve.log` ("stopped" =
-  the client closed it; "start" with nothing after = the process was killed).
+  the client closed it; "start" with nothing after = the process was killed). 2026-11-11: it
+  failed to connect because the site wasn't running in Local (log: start, then stopped in the
+  same second). Not a drop.
+- [ ] **MCP server name:** docs/17 says name it after the site. This machine registers it as
+  `mbf-local`: `claude mcp remove mbf-local`, then
+  `claude mcp add mbf-classic-local -- "$PWD/scripts/mcp-serve.sh"` from `wp-content/` (David).
 
 ### DECISION FIRST (don't build on these)
 - (none open)
 - Q2 **Resolved 2026-11-06:** both in the starter (David: *"yes do both"*). See the dated entry.
-- Q3 **Resolved 2026-11-06:** palette off (`--color-*: initial;` in `tokens.css`), David:
-  *"turn those tailwind colours off"*. See the dated entry.
+- Q3 **Resolved 2026-11-06, reversed 2026-11-11:** palette off (`--color-*: initial;` in
+  `tokens.css`), David: *"turn those tailwind colours off"*. The standards now say add to
+  Tailwind, never replace it (Andonette), so the line is out again. See both dated entries.
 ### Resolved 2026-11-05 (David: *"Go with your recommendations on D1–D8"*)
 - D1 `inc/`: `setup enqueue builder helpers options forms` only. No `woocommerce`,
   `post-types`, `admin-help`, `schema`. (`schema` added 2026-11-06, Q9.)
@@ -101,6 +106,60 @@
 
 | Date | Who | Command (`wp @live …`) | Backup file | Result / verified |
 |---|---|---|---|---|
+
+---
+
+## 2026-11-11 — In line with the standards' 2026-11-11 changes
+
+David: *"I've made several changes to the site standards now, i want to bring this in line with
+it"*. Standards `676187e..c918e4e`: core first, Tailwind extend-only, palette back on, deploy
+excludes, PHP 8.4, repo at `wp-content/`, docs/17 (MCP), fingerprint `block` hosts. On branch
+`chore/standards-2026-11-11`, not committed.
+
+**Changed**
+- **Tailwind's palette back on:** `--color-*: initial;` removed from `src/tokens.css` (reverses
+  Q3). Both builds are byte-identical before and after (the theme uses no palette class). A
+  probe build compiled `text-red-500` and `bg-slate-900` beside `text-primary`, so colour names
+  are now kept out by review, not the build.
+- **Core first, three places:**
+  - **Menus use `wp_nav_menu()`** with one walker (`mbf_menu()`, `Mbf_Nav_Walker` in
+    `inc/helpers.php`), replacing `mbf_menu_tree()`, `mbf_the_menu()`, `mbf_the_menu_link()` and
+    `mbf_menu_item_is_current()`. Core now marks the current item and runs its menu filters; an
+    item's "open in a new tab" works (it was ignored). Same markup, except the footer's `<li>`
+    gains `mbf-footer__item` and the summaries lose stray whitespace.
+  - **Font preload** through the `wp_preload_resources` filter, not a printed `<link>`.
+  - **JSON-LD** through `wp_print_inline_script_tag()`, so a CSP nonce filter reaches it.
+- `style.css`: `Requires PHP: 8.4` (was 8.2).
+- Theme `CLAUDE.md`: git at `wp-content/` is no longer a divergence (it's docs/09 now); Repo
+  and MCP lines added to Facts. `.gitignore` header and `scripts/mcp-serve.sh` comment to match.
+
+**Checked, nothing to change**
+- No `prefix()`, no `@utility`, no shadowed utility, Preflight in place (`editor.css` leaves it
+  out, as docs/02 allows).
+- `mu-plugins/mbf-mcp.php` against docs/17's eight rules: all met.
+- Deploy excludes: the theme rsynced to a scratch folder with the template's 39 excludes ships
+  only PHP, `dist/`, `assets/`, `acf-json/`, `theme.json`, `style.css` and the two font licences.
+- The rest of the PHP against core first: images, queries, enqueues, search form, pagination and
+  options all go through core or ACF. Breadcrumbs stay custom: core has none.
+
+**Verified**
+- Fingerprint, 126 views: **IDENTICAL** to `baseline-page-types.json` (148,367 values); 0
+  overflow, 0 console errors, 0 PHP notices. New baseline: `.fingerprints/after-standards-1111.json`.
+  (A first "before" capture today had the `/services/@768` load blip and one mid-layout margin
+  on the home hotspots section; discarded.)
+- Nav by keyboard at 1440 and 1280: Enter opens, Tab lands on "Products overview", a second
+  group closes the first, Esc closes and returns focus, 2px ring. Drawer at 390 and 320: modal,
+  two groups open together, Esc closes, focus back on the toggle. `aria-current` on the right
+  sub-link in both copies.
+- `mbf_menu()` through WP-CLI, nothing saved: new tab gets `target` + `rel="noopener"`, a third
+  level is dropped, tags balance, a `#` parent gets no overview link, `nav_menu_link_attributes`
+  reaches all 9 links, an unassigned location renders nothing.
+- `verify-tokens.sh`: none undefined. `php -l` clean.
+
+**Left for David**
+- The MCP server is registered on this machine as `mbf-local`; docs/17 wants the site's name
+  (see Outstanding).
+- `dist/` wasn't rebuilt: the output is byte-identical.
 
 ---
 

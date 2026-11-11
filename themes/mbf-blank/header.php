@@ -5,7 +5,7 @@
  * The nav ↔ drawer switch is one min-width breakpoint, stated in
  * src/components/site-header.css and copied once in assets/js/drawer.js.
  *
- * The menu renders twice, inline and in the drawer, from the same mbf_menu_tree(), so
+ * The menu renders twice, inline and in the drawer, from the same mbf_menu() location, so
  * the two can differ in presentation but never in content. Only one copy is ever
  * visible: the inline nav is display:none below the breakpoint, and the drawer is a
  * closed <dialog> above it.
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$mbf_menu = mbf_menu_tree( 'primary' );
+$mbf_menu = mbf_menu( 'primary', 'mbf-nav', [ 'group' => 'mbf-nav' ] );
 $mbf_name = mbf_company_name();
 $mbf_cta  = mbf_link( mbf_setting( 'header_cta' ) ) ? [ mbf_setting( 'header_cta' ) ] : [];
 ?>
@@ -47,7 +47,7 @@ $mbf_cta  = mbf_link( mbf_setting( 'header_cta' ) ) ? [ mbf_setting( 'header_cta
 
 		<?php if ( $mbf_menu ) : ?>
 			<nav class="mbf-nav" aria-label="<?php esc_attr_e( 'Primary', 'mbf-blank' ); ?>">
-				<?php mbf_the_menu( $mbf_menu, 'mbf-nav', 'mbf-nav' ); ?>
+				<?php echo $mbf_menu; // phpcs:ignore WordPress.Security.EscapeOutput -- wp_nav_menu() ?>
 			</nav>
 		<?php endif; ?>
 
@@ -88,7 +88,7 @@ $mbf_cta  = mbf_link( mbf_setting( 'header_cta' ) ) ? [ mbf_setting( 'header_cta
 					</button>
 				</div>
 				<nav class="mbf-drawer__nav" aria-label="<?php esc_attr_e( 'Primary', 'mbf-blank' ); ?>">
-					<?php mbf_the_menu( $mbf_menu, 'mbf-drawer' ); ?>
+					<?php echo mbf_menu( 'primary', 'mbf-drawer' ); // phpcs:ignore WordPress.Security.EscapeOutput -- wp_nav_menu() ?>
 				</nav>
 				<?php if ( $mbf_cta ) : ?>
 					<div class="mbf-drawer__cta">

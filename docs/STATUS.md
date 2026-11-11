@@ -113,8 +113,8 @@
 
 David: *"I've made several changes to the site standards now, i want to bring this in line with
 it"*. Standards `676187e..c918e4e`: core first, Tailwind extend-only, palette back on, deploy
-excludes, PHP 8.4, repo at `wp-content/`, docs/17 (MCP), fingerprint `block` hosts. On branch
-`chore/standards-2026-11-11`, not committed.
+excludes, PHP 8.4, repo at `wp-content/`, docs/17 (MCP), fingerprint `block` hosts. Branch
+`chore/standards-2026-11-11`.
 
 **Changed**
 - **Tailwind's palette back on:** `--color-*: initial;` removed from `src/tokens.css` (reverses
